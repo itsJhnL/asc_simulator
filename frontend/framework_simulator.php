@@ -11,72 +11,123 @@
 </head>
 
 <body>
-    <div class="container col-md-10">
-        <div class="">
-            <header>
-                <h3>Rx Entry - Batch Reject - Reject</h3>
-            </header>
-            <div class="form-group row mx-auto">
-                <div class="">
-                    <label>Reorder #</label>
-                    <input class="text-center w-25" type="text" value="28844" name="item" readonly>
-                </div>
-                <div class="col-3">
-                    <label>Prescription #</label>
-                    <input class="text-center w-25" type="text" value="1120607" readonly>
-                </div>
-                <div class="">
-                    <label>Dispensed</label>
-                    <input class="text-center w-50" type="text" value="03/22/2025" readonly>
-                </div>
-                <div class="">
-                    <label>Written</label>
-                    <input class="text-center w-50" type="text" value="1/14/2024" readonly>
-                </div>
-                <div class="">
-                    <label>Orig</label>
-                    <input class="text-center w-50" type="text" value="11/14/2024" readonly>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-2">
-                    <div class="py-2"><button>Active Reorders</button></div>
-                    <div class="py-2"><button>Add to Profile</button></div>
-                    <div class="py-2"><button>New Rx for Pat</button></div>
-                </div>
-                <div class="">
-                    <label>Patient</label>
-                    <input type="text" value="LEO,DAVID">
-                    <label>ID</label>
-                    <input type="text" value="01/31/1958">
-                    <button>Find ID</button>
-                    <label>Start</label>
-                    <input type="text" value="01/31/1958">
-                    <label>Station</label>
-                    <input type="text" value="Cab">
-                    <!-- <label>Room</label>
-                    <input type="text" value="304">
-                    <label>Floor</label>
-                    <input type="text" value="3">
-                    <input type="text" value="122934">
-                    <label>DOB</label> -->
-                </div>
+    <div class="container overflow-hidden col-md-12" style="max-width: 62rem;">
+        <header>
+            <h3>Rx Entry - Batch Reject - Reject</h3>
+        </header>
+        <div class="pb-1 d-flex justify-content-between mx-auto">
+
+            <div class="">
+                <label>Reorder #</label>
+                <input class="input-field" style="max-width: 5rem;" type="text" value="26647" readonly>
             </div>
 
 
-            <br>
-            <br>
-            <br>
+            <div class="">
+                <label>Prescription #</label>
+                <input class="input-field" style="max-width: 6rem;" type="text" value="1120607" readonly>
+            </div>
 
-            <div class=" tab-content">
-                <!-- <div class="form-group">
-                    <label>Patient</label>
-                    <input type="text" value="LEO,DAVID">
-                    <label>ID</label>
-                    <input type="text" value="122934">
-                    <label>DOB</label>
-                    <input type="text" value="01/31/1958">
-                </div> -->
+
+            <div class="">
+                <label>Dispensed</label>
+                <input class="input-field" style="max-width: 7rem;" type="text" value="03/22/2025" readonly>
+            </div>
+
+
+            <div class="">
+                <label>Written</label>
+                <input class="input-field" style="max-width: 7rem;" type="text" value="1/14/2024" readonly>
+            </div>
+
+
+            <div class="">
+                <label>Orig</label>
+                <input class="input-field" style="max-width: 7rem;" type="text" value="11/14/2024" readonly>
+            </div>
+
+        </div>
+        <div class="row mx-auto">
+
+            <div class="d-flex flex-column">
+                <button class="rounded-lg text-dark border border-dark" id="button-gradient">Active
+                    Reorders</button>
+                <button class="rounded-lg text-dark border border-dark" id="button-gradient">Add to Profile</button>
+                <button class="rounded-lg text-dark border border-dark" id="button-gradient">New Rx for Pat</button>
+            </div>
+
+            <div class="col">
+                <!-- IF DID NOT FIX JUST REMOVE THE DIV TO RESTORE. -->
+                <div class="row">
+                    <div>
+                        <label>Patient</label>
+                        <input class="input-field" type="text" value="LEO,DAVID">
+                    </div>
+
+                    <div>
+                        <button class="input-field rounded-lg text-dark border border-dark" id="button-gradient"
+                            readonly>
+                            <img src="assets/images/play-fill.svg" alt="Patient Profile">
+                        </button>
+                        <button class="input-field rounded-lg text-dark border border-dark" id="button-gradient"
+                            readonly>
+                            <img src="assets/images/hospital.svg" alt="Patient Profile">
+                        </button>
+                    </div>
+
+                    <div>
+                        <label>ID</label>
+                        <input class="input-field" style="max-width: 7rem;" type="text" value="01/31/1958">
+                    </div>
+
+                    <div class="">
+                        <button class="input-field rounded-lg text-dark border border-dark" id="button-gradient"
+                            readonly>Find
+                            ID</button>
+                    </div>
+
+                    <div class="col">
+                        <label>Start</label>
+                        <input class="input-field" style="max-width: 7rem;" type="text" value="01/31/1958">
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div>
+                        <label>Station</label>
+                        <input class="input-field" type="text" value="Cab">
+                    </div>
+
+                    <div>
+                        <label>Room</label>
+                        <input class="input-field" type="text" value="304">
+                    </div>
+
+                    <div>
+                        <label>Floor</label>
+                        <input class="input-field" type="text" value="3">
+                    </div>
+
+                    <div>
+                        <label>Sex</label>
+                        <input class="input-field" type="text" value="F">
+                    </div>
+
+                    <div>
+                        <label>DOB</label>
+                        <input class="input-field" type="text" value="12/29/1964">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <br>
+        <br>
+        <br>
+
+        <!-- <div class=" tab-content">
                 <div class="form-group">
                     <label>Prescriber</label>
                     <input type="text" value="DANILLO, MELISA">
@@ -118,9 +169,8 @@
                         <li><a data-toggle="tab" href="#PrimaryClaim">4. Primary Claim</a></li>
                     </ul>
                 </div>
+            </div> -->
 
-            </div>
-        </div>
     </div>
 </body>
 
