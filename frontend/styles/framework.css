@@ -2,16 +2,26 @@ body {
   font-family: Arial, sans-serif;
   background-color: #e0e0e0;
   margin: 0;
-  padding: 20px;
+  padding: 50px;
 }
 
 .container {
-  background: #a8c1dd;
+  background: #a3c3ec;
   position: absolute;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   margin: auto;
+}
+
+#button-gradient {
+  background-image: linear-gradient(#c0d4f2, #8cb3f1);
+}
+
+.input-field {
+  padding-top: 0%;
+  padding-bottom: 0%;
+  max-width: auto;
 }
 
 .form-group {
@@ -20,7 +30,7 @@ body {
 }
 
 label {
-  flex: 1;
+  /* flex: 1; */
   margin-right: 10px;
 }
 
@@ -42,7 +52,7 @@ button {
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 10px 10px;
   cursor: pointer;
   border-radius: 4px;
 }
