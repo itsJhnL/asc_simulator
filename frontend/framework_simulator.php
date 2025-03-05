@@ -3,18 +3,23 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale: 1.0">
     <title>Prescription Entry</title>
     <link rel="stylesheet" href="styles/framework.css">
+    <!-- Bootstrap 4.5.3 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
 
+    <!-- Include jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> <!-- Slim version of jQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS (includes Popper) -->
 </head>
 
 <body>
-    <div class="container overflow-hidden col-md-12" style="max-width: 67rem;">
+    <div class="container  col-md-10" style="max-width: 69rem;">
         <div>
             <header>
-                <h3>Rx Entry - Batch Reject - Reject</h3>
+                <h3 style="background-color: ;">Rx Entry - Batch Reject - Reject</h3>
             </header>
             <div class="row mx-auto justify-content-between">
                 <div class="pb-1 d-flex">
@@ -76,6 +81,7 @@
                                 <input class="input-field" style="max-width: 4rem;" type="text" value="Cabsy">
                             </div>
                         </div>
+                        <br>
                         <div class="row pt-5">
                             <div class="col align-items-end">
                                 <label for="">Last Disp.</label>
@@ -83,6 +89,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div>
                         <div class="col">
                             <button class="input-field rounded-lg border" id="button-gradient" readonly>
@@ -129,14 +136,17 @@
                                     <li class="border-bottom border-white"><input type="checkbox" disabled> FACI</li>
                                 </ul>
                             </div>
+
                         </div>
+
                     </div>
                 </div>
             </div>
+
             <div class="pt-2 row mx-auto justify-content-between">
                 <div class="pb-1 d-flex">
                     <div class="mr-md-2">
-                        <label>Prescriber</label>
+                        <label readonly>Prescriber</label>
                         <input class="input-field" type="text" value="26647" readonly>
 
                         <button class="input-field rounded-lg border" id="button-gradient" readonly>
@@ -165,54 +175,169 @@
             </div>
         </div>
 
+        <hr>
+        <!--section 2-->
 
-        <br>
-        <br>
-        <br>
+        <!-- Drug section -->
+        <div>
+            <div class="tab-content" id="Prescription">
+                <div class="tab-pane fade show active" id="prescription" role="tabpanel"
+                    aria-labelledby="prescription-tab">
 
-        <!-- <div class=" tab-content">
-                <div class="form-group">
-                    <label>Prescriber</label>
-                    <input type="text" value="DANILLO, MELISA">
-                    <label>DEA #</label>
-                    <input type="text" value="MP123456789">
-                    <label>NPI #</label>
-                    <input type="text" value="123456789">
+                    <!-- Tab 1 Prescription -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="tab-content" id="Prescription">
+
+                                <div class="form-group">
+                                    <label>Drug</label>
+                                    <input type="text" value="54654823948" class="form-control" style="height: 30px;">
+                                    &nbsp;
+                                    <button class="btn btn-info btn-sm">Info</button>
+                                    <input type="text" value="METFORMIN TAB 500MG" class="form-control"
+                                        style="height: 30px;">
+                                    <button class="btn btn-light btn-sm">
+                                        <img src="assets/images/play-button.png" style="height: 15px"
+                                            alt="Patient Profile">
+                                    </button>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>IV</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="text" class="form-control" style="height: 30px;" disabled>
+                                    <input type="text" class="form-control" style="height: 30px;" disabled>
+                                    <button class="btn btn-light btn-sm">
+                                        <img src="assets/images/play-button.png" style="height: 15px"
+                                            alt="Patient Profile">
+                                    </button>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Compound</label>
+                                    <input type="text" class="form-control" style="height: 30px;" disabled>
+                                    <input type="text" class="form-control" style="height: 30px;" disabled>
+                                    <button class="btn btn-light btn-sm">
+                                        <img src="assets/images/play-button.png" style="height: 15px"
+                                            alt="Patient Profile">
+                                    </button>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Associated DX</label>
+                                    <input type="text" value="I10 - Essential (primary) hypertension"
+                                        class="form-control" style="height: 30px;">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>DAW</label>
+                                    <input type="text" value="No product selection indicated." class="form-control"
+                                        style="height: 30px;">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>MOP #1</label>
+                                    <input type="text" class="form-control" style="height: 30px; max-width: 12rem;"
+                                        value="ADV1">
+                                    <label>Price Code</label>
+                                    <input type="text" class="form-control" style="height: 30px; max-width: 12rem;"
+                                        value="ADV1">
+                                    <label>MOP #2</label>
+                                    <input type="text" class="form-control" style="height: 30px; max-width: 12rem;">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-xs-1">
+                            <div class="tab-content" id="Prescription">
+
+                                <div class="form-group" style="width:150px">
+                                    <label>Cost</label>
+                                    <input type="text" value="42.3" class="form-control"> &nbsp;
+                                </div>
+                                <div class="form-group" style="width:150px">
+                                    <label>Fee</label>
+                                    <input type="text" value="74.35" class="form-control"> &nbsp;
+                                </div>
+                                <div class="form-group" style="width:150px">
+                                    <label>Copay</label>
+                                    <input type="text" value="0.00" class="form-control"> &nbsp;
+                                </div>
+                                <div class="form-group" style="width:150px">
+                                    <label>Total Price</label>
+                                    <input type="text" value="116.58" class="form-control"> &nbsp;
+                                </div>
+                                <div class="form-group" style="width:150px">
+                                    <label>Actual Cost</label>
+                                    <input type="text" value="0.64" class="form-control"> &nbsp;
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end of section 2-->
+                    <br>
+                    <!--section 3-->
+                    <div class="col-sm-5">
+                        <fieldset style="border:1px solid black;">
+                            <legend style="text-align: center;">Direction</legend>
+
+                            <div>
+                                <label>Sig</label> <br>
+                                <textarea rows="6" cols="30" style="resize: none;"> </textarea>
+                            </div>
+                        </fieldset>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Drug</label>
-                    <input type="text" value="Losartan Pot Tab 25MG">
-                    <label>Qty</label>
-                    <input type="text" value="1000">
+
+                <div class="full-height tab-pane fade" id="ingredients" role="tabpanel"
+                    aria-labelledby="ingredients-tab">
+                    <!-- Tab 2 Ingredients -->
+                    <?php include 'ingredients.php'; ?>
                 </div>
-                <div class="form-group">
-                    <label>Associated DX</label>
-                    <input type="text" value="I10 - Essential (primary) hypertension">
+
+                <div class="tab-pane fade" id="misc" role="tabpanel" aria-labelledby="misc-tab">
+                    <!-- Tab 3 Misc -->
+                    <?php include 'misc.php'; ?>
                 </div>
-                <div class="form-group col-sm-4">
-                    <label>Sig</label>
-                    <textarea>2T PO AM RELATED TO ESSENTIAL (PRIMARY) HYPERTENSION (I10)</textarea>
+
+                <div class="tab-pane fade" id="primary" role="tabpanel" aria-labelledby="primary-tab">
+                    <!-- Tab 4 Primary -->
+                    <?php include 'primary.php'; ?>
                 </div>
-                <div class="form-group">
-                    <label>Admin Time</label>
-                    <input type="text" value="9:00AM">
+
+                <div class="tab-pane fade" id="secondary" role="tabpanel" aria-labelledby="secondary-tab">
+                    <!-- Tab 5 Primary -->
+                    <?php include 'secondary.php'; ?>
                 </div>
-                <div class="form-group">
-                    <label>Refills</label>
-                    <input type="text" value="7.00">
-                    <label>Cost</label>
-                    <input type="text" value="$100.95">
-                </div>
-                <div class="col-sm-10">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-                        <li><a data-toggle="tab" href="#Prescription">1. Prescription </a></li>
-                        <li><a data-toggle="tab" href="#Ingredients">2. Ingredients</a></li>
-                        <li><a data-toggle="tab" href="#Misc">3. Misc</a></li>
-                        <li><a data-toggle="tab" href="#PrimaryClaim">4. Primary Claim</a></li>
-                    </ul>
-                </div>
-            </div> -->
+            </div>
+            <!-- footer tab pane -->
+            <ul class="nav nav-tabs" id="myTab" role="tablist" style="color:black; padding-top: 10px">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="prescription-tab" data-toggle="tab" href="#prescription" role="tab"
+                        aria-controls="prescription" aria-selected="true">1. Prescription</a>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="ingredients-tab" data-toggle="tab" href="#ingredients" role="tab"
+                        aria-controls="ingredients" aria-selected="true">2. Ingredients</a>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="misc-tab" data-toggle="tab" href="#misc" role="tab" aria-controls="misc"
+                        aria-selected="true">3. Misc</a>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="primary-tab" data-toggle="tab" href="#primary" role="tab"
+                        aria-controls="primary" aria-selected="true">4. Primary Claim</a>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="secondary-tab" data-toggle="tab" href="#secondary" role="tab"
+                        aria-controls="secondary" aria-selected="true">5. Secondary Claim</a>
+                </li>
+
+            </ul>
+        </div>
 
     </div>
 </body>
