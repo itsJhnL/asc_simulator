@@ -8,6 +8,17 @@
     <link rel="stylesheet" href="../styles/framework.css">
     <!-- Bootstrap 4.5.3 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+    <!-- Bootstrap JavaScript (Required for Modal) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- I hide this line, conflict to 4.5.3 css version. -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- SweetAlert2 (For Popups) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Include jQuery and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> <!-- Slim version of jQuery -->
@@ -140,16 +151,25 @@
                             <label>Start</label>
                             <input class="input-field" style="max-width: 7rem;" type="text" value="11/14/2024" readonly>
                         </div>
-                        <div class="">
+                        <div>
                             <label>Available Payment</label>
-                            <div class="border border-dark ">
-                                <ul class="col" style="list-style-type: none;">
-                                    <li class="border-bottom border-white"><input type="checkbox" checked disabled> ADV
-                                        1
-                                    </li>
-                                    <li class="border-bottom border-white"><input type="checkbox" disabled> HMRK</li>
-                                    <li class="border-bottom border-white"><input type="checkbox" disabled> FACI</li>
-                                </ul>
+                            <div class="border border-dark rounded-lg">
+                                <div class="border border-dark rounded-sm m-1">
+                                    <ul class="col" style="list-style-type: none;">
+                                        <li class="border-bottom border-white"><input type="checkbox" checked disabled>
+                                            ADV
+                                            1
+                                        </li>
+                                        <li class="border-bottom border-white"><input type="checkbox" disabled> HMRK
+                                        </li>
+                                        <!-- <li class="border-bottom border-white"><input type="checkbox" disabled> GAINWELL
+                                        </li>
+                                        <li class="border-bottom border-white"><input type="checkbox" disabled> PRIV
+                                        </li> -->
+                                        <li class="border-bottom border-white"><input type="checkbox" disabled> FACI
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
 
                         </div>
@@ -185,6 +205,9 @@
                     <div class="mr-md-2">
                         <label>SPI</label>
                         <input class="input-field" type="text" value="1/14/2024" readonly>
+                        <button class="input-field rounded-lg border " id="button-gradient" readonly>
+                            <img src="../assets/images/play-button.png" style="height: 15px" alt="Patient Profile">
+                        </button>
                     </div>
                 </div>
             </div>

@@ -5,109 +5,170 @@
 
 
 <!-- Drug block section-->
-<div class="tab-pane fade show active" id="prescription" role="tabpanel" aria-labelledby="prescription-tab">
+<div class="row mx-auto">
+    <div class="col">
 
-    <!-- Tab 1 Prescription -->
-    <div class="row">
-        <div class="col">
-            <div class="tab-content" id="Prescription">
-
-                <div class="mx-2 form-group">
-                    <div class="pr-5 form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
-                            value="option1" checked>
-                        <label class="form-check-label" for="exampleRadios1">
-                            Drug
-                        </label>
-                    </div>
-                    <input type="text" value="54654823948" class="form-control" style="height: 30px;">
-
-                    <button class="input-field rounded-lg border btn btn-sm">Info</button>
-                    <input type="text" value="METFORMIN TAB 500MG" class="form-control" style="height: 30px;">
-                    <button class="input-field rounded-lg border btn  btn-sm">
-                        <img src="../assets/images/play-button.png" style="height: 15px" alt="Patient Profile">
-                    </button>
+        <!-- Drug type -->
+        <div class="d-flex form-check">
+            <div class="col-2">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1"
+                    checked>
+                <label class="form-check-label" for="exampleRadios1">
+                    Drug
+                </label>
+            </div>
+            <div class="col d-flex p-1">
+                <div class="">
+                    <input class="input-field" type="text" value="5876452169">
                 </div>
+                <div>
+                    <input class="input-field" type="text" value="METFORMIN TAB 500MG">
 
-                <div class="form-group">
-                    <label>IV</label>
-                    <input type="text" class="form-control" style="height: 30px;" disabled>
-                    <input type="text" class="form-control" style="height: 30px;" disabled>
-                    <button class="input-field rounded-lg border btn  btn-sm">
-                        <img src="../assets/images/play-button.png" style="height: 15px" alt="Patient Profile">
-                    </button>
                 </div>
+            </div>
+        </div>
 
-                <div class="form-group">
-                    <label>Compound</label>
-                    <input type="text" class="form-control" style="height: 30px;" disabled>
-                    <input type="text" class="form-control" style="height: 30px;" disabled>
-                    <button class="input-field rounded-lg border btn  btn-sm">
-                        <img src="../assets/images/play-button.png" style="height: 15px" alt="Patient Profile">
-                    </button>
+        <!-- Compound type -->
+        <div class="d-flex form-check">
+            <div class="col-2">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2"
+                    disabled>
+                <label class="form-check-label" for="exampleRadios2">
+                    Compound
+                </label>
+            </div>
+            <div class="col d-flex p-1">
+                <div>
+                    <input class="input-field" type="text" value="" readonly>
                 </div>
+                <div>
+                    <input class="input-field" type="text" value="" readonly>
 
-                <div class="form-group">
-                    <label>Associated DX</label>
-                    <input type="text" value="I10 - Essential (primary) hypertension" class="form-control"
-                        style="height: 30px;">
                 </div>
+            </div>
+        </div>
 
-                <div class="form-group">
-                    <label>DAW</label>
-                    <input type="text" value="No product selection indicated." class="form-control"
-                        style="height: 30px;">
+        <!-- IV type -->
+        <div class="d-flex form-check">
+            <div class="col-2">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3"
+                    disabled>
+                <label class="form-check-label" for="exampleRadios3">
+                    IV
+                </label>
+            </div>
+            <div class="col d-flex p-1">
+                <div>
+                    <input class="input-field" type="text" value="" readonly>
                 </div>
+                <div>
+                    <input class="input-field" type="text" value="" readonly>
+                </div>
+            </div>
+        </div>
 
-                <div class="form-group">
-                    <label>MOP #1</label>
-                    <input type="text" class="form-control" style="height: 30px; max-width: 12rem;" value="ADV1">
-                    <label>Price Code</label>
-                    <input type="text" class="form-control" style="height: 30px; max-width: 12rem;" value="ADV1">
-                    <label>MOP #2</label>
-                    <input type="text" class="form-control" style="height: 30px; max-width: 12rem;">
+        <div class="row ml-auto">
+
+            <div class="col-2 d-flex align-items-center justify-content-between">
+                <span>Associated DX</span>
+            </div>
+
+            <div class="col d-flex p-1 ">
+                <input class="input-field" style="max-width: 30rem;" type="text" value="">
+                <button class="input-field rounded-lg border" id="button-gradient" readonly>
+                    New
+                </button>
+            </div>
+
+        </div>
+
+        <div class="row mx-auto">
+
+            <div class="col-2 d-flex align-items-center justify-content-between">
+                <span>DAW</span>
+            </div>
+
+            <div class="col d-flex p-1">
+                <input class="input-field" style="max-width: 25rem;" type="text"
+                    value="No product selection indicated.">
+            </div>
+
+        </div>
+
+        <div class="row mx-auto">
+
+            <div class="col-2 d-flex align-items-center">
+                <span>MOP #1</span>
+            </div>
+
+            <div class="col-2 d-flex align-items-center p-1">
+                <div class="">
+                    <input class="input-field" style="max-width: 5rem;" type="text" value="ADV1">
+                </div>
+            </div>
+
+            <div class="col p-1">
+                <div class="d-flex align-items-center">
+                    <span> Price Code </span>
+                    <input class="input-field mx-2" style="max-width: 5rem;" type="text" value="ADV1">
+                </div>
+            </div>
+
+            <div class="col p-1">
+                <div class="d-flex align-items-center">
+                    <span> MOP #2 </span>
+                    <input class="input-field mx-2" style="max-width: 5rem;" type="text" value="ADV1">
                 </div>
             </div>
 
         </div>
-        <div class="col-xs-1">
-            <div class="tab-content" id="Prescription">
 
-                <div class="form-group" style="width:150px">
-                    <label>Cost</label>
-                    <input type="text" value="42.3" class="form-control">
-                </div>
-                <div class="form-group" style="width:150px">
-                    <label>Fee</label>
-                    <input type="text" value="74.35" class="form-control">
-                </div>
-                <div class="form-group" style="width:150px">
-                    <label>Copay</label>
-                    <input type="text" value="0.00" class="form-control">
-                </div>
-                <div class="form-group" style="width:150px">
-                    <label>Total Price</label>
-                    <input type="text" value="116.58" class="form-control">
-                </div>
-                <div class="form-group" style="width:150px">
-                    <label>Actual Cost</label>
-                    <input type="text" value="0.64" class="form-control">
-                </div>
-            </div>
-        </div>
     </div>
-    <!--end of section 2-->
-    <br>
-    <!--section 3-->
-    <div class="col-sm-5">
-        <fieldset style="border:1px solid black;">
-            <legend style="text-align: center;">Direction</legend>
 
-            <div>
-                <label>Sig</label> <br>
-                <textarea rows="6" cols="30" style="resize: none;"> </textarea>
-            </div>
-        </fieldset>
+    <!-- Drug's Price -->
+    <div class="border col-3">
+        <div class="d-flex align-items-center justify-content-between py-1">
+            <label for="">Cost</label>
+            <input class="input-field" type="text" style="max-width: 5rem" value="42.23">
+        </div>
+        <div class="d-flex align-items-center justify-content-between py-1">
+            <label for="">Fee</label>
+            <input class="input-field" type="text" style="max-width: 5rem" value="42.23">
+        </div>
+        <div class="d-flex align-items-center justify-content-between py-1">
+            <label for="">Copay</label>
+            <input class="input-field" type="text" style="max-width: 5rem" value="42.23">
+        </div>
+        <div class="d-flex align-items-center justify-content-between py-1">
+            <label for="">Discount</label>
+            <input class="input-field" type="text" style="max-width: 5rem" value="42.23">
+        </div>
+        <div class="d-flex align-items-center justify-content-between py-1">
+            <label for="">Total Price</label>
+            <input class="input-field" type="text" style="max-width: 5rem" value="42.23">
+        </div>
+        <div class="d-flex align-items-center justify-content-between py-1">
+            <label for="">Actual Cost</label>
+            <input class="input-field" type="text" style="max-width: 5rem" value="42.23">
+        </div>
+        <div class="d-flex align-items-center justify-content-between py-1">
+            <label for=""># of Labels</label>
+            <input class="input-field" type="text" style="max-width: 5rem" value="42.23">
+        </div>
+        <div class="d-flex justify-content-between py-1">
+            <label for="">Lbl Qtys</label>
+            <!-- <input type="text" style="max-width: 5rem" value="42.23"> -->
+            <!--             <div class="">
+                <div class="border border-dark overflow-hidden">
+                    <ul class="col" style="list-style-type: none;">
+                        <li class="border-bottom border-white"><input> 30
+                        </li>
+                        <li class="border-bottom border-white"><input> 0</li>
+                        <li class="border-bottom border-white"><input> 0</li>
+                    </ul>
+                </div>
+            </div> -->
+        </div>
     </div>
 </div>
 

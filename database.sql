@@ -1,0 +1,8 @@
+CREATE DATABASE rx_numbers;
+USE rx_numbers;
+
+CREATE TABLE rx_table (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    rx_number VARCHAR(6) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
