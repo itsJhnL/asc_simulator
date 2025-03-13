@@ -125,7 +125,7 @@
 
         <div class="pt-2">
             <div class="row mx-auto">
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <span class="">Direction</span>
                     <div class="d-flex align-items-center justify-content-between">
                         <label for="Sig">Sig</label>
@@ -135,7 +135,7 @@
                         </div>
                     </div>
 
-                    <textarea rows="6" cols="33" style="resize: none" name="" id="">1T PO QD</textarea>
+                    <textarea rows="6" cols="25" style="resize: none" name="" id="">1T PO QD</textarea>
 
                 </div>
 
@@ -193,21 +193,25 @@
                         <label for="">Total Qty Written</label>
                         <input class="input-field" type="text" style="max-width: 5rem" value="42.23">
                     </div>
-                    <div class="d-flex flex-column">
-                        <div>
-                            <input type="checkbox"> <label for="">Cycle Fill</label>
+                    <div class="row">
+                        <div class="col">
+                            <div>
+                                <input type="checkbox"> <label for="">Cycle Fill</label>
+                            </div>
+                            <div>
+                                <input type="checkbox"> <label for="">Profile Only</label>
+                            </div>
                         </div>
-                        <div>
-                            <input type="checkbox"> <label for="">Profile Only</label>
-                        </div>
-                        <div>
-                            <input type="checkbox"> <label for="">Treatment Drug</label>
-                        </div>
-                        <div>
-                            <input type="checkbox"> <label for="">Significant Med</label>
-                        </div>
-                        <div>
-                            <input type="checkbox"> <label for="">Partial Tablet</label>
+                        <div class="col">
+                            <div>
+                                <input type="checkbox"> <label for="">Treatment Drug</label>
+                            </div>
+                            <div>
+                                <input type="checkbox"> <label for="">Significant Med</label>
+                            </div>
+                            <div>
+                                <input type="checkbox"> <label for="">Partial Tablet</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -225,15 +229,15 @@
         </div>
         <div class="d-flex align-items-center justify-content-between py-1">
             <label for="">Fee</label>
-            <input class="input-field" type="text" style="max-width: 5rem" value="42.23">
+            <input class="input-field" type="text" style="max-width: 5rem" value="55.23">
         </div>
         <div class="d-flex align-items-center justify-content-between py-1">
             <label for="">Copay</label>
-            <input class="input-field" type="text" style="max-width: 5rem" value="42.23">
+            <input class="input-field" type="text" style="max-width: 5rem" value="0.00">
         </div>
         <div class="d-flex align-items-center justify-content-between py-1">
             <label for="">Discount</label>
-            <input class="input-field" type="text" style="max-width: 5rem" value="42.23">
+            <input class="input-field" type="text" style="max-width: 5rem" value="12.1">
         </div>
         <div class="d-flex align-items-center justify-content-between py-1">
             <label for="">Total Price</label>
@@ -241,11 +245,11 @@
         </div>
         <div class="d-flex align-items-center justify-content-between py-1">
             <label for="">Actual Cost</label>
-            <input class="input-field" type="text" style="max-width: 5rem" value="42.23">
+            <input class="input-field" type="text" style="max-width: 5rem" value="100.23">
         </div>
         <div class="d-flex align-items-center justify-content-between py-1">
             <label for=""># of Labels</label>
-            <input class="input-field" type="text" style="max-width: 5rem" value="42.23">
+            <input class="input-field" type="text" style="max-width: 5rem" value="1.00">
         </div>
         <div class="d-flex justify-content-between">
             <label for="">Lbl Qtys</label>
