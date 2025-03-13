@@ -114,7 +114,7 @@
                 </div>
             </div>
 
-            <div class="col p-1">
+            <div class="col pt-1">
                 <div class="d-flex align-items-center">
                     <span> MOP #2 </span>
                     <input class="input-field mx-2" style="max-width: 5rem;" type="text" value="ADV1">
@@ -123,10 +123,102 @@
 
         </div>
 
+        <div class="pt-2">
+            <div class="row mx-auto">
+                <div class="col-md-5">
+                    <span class="">Direction</span>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <label for="Sig">Sig</label>
+                        <div>
+                            <input type="checkbox" name="Sig" id="Sig">
+                            <span>Sequential Sigs</span>
+                        </div>
+                    </div>
+
+                    <textarea rows="6" cols="33" style="resize: none" name="" id="">1T PO QD</textarea>
+
+                </div>
+
+                <div class="">
+                    <div class="pb-2">
+                        <label for="TypeChronic">Type</label>
+                        <input class="input-field" style="max-width: 10rem;" type="text" value="Chronic">
+                    </div>
+                    <div class="border rounded-lg m-1 p-2">
+                        <div class="col border rounded-lg flex-column align-items-center py-1 m-1 mx-auto">
+                            <div class="">
+                                <p>Admin Times</p>
+                            </div>
+                            <ul class="col" style="list-style-type: none;">
+                                <li>8:00 AM</li>
+                                <li>...</li>
+                                <li>4:00 PM</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <label for="">Partial</label>
+                        <input class="input-field" type="text" style="max-width: 10rem" value="">
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <label for="">Quantity</label>
+                        <input class="input-field" type="text" style="max-width: 5rem" value="30">
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <label for="">Day Supply</label>
+                        <input class="input-field" type="text" style="max-width: 5rem" value="30">
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <label for="">Times/Day</label>
+                        <input class="input-field" type="text" style="max-width: 5rem" value="">
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <label for="">D/C</label>
+                        <input class="input-field" type="date" style="max-width: 5rem" value="">
+                        :
+                        <input class="input-field" type="date" style="max-width: 5rem" value="">
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <label for="">Origin Code</label>
+                        <input class="input-field" type="text" style="max-width: 7rem" value="Electronic">
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <label for="">Refills</label>
+                        <input class="input-field" type="text" style="max-width: 5rem" value="95">
+                        <input class="input-field" type="text" style="max-width: 5rem" value="4">
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <label for="">Total Qty Written</label>
+                        <input class="input-field" type="text" style="max-width: 5rem" value="42.23">
+                    </div>
+                    <div class="d-flex flex-column">
+                        <div>
+                            <input type="checkbox"> <label for="">Cycle Fill</label>
+                        </div>
+                        <div>
+                            <input type="checkbox"> <label for="">Profile Only</label>
+                        </div>
+                        <div>
+                            <input type="checkbox"> <label for="">Treatment Drug</label>
+                        </div>
+                        <div>
+                            <input type="checkbox"> <label for="">Significant Med</label>
+                        </div>
+                        <div>
+                            <input type="checkbox"> <label for="">Partial Tablet</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 
     <!-- Drug's Price -->
-    <div class="border col-3">
+    <div class="col-3">
         <div class="d-flex align-items-center justify-content-between py-1">
             <label for="">Cost</label>
             <input class="input-field" type="text" style="max-width: 5rem" value="42.23">
@@ -155,19 +247,24 @@
             <label for=""># of Labels</label>
             <input class="input-field" type="text" style="max-width: 5rem" value="42.23">
         </div>
-        <div class="d-flex justify-content-between py-1">
+        <div class="d-flex justify-content-between">
             <label for="">Lbl Qtys</label>
             <!-- <input type="text" style="max-width: 5rem" value="42.23"> -->
-            <!--             <div class="">
-                <div class="border border-dark overflow-hidden">
-                    <ul class="col" style="list-style-type: none;">
-                        <li class="border-bottom border-white"><input> 30
+            <div class="border rounded-lg border-dark">
+                <div class="border rounded-lg border-dark m-1">
+                    <ul class="col overflow-auto my-2" style="list-style-type: none;">
+                        <li>
+                            <input class="input-field" style="max-width: 8rem;" type="text" value="30">
                         </li>
-                        <li class="border-bottom border-white"><input> 0</li>
-                        <li class="border-bottom border-white"><input> 0</li>
+                        <li>
+                            <input class="input-field" style="max-width: 8rem;" type="text" value="0">
+                        </li>
+                        <li>
+                            <input class="input-field" style="max-width: 8rem;" type="text" value="0">
+                        </li>
                     </ul>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 </div>
