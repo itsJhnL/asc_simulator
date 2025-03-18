@@ -41,7 +41,8 @@ session_start();
     <div class="container col-md-10" style="max-width: 69rem;">
 
         <!-- to keep show tab list -->
-        <?php include('../includes/active.php') ?>
+        <?php include($_SERVER['DOCUMENT_ROOT'] . "/asc_simulator/frontend/tab/CC/includes/active.php");
+?>
 
         <!-- This is the header of framework -->
         <!-- It display RX information -->

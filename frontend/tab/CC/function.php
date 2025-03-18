@@ -15,7 +15,7 @@ foreach ($data as $entry) {
     $professional = $entry['professional'] ?? '';
     $result = $entry['result'] ?? '';
 
-    if ($reason === "DD"  && $professional === "MO" && $result === "1B") {
+    if ($reason === "TD"  && $professional === "MO" && $result === "1B") {
         echo json_encode(["status" => "success", "message" => "Claim Successfully Adjudicated"]);
         exit;
     }

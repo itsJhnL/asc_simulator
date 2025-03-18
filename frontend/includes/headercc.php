@@ -39,7 +39,8 @@ session_start();
 
 <body>
     <div class="container col-md-10" style="max-width: 69rem;">
-
+    <span class="edit-icon" onclick="enableEdit()" accesskey="e">✏️</span>
+    <span class="save-icon" onclick="saveEdit()" style="display: none;" accesskey="s">✅</span>
         <!-- to keep show tab list -->
         <?php include('../includes/active.php') ?>
 
@@ -99,7 +100,7 @@ session_start();
                     <div class="col flex-column">
                         <div class="">
                             <label>Patient</label>
-                            <input class="input-field" style="min-width: 19.7rem;" type="text" value="BONG, GO">
+                            <input class="input-field" style="min-width: 19.7rem;" type="text" value="DOMINGO, JUAN PAUL">
                         </div>
                         <div class="d-flex">
                             <div class="mr-md-2" style="max-width: 9rem;">
