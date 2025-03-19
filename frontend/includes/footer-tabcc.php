@@ -105,5 +105,4 @@ echo '<div class="list-group">
         </li>
     </ul>
 </div>'
-
-    ?>
+    ?>;

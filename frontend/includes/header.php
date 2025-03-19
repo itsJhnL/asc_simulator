@@ -39,14 +39,15 @@ session_start();
 
 <body>
     <div class="container col-md-10" style="max-width: 69rem;">
-
+        <!-- Header buttons // Edit, Save, Undo etc. -->
+        <?php include('header_buttons.php') ?>
         <!-- to keep show tab list -->
         <?php include('../includes/active.php') ?>
 
         <!-- This is the header of framework -->
         <!-- It display RX information -->
         <!-- including, reorder#, prescription#, Dispensed Date, Written Date, Patient, Station, Room, Floor, Sex, DOB, etc. -->
-        <div>
+        <div class="pt-5">
             <header>
                 <h3 style="background-color: ;">Rx Entry - Batch Reject - Reject</h3>
             </header>
