@@ -65,23 +65,23 @@
 echo '<div class="list-group">
     <ul class="nav nav-tabs d-flex justify-content-between" id="myTab" role="tablist" style="color:black; padding-top: 10px">
         <li class="nav-item">
-            <a class="nav-link" ' . ($page == 'prescription.phpcc' ? 'active' : '') . '" href="prescriptioncc.php" accesskey="1">1. Prescription</a>
+            <a class="nav-link" ' . ($page == 'prescription.php' ? 'active' : '') . '" href="prescription.php" accesskey="1">1. Prescription</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" ' . ($page == 'ingredients.phpcc' ? 'active' : '') . '" href="ingredientscc.php" accesskey="2">2. Ingredients</a>
+            <a class="nav-link" ' . ($page == 'ingredients.php' ? 'active' : '') . '" href="ingredients.php" accesskey="2">2. Ingredients</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" ' . ($page == 'misccc.php' ? 'active' : '') . '" href="misccc.php" accesskey="3">3. Misc</a>
+            <a class="nav-link" ' . ($page == 'misc.php' ? 'active' : '') . '" href="misc.php" accesskey="3">3. Misc</a>
         </li>
         
         <li class="nav-item">
-            <a class="nav-link" ' . ($page == 'primarycc.php' ? 'active' : '') . '" href="primarycc.php" accesskey="4">4. Primary Claim</a>
+            <a class="nav-link" ' . ($page == 'primary.php' ? 'active' : '') . '" href="primary.php" accesskey="4">4. Primary Claim</a>
         </li>
         
         <li class="nav-item">
-            <a class="nav-link" ' . ($page == 'secondarycc.php' ? 'active' : '') . '" href="secondarycc.php" accesskey="5">5. Secondary Claim</a>
+            <a class="nav-link" ' . ($page == 'secondary.php' ? 'active' : '') . '" href="secondary.php" accesskey="5">5. Secondary Claim</a>
         </li>
 
         <li class="nav-item">
@@ -105,9 +105,5 @@ echo '<div class="list-group">
         </li>
     </ul>
 </div>'
-<<<<<<< HEAD
-    ?>;
-=======
 
     ?>
->>>>>>> c5b88a34881bdee8c96fad805ef4608d0131cd17

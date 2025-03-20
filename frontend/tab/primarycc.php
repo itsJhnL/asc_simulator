@@ -2,10 +2,26 @@
 <!-- It display RX information -->
 <!-- including, reorder#, prescription#, Dispensed Date, Written Date, Patient, Station, Room, Floor, Sex, DOB, etc. -->
 <?php include '../includes/headercc.php'; ?>
+<<<<<<< HEAD
 <HEAD>
 <!-- Bootstrap JS (required for modal functionality) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Sweet Alert script -->
+=======
+<?php
+// ✅ Start session only if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+
+$clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarificationCode"] : "No clarification code saved.";
+?>
+<HEAD>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+>>>>>>> c5b88a34881bdee8c96fad805ef4608d0131cd17
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -80,11 +96,18 @@
     .modal-xl {
         max-width: 95%;
     }
+<<<<<<< HEAD
     .btn-custom.btn-yellow {
     background-color: #ffc107 !important; /* Custom yellow */
     color: black !important; /* Make text readable */
     border: 5px solid;
     border-color: #ffc107 !important;
+=======
+    .yellow-btn {
+    background-color: yellow !important;
+    color: black !important;
+    border-color: black !important;
+>>>>>>> c5b88a34881bdee8c96fad805ef4608d0131cd17
 }
 
 
@@ -205,7 +228,11 @@
             </div>
         </div>
 
+<<<<<<< HEAD
         <!-- Modal DUR-->
+=======
+        <!-- Modal DUR
+>>>>>>> c5b88a34881bdee8c96fad805ef4608d0131cd17
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -234,6 +261,10 @@
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
+=======
+-
+>>>>>>> c5b88a34881bdee8c96fad805ef4608d0131cd17
 
         <!-- Clarification code Modal -->
      
@@ -246,7 +277,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+<<<<<<< HEAD
                 <form>
+=======
+                <form id="clarificationForm">
+>>>>>>> c5b88a34881bdee8c96fad805ef4608d0131cd17
                     <div class="row mb-2">
                         <div class="col-md-6">
                             <label class="form-label">Patient</label>
@@ -306,13 +341,25 @@
                         </tr>
                     </tbody>
                 </table>
+<<<<<<< HEAD
                 <button type="button" id="okButton" class="btn btn-primary me-2" onclick="selectClarificationCode()">Ok</button>
             </div>
+=======
+                <button type="button" id="okButton" class="btn btn-primary me-2" data-bs-dismiss="modal">Ok</button>
+                </div>
+>>>>>>> c5b88a34881bdee8c96fad805ef4608d0131cd17
         </div>
     </div>
 </div>
 <input type="hidden" id="selected_clarification_code" name="selected_clarification_code">
 
+<<<<<<< HEAD
+=======
+
+
+
+<!--description update code -->
+>>>>>>> c5b88a34881bdee8c96fad805ef4608d0131cd17
 <script>
     function updateDescription() {
         const selectElement = document.getElementById('valueSelect');
@@ -321,6 +368,7 @@
         const selectedOption = selectElement.options[selectElement.selectedIndex];
         const description = selectedOption ? selectedOption.getAttribute('data-description') : '';
 
+<<<<<<< HEAD
         descriptionCell.textContent = description; // Update the description cell
     }
 
@@ -386,6 +434,152 @@
     });
 </script>
 
+=======
+        descriptionCell.textContent = description; 
+    }
+    </script>
+    <!--end of despcription code -->
+
+
+
+
+
+
+
+    <!--submit button code -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let okButton = document.getElementById("okButton");
+    let ccButton = document.getElementById("ccButton");
+    let submitForm = document.getElementById("submitForm");
+    let headerAlert = document.querySelector(".header-alert"); // Select the alert text element
+
+    // ✅ Handle "OK" button click (Save Clarification Code)
+    okButton.addEventListener("click", function () {
+        let select = document.getElementById("valueSelect");
+        let selectedCode = select.value;
+
+        if (!selectedCode) {
+            Swal.fire("Error", "Please select a clarification code.", "error");
+            return;
+        }
+
+        let data = {
+            clarificationCode: selectedCode,
+            patient: "DOMINGO, JUAN PAUL",
+            prescriptionNumber: "52155823",
+        };
+
+        fetch("save_clarification.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                Swal.fire("Success", "Clarification code saved successfully!", "success");
+
+                // ✅ Update button appearance
+                ccButton.textContent = `Clarification Code: ${selectedCode}`;
+                ccButton.style.background = "yellow";
+                ccButton.style.color = "black";
+                ccButton.style.border = "2px solid black";
+                ccButton.style.fontWeight = "bold";
+                ccButton.style.boxShadow = "none";
+                ccButton.style.transition = "background-color 0.3s ease";
+
+                // ✅ Ensure hidden input exists in form
+                let hiddenInput = document.getElementById("clarificationCodeInput");
+                if (!hiddenInput) {
+                    hiddenInput = document.createElement("input");
+                    hiddenInput.type = "hidden";
+                    hiddenInput.name = "clarificationCode";
+                    hiddenInput.id = "clarificationCodeInput";
+                    submitForm.appendChild(hiddenInput);
+                }
+                hiddenInput.value = selectedCode; // Update hidden input value
+
+                // ✅ Close the modal
+                let modalElement = document.getElementById("ccModal");
+                let modalInstance = bootstrap.Modal.getInstance(modalElement);
+                modalInstance.hide();
+            } else {
+                Swal.fire("Error", "Error saving clarification code.", "error");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    });
+
+
+    submitForm.addEventListener("submit", function (event) {
+        event.preventDefault(); 
+
+        let formData = new FormData(submitForm);
+        let selectedCode = document.getElementById("clarificationCodeInput")?.value;
+
+        if (!selectedCode) {
+            Swal.fire("Error", "No clarification code selected.", "error");
+            return;
+        }
+// Reverse Button Function
+document.querySelector(".btn-custom[accesskey='r']").addEventListener("click", function () {
+            Swal.fire({
+                title: "Reversing Claim...",
+                text: "Restoring system to default...",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading(),
+            });
+
+            setTimeout(() => {
+                Swal.close();
+                document.querySelector(".header-alert").textContent = "Claim has been denied.";
+                document.querySelector(".header-alert").style.color = "red";
+
+                document.getElementById("userTable").classList.remove("disabled-table");
+
+                Swal.fire({ icon: "info", title: "Reversed!", text: "The claim has been reversed successfully." });
+            }, 2000);
+        });
+
+     
+        Swal.fire({
+            title: "Processing...",
+            text: "Checking clarification code and day supply...",
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading(),
+        });
+
+        fetch("submit_clarification.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(result => {
+            let delay = Math.floor(Math.random() * 5000) + 1000; 
+
+            setTimeout(() => {
+                Swal.close(); 
+
+                if (result.success) {
+                    Swal.fire("✅ Paid Claim", result.message, "success");
+
+                    // ✅ Update alert text to green
+                    headerAlert.textContent = "Claim has been adjudicated";
+                    headerAlert.style.color = "green";
+
+                } else {
+                    Swal.fire("Error", result.message, "error");
+                }
+            }, delay);
+        })
+        .catch(error => console.error("Error:", error));
+    });
+});
+</script>
+>>>>>>> c5b88a34881bdee8c96fad805ef4608d0131cd17
 
 
 
