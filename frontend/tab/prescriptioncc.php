@@ -1,17 +1,6 @@
 <!-- This is the header of framework -->
 <!-- It display RX information -->
 <!-- including, reorder#, prescription#, Dispensed Date, Written Date, Patient, Station, Room, Floor, Sex, DOB, etc. -->
-<<<<<<< HEAD
-<?php include '../includes/headercc.php'; ?>
-<?php
-require_once "db_connection.php";
-
-
-$claim_id = 1;
-
-try {
-
-=======
 <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -30,7 +19,6 @@ $claim_id = 1;
 
 try {
     
->>>>>>> c5b88a34881bdee8c96fad805ef4608d0131cd17
     $stmt = $conn->prepare("SELECT quantity, day_supply FROM claims WHERE claim_id = ?");
     $stmt->execute([$claim_id]);
     $claim = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -52,10 +40,6 @@ try {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<<<<<<< HEAD
-
-=======
->>>>>>> c5b88a34881bdee8c96fad805ef4608d0131cd17
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -239,130 +223,6 @@ try {
 
 
 
-<<<<<<< HEAD
-                    <!--qty and day supply-->
-                    <form id="claimForm">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <label for="quantity">Quantity</label>
-                            <input id="quantity" class="input-field" type="text" style="max-width: 5rem"
-                                value="<?= htmlspecialchars($quantity) ?>" readonly>
-                        </div>
-
-                        <div class="d-flex align-items-center justify-content-between">
-                            <label for="day_supply">Day Supply</label>
-                            <input id="day_supply" class="input-field" type="text" style="max-width: 5rem"
-                                value="<?= htmlspecialchars($day_supply) ?>" readonly>
-                        </div>
-
-                        <!-- Icons for edit and save -->
-                        <i id="edit-icon" class="fa fa-edit" style="cursor: pointer;"></i>
-                        <i id="save-icon" class="fa fa-save" style="cursor: pointer; display: none;"></i>
-                    </form>
-                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                    <script>
-                        $(document).ready(function () {
-                            $("#submitForm").submit(function (event) {
-                                event.preventDefault(); // Prevent default form submission
-
-                                let quantity = $("#quantity").val();
-                                let daySupply = $("#day_supply").val();
-                                let clarificationCode = $("#selected_clarification_code").val(); // Get stored value
-
-                                if (!clarificationCode) {
-                                    alert("Please select a clarification code before submitting.");
-                                    return;
-                                }
-
-                                $.ajax({
-                                    type: "POST",
-                                    url: "primarycc.php", // Ensure this points to the correct PHP file
-                                    data: {
-                                        qty: quantity,
-                                        day_supply: daySupply,
-                                        clarification_code: clarificationCode
-                                    },
-                                    dataType: "json",
-                                    success: function (response) {
-                                        alert("Response: " + response.status); // Show response message
-                                    },
-                                    error: function () {
-                                        alert("Error submitting claim.");
-                                    }
-                                });
-                            });
-                        });
-                    </script>
-
-                    <script>
-                        document.addEventListener("DOMContentLoaded", function () {
-                            let quantityField = document.getElementById("quantity");
-                            let daySupplyField = document.getElementById("day_supply");
-                            let editIcon = document.getElementById("edit-icon");
-                            let saveIcon = document.getElementById("save-icon");
-
-                            function enableEdit() {
-                                quantityField.removeAttribute("readonly");
-                                daySupplyField.removeAttribute("readonly");
-                                quantityField.style.backgroundColor = "white"; // Toggle back to normal
-                                daySupplyField.style.backgroundColor = "white"; // Toggle back to normal
-                                saveIcon.style.display = "inline"; // Show save icon
-                                editIcon.style.display = "none"; // Hide edit icon
-                            }
-
-                            function saveEdit() {
-                                let quantity = quantityField.value;
-                                let daySupply = daySupplyField.value;
-
-                                let formData = new FormData();
-                                formData.append("quantity", quantity);
-                                formData.append("day_supply", daySupply);
-
-                                fetch("update.php", {
-                                    method: "POST",
-                                    body: formData
-                                })
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        console.log("Server Response:", data);
-                                        if (data.status === "success") {
-                                            alert("Updated successfully!");
-
-                                            // Disable fields after saving
-                                            quantityField.setAttribute("readonly", true);
-                                            daySupplyField.setAttribute("readonly", true);
-
-                                            // Apply greyed-out style again
-                                            quantityField.style.backgroundColor = "#f0f0f0";
-                                            daySupplyField.style.backgroundColor = "#f0f0f0";
-
-                                            // Toggle icons
-                                            saveIcon.style.display = "none";
-                                            editIcon.style.display = "inline";
-                                        } else {
-                                            alert("Update failed: " + data.message);
-                                        }
-                                    })
-                                    .catch(error => {
-                                        console.error("Fetch error:", error);
-                                    });
-                            }
-
-                            // Attach click event to icons
-                            editIcon.addEventListener("click", enableEdit);
-                            saveIcon.addEventListener("click", saveEdit);
-
-                            // Handle keyboard shortcuts
-                            document.addEventListener("keydown", function (event) {
-                                if (event.key === "e" || event.key === "E") {
-                                    enableEdit();
-                                }
-                                if (event.key === "s" || event.key === "S") {
-                                    saveEdit();
-                                }
-                            });
-                        });
-                    </script>
-=======
 <!--qty and day supply-->
 <form id="claimForm">
     <div class="d-flex align-items-center justify-content-between">
@@ -483,7 +343,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
->>>>>>> c5b88a34881bdee8c96fad805ef4608d0131cd17
 
 
 

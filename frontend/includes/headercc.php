@@ -1,11 +1,7 @@
 <?php
-<<<<<<< HEAD
-session_start();
-=======
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
->>>>>>> c5b88a34881bdee8c96fad805ef4608d0131cd17
 ?>
 
 <!DOCTYPE html>

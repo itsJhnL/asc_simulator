@@ -105,9 +105,5 @@ echo '<div class="list-group">
         </li>
     </ul>
 </div>'
-<<<<<<< HEAD
-    ?>;
-=======
 
     ?>
->>>>>>> c5b88a34881bdee8c96fad805ef4608d0131cd17

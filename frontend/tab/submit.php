@@ -24,14 +24,14 @@ $state_mapping = [
 $random_pages = [
     "prescription.php",
     "prescriptioncc.php",
-   
+
 ];
 
 do {
-    $first_digit_options = array_keys($state_mapping); 
+    $first_digit_options = array_keys($state_mapping);
     $first_digit = $first_digit_options[array_rand($first_digit_options)];
     $remaining_digits = str_pad(rand(0, 99999), 5, '0', STR_PAD_LEFT);
-    
+
     $rx_number = $first_digit . $remaining_digits;
     $state = $state_mapping[$first_digit];
 
@@ -48,7 +48,7 @@ if ($insertQuery->execute()) {
     $_SESSION['rx_number'] = $rx_number;
     $_SESSION['state'] = $state;
 
-  
+
     $redirectPage = $random_pages[array_rand($random_pages)];
 
     echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
