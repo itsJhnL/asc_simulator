@@ -2,18 +2,6 @@
 <!-- It display RX information -->
 <!-- including, reorder#, prescription#, Dispensed Date, Written Date, Patient, Station, Room, Floor, Sex, DOB, etc. -->
 <?php include '../includes/header.php'; ?>
-<head> 
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!-- Bootstrap JS (required for modal functionality) -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Sweet Alert script -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-</head>
 <style>
     .header-alert {
         color: red;
@@ -79,36 +67,35 @@
         opacity: 0.5;
         /* Fade out text */
     }
+
     @media (min-width: 1200px) {
-    .modal-xl {
-        max-width: 95%;
+        .modal-xl {
+            max-width: 95%;
+        }
     }
-}
-
-
 </style>
 
 <body>
 
-<!-- Drug block section-->
-<div>
+    <!-- Drug block section-->
+    <div>
 
-    <div class="row">
-        <div class="col-12">
-            <p class="header-alert">This claim has been denied!!</p>
+        <div class="row">
+            <div class="col-12">
+                <p class="header-alert">This claim has been denied!!</p>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Transaction Type</label>
+                <input type="text" class="form-control" value="Billing">
+            </div>
+            <div class="col-md-6 d-flex align-items-end">
+                <button class="btn btn-primary ms-2">Submit P/A Request</button>
+            </div>
         </div>
-        <div class="col-md-6">
-            <label class="form-label">Transaction Type</label>
-            <input type="text" class="form-control" value="Billing">
-        </div>
-        <div class="col-md-6 d-flex align-items-end">
-            <button class="btn btn-primary ms-2">Submit P/A Request</button>
-        </div>
-    </div>
 
-    <!-- Main Table Section -->
-    <div class="table-container">
-        <h3 style="background: linear-gradient(to bottom, #6a8eb2, #2f4f7f);
+        <!-- Main Table Section -->
+        <div class="table-container">
+            <h3 style="background: linear-gradient(to bottom, #6a8eb2, #2f4f7f);
     color: white;
     text-align: center;
     font-size: 18px;
@@ -117,8 +104,8 @@
     border: 1px solid #1e3b5a;
     border-radius: 3px;
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3);">Optional ECS Fields</h3>
-        <table class="table table-bordered">
-            <thead style="background: linear-gradient(to bottom, #6a8eb2, #2f4f7f);
+            <table class="table table-bordered">
+                <thead style="background: linear-gradient(to bottom, #6a8eb2, #2f4f7f);
     color: white;
     text-align: center;
     font-size: 14px;
@@ -127,237 +114,241 @@
     border: 1px solid #1e3b5a;
     border-radius: 3px;
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3);">
-                <tr>
-                    <th>Segment</th>
-                    <th>Code</th>
-                    <th>Value</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Claim</td>
-                    <td>Product/Service ID Qualifier</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Claim</td>
-                    <td>Special Packaging Indicator</td>
-                    <td>4</td>
-                </tr>
-            </tbody>
-            <tbody id="userTable">
-                <!-- User input will be inserted here -->
-            </tbody>
-        </table>
-    </div>
-</div>
-
-
-
-<!-- Footer Section -->
-<div class="row mt-3">
-    <div class="col-md-2">
-        <label class="form-label">Amount Paid</label>
-        <input type="text" class="form-control">
-
-        <label class="form-label">Third Party Copay</label>
-        <input type="text" class="form-control" value="">
-
-    </div>
-    <div class="col-md-4">
-        <label class="form-label">Auth. No.</label>
-        <input type="text" class="form-control">
-
-        <label class="form-label">Private MOP </label>
-        <input type="text" class="form-control" value="PRIV">
-    </div>
-
-
-
-    <div class="col-md-5">
-
-        <div class="d-flex justify-content-between mt-6">
-            <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#addModal" accesskey="B">DUR
-                Builder </button>
-            <button class="btn btn-custom">Show Reject Reasons</button>
-            <button class="btn btn-custom" accesskey="h" class="btn btn-custom" data-toggle="modal" id="open-modal"
-                data-target="#ClaimModal">Show Claim Response</button>
-            <button class="btn btn-custom" accesskey="a">Clarification Codes</button>
+                    <tr>
+                        <th>Segment</th>
+                        <th>Code</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Claim</td>
+                        <td>Product/Service ID Qualifier</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Claim</td>
+                        <td>Special Packaging Indicator</td>
+                        <td>4</td>
+                    </tr>
+                </tbody>
+                <tbody id="userTable">
+                    <!-- User input will be inserted here -->
+                </tbody>
+            </table>
         </div>
-        <br>
-        <div class="col-md-10">
-            <button class="btn btn-custom" id="addButton" accesskey="a">Add</button>
-            <button class="btn btn-custom" id="editButton" accesskey="e">Edit</button>
-            <button class="btn btn-custom" accesskey="r">Reverse</button>
+    </div>
 
-            <form id="submitForm">
-                <button class="btn btn-custom" type="submit" id="submitButton" accesskey="t">Submit</button>
-            </form>
 
+
+    <!-- Footer Section -->
+    <div class="row mt-3">
+        <div class="col-md-2">
+            <label class="form-label">Amount Paid</label>
+            <input type="text" class="form-control">
+
+            <label class="form-label">Third Party Copay</label>
+            <input type="text" class="form-control" value="">
+
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Auth. No.</label>
+            <input type="text" class="form-control">
+
+            <label class="form-label">Private MOP </label>
+            <input type="text" class="form-control" value="PRIV">
         </div>
 
 
-        <div class="col-xl-10">
-            <div class="d-flex justify-content-end mt-3">
 
-                <button class="btn btn-outline-secondary">Track P/A Form Using <b>covermymeds</b></button>
+        <div class="col-md-5">
+
+            <div class="d-flex justify-content-between mt-6">
+                <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#addModal"
+                    accesskey="B">DUR
+                    Builder </button>
+                <button class="btn btn-custom">Show Reject Reasons</button>
+                <button class="btn btn-custom" accesskey="h" class="btn btn-custom" data-toggle="modal" id="open-modal"
+                    data-target="#ClaimModal">Show Claim Response</button>
+                <button class="btn btn-custom" accesskey="a">Clarification Codes</button>
             </div>
-        </div>
+            <br>
+            <div class="col-md-10">
+                <button class="btn btn-custom" id="addButton" accesskey="a">Add</button>
+                <button class="btn btn-custom" id="editButton" accesskey="e">Edit</button>
+                <button class="btn btn-custom" accesskey="r">Reverse</button>
 
-        <!-- Modal DUR-->
-        <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addModalLabel">DUR Builder</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <form id="submitForm">
+                    <button class="btn btn-custom" type="submit" id="submitButton" accesskey="t">Submit</button>
+                </form>
+
+            </div>
+
+
+            <div class="col-xl-10">
+                <div class="d-flex justify-content-end mt-3">
+
+                    <button class="btn btn-outline-secondary">Track P/A Form Using <b>covermymeds</b></button>
+                </div>
+            </div>
+
+            <!-- Modal DUR-->
+            <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addModalLabel">DUR Builder</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="DUR">
+                                <div class="mb-3">
+                                    <label for="reason" class="form-label">Reason For Service Code (439-E4)</label>
+                                    <input type="text" class="form-control" id="reason" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="professional" class="form-label">Professional Service Code
+                                        (440-E5)</label>
+                                    <input type="text" class="form-control" id="professional" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="result" class="form-label">Result Code (441-E6)</label>
+                                    <input type="text" class="form-control" id="result" required>
+                                </div>
+
+                                <button type="button" class="btn btn-primary" id="saveButton">Save</button>
+                            </form>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <form id="DUR">
-                            <div class="mb-3">
-                                <label for="reason" class="form-label">Reason For Service Code (439-E4)</label>
-                                <input type="text" class="form-control" id="reason" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="professional" class="form-label">Professional Service Code (440-E5)</label>
-                                <input type="text" class="form-control" id="professional" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="result" class="form-label">Result Code (441-E6)</label>
-                                <input type="text" class="form-control" id="result" required>
-                            </div>
+                </div>
+            </div>
 
-                            <button type="button" class="btn btn-primary" id="saveButton">Save</button>
-                        </form>
+
+            <!-- Claim Response Modal-->
+            <div class="modal fade" id="ClaimModal" tabindex="-1" aria-labelledby="ClaimModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header bg-light d-flex align-items-center">
+                            <img src="error.png" alt="Error" width="30" class="me-2" style="align=left;">
+                            <h5 class="modal-title text-danger fw-bold" id="ClaimModalLabel">The Claim Has Been Rejected
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Field Name</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>401-D1</td>
+                                        <td>Date of Service</td>
+                                        <td>3/10/2025</td>
+                                    </tr>
+                                    <tr class="table-primary">
+
+                                        <td colspan="3">Response Claim</td>
+                                    </tr>
+                                    <tr>
+                                        <td>455-EM</td>
+                                        <td>Prescription/Service Reference Number Queue</td>
+                                        <td>1- Rx Billing</td>
+                                    </tr>
+                                    <tr>
+                                        <td>402-D2</td>
+                                        <td>Prescription/Service Reference Number </td>
+                                        <td>00075445151848</td>
+                                    </tr>
+
+
+
+
+                                    <tr class="table-primary">
+                                        <td colspan="3">Response Status</td>
+                                    </tr>
+                                    <tr>
+                                        <td>112-AN</td>
+                                        <td>Transaction Response Status</td>
+                                        <td>R - Rejected</td>
+                                    </tr>
+                                    <tr>
+                                        <td>103-F3</td>
+                                        <td>Authorization Number</td>
+                                        <td>250692965796008999</td>
+                                    </tr>
+                                    <tr>
+                                        <td>510-FA</td>
+                                        <td>Reject Count</td>
+                                        <td>01</td>
+                                    </tr>
+                                    <tr>
+                                        <td>511-FB</td>
+                                        <td>Reject Code</td>
+                                        <td>88 - DUR Reject Error</td>
+                                    </tr>
+                                    <tr class="table-primary">
+                                        <td colspan="3">Response DUR/PPS</td>
+                                    </tr>
+                                    <tr>
+                                        <td>567-J6</td>
+                                        <td>DUR/PPS Response Code Counter</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>439-E4</td>
+                                        <td>Reason For Service Code</td>
+                                        <td>DD- Drug-Drug Interaction</td>
+                                    </tr>
+                                    <tr>
+                                        <td>528-FS</td>
+                                        <td>Clinical Significance Code</td>
+                                        <td>2- Moderate</td>
+                                    </tr>
+                                    <tr>
+                                        <td>529-FT</td>
+                                        <td>Other Pharmacy Indicator</td>
+                                        <td>1- Your Pharmacy </td>
+                                    </tr>
+                                    <tr>
+                                        <td>530-FU</td>
+                                        <td>Previous Date of fill</td>
+                                        <td>1- 20250317 </td>
+                                    </tr>
+                                    <tr>
+                                        <td>531-FV</td>
+                                        <td>Quantity of Previous fill</td>
+                                        <td>000012000 </td>
+                                    </tr>
+                                    <tr>
+                                        <td>531-FW</td>
+                                        <td>Database Indicator</td>
+                                        <td>1- First Databank </td>
+                                    </tr>
+                                    <tr>
+                                        <td>533-FX</td>
+                                        <td>Other Prescriber Indicator</td>
+                                        <td>2- Other Prescriber </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="close-btn">Close</button>
+                            <button type="button" class="btn btn-primary">Print</button>
+                            <button type="button" class="btn btn-outline-info">Print Medicare Part D Coverage
+                                Determination
+                                Request</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        
-        <!-- Claim Response Modal-->
-        <div class="modal fade" id="ClaimModal" tabindex="-1" aria-labelledby="ClaimModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header bg-light d-flex align-items-center">
-                    <img src="error.png" alt="Error" width="30" class="me-2" style="align=left;">
-                        <h5 class="modal-title text-danger fw-bold" id="ClaimModalLabel">The Claim Has Been Rejected</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Field Name</th>
-                                    <th>Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>401-D1</td>
-                                    <td>Date of Service</td>
-                                    <td>3/10/2025</td>
-                                </tr>
-                                <tr class="table-primary">
-                    
-                                    <td colspan="3">Response Claim</td>
-                                </tr>
-                                <tr>
-                                    <td>455-EM</td>
-                                    <td>Prescription/Service Reference Number Queue</td>
-                                    <td>1- Rx Billing</td>
-                                </tr>
-                                <tr>
-                                    <td>402-D2</td>
-                                    <td>Prescription/Service Reference Number </td>
-                                    <td>00075445151848</td>
-                                </tr>
-                               
-                            
-                               
-                              
-                                <tr class="table-primary">
-                                    <td colspan="3">Response Status</td>
-                                </tr>
-                                <tr>
-                                    <td>112-AN</td>
-                                    <td>Transaction Response Status</td>
-                                    <td>R - Rejected</td>
-                                </tr>
-                                <tr>
-                                    <td>103-F3</td>
-                                    <td>Authorization Number</td>
-                                    <td>250692965796008999</td>
-                                </tr>
-                                <tr>
-                                    <td>510-FA</td>
-                                    <td>Reject Count</td>
-                                    <td>01</td>
-                                </tr>
-                                <tr>
-                                    <td>511-FB</td>
-                                    <td>Reject Code</td>
-                                    <td>88 - DUR Reject Error</td>
-                                </tr>
-                                <tr class="table-primary">
-                                    <td colspan="3">Response DUR/PPS</td>
-                                </tr>
-                                <tr>
-                                    <td>567-J6</td>
-                                    <td>DUR/PPS Response Code Counter</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>439-E4</td>
-                                    <td>Reason For Service Code</td>
-                                    <td>DD- Drug-Drug Interaction</td>
-                                </tr>
-                                <tr>
-                                    <td>528-FS</td>
-                                    <td>Clinical Significance Code</td>
-                                    <td>2- Moderate</td>
-                                </tr>
-                                <tr>
-                                    <td>529-FT</td>
-                                    <td>Other Pharmacy Indicator</td>
-                                    <td>1- Your Pharmacy </td>
-                                </tr>
-                                <tr>
-                                    <td>530-FU</td>
-                                    <td>Previous Date of fill</td>
-                                    <td>1- 20250317 </td>
-                                </tr>
-                                <tr>
-                                    <td>531-FV</td>
-                                    <td>Quantity of Previous  fill</td>
-                                    <td>000012000 </td>
-                                </tr>
-                                <tr>
-                                    <td>531-FW</td>
-                                    <td>Database Indicator</td>
-                                    <td>1- First Databank </td>
-                                </tr>
-                                <tr>
-                                    <td>533-FX</td>
-                                    <td>Other Prescriber Indicator</td>
-                                    <td>2- Other Prescriber </td>
-                                </tr>
-                             
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" id="close-btn">Close</button>
-                        <button type="button" class="btn btn-primary">Print</button>
-                        <button type="button" class="btn btn-outline-info">Print Medicare Part D Coverage Determination
-                            Request</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-</div>
 
 </body>
 
@@ -370,7 +361,7 @@
         // Handle row selection
         document.getElementById("userTable").addEventListener("click", function (event) {
             let row = event.target.closest("tr");
-            if (!row || document.getElementById("userTable").classList.contains("disabled-table")) return; 
+            if (!row || document.getElementById("userTable").classList.contains("disabled-table")) return;
 
             if (selectedRow) {
                 selectedRow.classList.remove("selected-row");
@@ -493,44 +484,44 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(users),
             })
-            .then(response => response.json())
-            .then(data => {
-                Swal.close();
-                let countdown = 1;
-                let randomTime = Math.floor(Math.random() * 5) + 1;
+                .then(response => response.json())
+                .then(data => {
+                    Swal.close();
+                    let countdown = 1;
+                    let randomTime = Math.floor(Math.random() * 5) + 1;
 
-                Swal.fire({
-                    title: "Processing Claim...",
-                    html: `Finalizing in <b>${countdown}</b> seconds...`,
-                    allowOutsideClick: false,
-                    showConfirmButton: false,
-                    didOpen: () => {
-                        const swalContent = Swal.getHtmlContainer().querySelector("b");
-                        let timer = setInterval(() => {
-                            countdown++;
-                            swalContent.textContent = countdown;
+                    Swal.fire({
+                        title: "Processing Claim...",
+                        html: `Finalizing in <b>${countdown}</b> seconds...`,
+                        allowOutsideClick: false,
+                        showConfirmButton: false,
+                        didOpen: () => {
+                            const swalContent = Swal.getHtmlContainer().querySelector("b");
+                            let timer = setInterval(() => {
+                                countdown++;
+                                swalContent.textContent = countdown;
 
-                            if (countdown > randomTime) {
-                                clearInterval(timer);
-                                Swal.close();
+                                if (countdown > randomTime) {
+                                    clearInterval(timer);
+                                    Swal.close();
 
-                                if (data.status === "success") {
-                                    document.querySelector(".header-alert").textContent = "Claim has been adjudicated!";
-                                    document.querySelector(".header-alert").style.color = "green";
-                                    document.getElementById("userTable").classList.add("disabled-table");
+                                    if (data.status === "success") {
+                                        document.querySelector(".header-alert").textContent = "Claim has been adjudicated!";
+                                        document.querySelector(".header-alert").style.color = "green";
+                                        document.getElementById("userTable").classList.add("disabled-table");
 
-                                    Swal.fire({ icon: "success", title: "Paid Claim!", text: "Claim adjudicated." });
-                                } else {
-                                    Swal.fire({ icon: "error", title: "Invalid DUR Sequence!", text: "Please check the DUR sequence and try again." });
+                                        Swal.fire({ icon: "success", title: "Paid Claim!", text: "Claim adjudicated." });
+                                    } else {
+                                        Swal.fire({ icon: "error", title: "Invalid DUR Sequence!", text: "Please check the DUR sequence and try again." });
+                                    }
                                 }
-                            }
-                        }, 1000);
-                    }
+                            }, 1000);
+                        }
+                    });
+                })
+                .catch(() => {
+                    Swal.fire({ icon: "error", title: "Server Error", text: "Something went wrong." });
                 });
-            })
-            .catch(() => {
-                Swal.fire({ icon: "error", title: "Server Error", text: "Something went wrong." });
-            });
         });
 
         // Reverse Button Function
