@@ -1,19 +1,8 @@
 <!-- This is the header of framework -->
 <!-- It display RX information -->
 <!-- including, reorder#, prescription#, Dispensed Date, Written Date, Patient, Station, Room, Floor, Sex, DOB, etc. -->
-<?php include '../includes/header.php'; ?>
-<head> 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<?php include('../froincludes/header.php') ?>
 
-<!-- Bootstrap JS (required for modal functionality) -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Sweet Alert script -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-</head>
 <style>
     .header-alert {
         color: red;
@@ -79,16 +68,7 @@
         opacity: 0.5;
         /* Fade out text */
     }
-    @media (min-width: 1200px) {
-    .modal-xl {
-        max-width: 95%;
-    }
-}
-
-
 </style>
-
-<body>
 
 <!-- Drug block section-->
 <div>
@@ -233,15 +213,12 @@
                 </div>
             </div>
         </div>
-
-        
         <!-- Claim Response Modal-->
         <div class="modal fade" id="ClaimModal" tabindex="-1" aria-labelledby="ClaimModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header bg-light d-flex align-items-center">
-                    <img src="error.png" alt="Error" width="30" class="me-2" style="align=left;">
-                        <h5 class="modal-title text-danger fw-bold" id="ClaimModalLabel">The Claim Has Been Rejected</h5>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ClaimModalLabel">The Claim Has Been Rejected</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -260,23 +237,36 @@
                                     <td>3/10/2025</td>
                                 </tr>
                                 <tr class="table-primary">
-                    
-                                    <td colspan="3">Response Claim</td>
+                                    <td colspan="3">Response Insurance</td>
                                 </tr>
                                 <tr>
-                                    <td>455-EM</td>
-                                    <td>Prescription/Service Reference Number Queue</td>
-                                    <td>1- Rx Billing</td>
+                                    <td>524-F0</td>
+                                    <td>Plan ID</td>
+                                    <td>PART-D</td>
                                 </tr>
                                 <tr>
-                                    <td>402-D2</td>
-                                    <td>Prescription/Service Reference Number </td>
-                                    <td>00075445151848</td>
+                                    <td>302-C2</td>
+                                    <td>Cardholder ID</td>
+                                    <td>123427572</td>
                                 </tr>
-                               
-                            
-                               
-                              
+                                <tr class="table-primary">
+                                    <td colspan="3">Response Patient</td>
+                                </tr>
+                                <tr>
+                                    <td>310-CA</td>
+                                    <td>Patient First Name</td>
+                                    <td>LEO</td>
+                                </tr>
+                                <tr>
+                                    <td>311-CB</td>
+                                    <td>Patient Last Name</td>
+                                    <td>DAVY</td>
+                                </tr>
+                                <tr>
+                                    <td>304-C4</td>
+                                    <td>Date of Birth</td>
+                                    <td>19350701</td>
+                                </tr>
                                 <tr class="table-primary">
                                     <td colspan="3">Response Status</td>
                                 </tr>
@@ -298,52 +288,26 @@
                                 <tr>
                                     <td>511-FB</td>
                                     <td>Reject Code</td>
-                                    <td>88 - DUR Reject Error</td>
+                                    <td>69 - Filled After Coverage Terminated</td>
+                                </tr>
+                                <tr>
+                                    <td>526-FQ</td>
+                                    <td>Additional Message Information</td>
+                                    <td>Coverage Terminated - 03/31/24</td>
                                 </tr>
                                 <tr class="table-primary">
-                                    <td colspan="3">Response DUR/PPS</td>
+                                    <td colspan="3">Response Claim</td>
                                 </tr>
                                 <tr>
-                                    <td>567-J6</td>
-                                    <td>DUR/PPS Response Code Counter</td>
-                                    <td>1</td>
+                                    <td>455-EM</td>
+                                    <td>Prescription/Service Reference Number</td>
+                                    <td>1- Rx Billing</td>
                                 </tr>
                                 <tr>
-                                    <td>439-E4</td>
-                                    <td>Reason For Service Code</td>
-                                    <td>DD- Drug-Drug Interaction</td>
+                                    <td>402-D2</td>
+                                    <td>Prescription/Service Reference Number</td>
+                                    <td>52025688</td>
                                 </tr>
-                                <tr>
-                                    <td>528-FS</td>
-                                    <td>Clinical Significance Code</td>
-                                    <td>2- Moderate</td>
-                                </tr>
-                                <tr>
-                                    <td>529-FT</td>
-                                    <td>Other Pharmacy Indicator</td>
-                                    <td>1- Your Pharmacy </td>
-                                </tr>
-                                <tr>
-                                    <td>530-FU</td>
-                                    <td>Previous Date of fill</td>
-                                    <td>1- 20250317 </td>
-                                </tr>
-                                <tr>
-                                    <td>531-FV</td>
-                                    <td>Quantity of Previous  fill</td>
-                                    <td>000012000 </td>
-                                </tr>
-                                <tr>
-                                    <td>531-FW</td>
-                                    <td>Database Indicator</td>
-                                    <td>1- First Databank </td>
-                                </tr>
-                                <tr>
-                                    <td>533-FX</td>
-                                    <td>Other Prescriber Indicator</td>
-                                    <td>2- Other Prescriber </td>
-                                </tr>
-                             
                             </tbody>
                         </table>
                     </div>
@@ -359,55 +323,54 @@
     </div>
 </div>
 
-</body>
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         let users = [];
         let selectedId = null;
         let selectedRow = null;
 
-        // Handle row selection
         document.getElementById("userTable").addEventListener("click", function (event) {
             let row = event.target.closest("tr");
-            if (!row || document.getElementById("userTable").classList.contains("disabled-table")) return; 
+
+            if (!row || document.getElementById("userTable").classList.contains("disabled-table")) return; // Prevent selection if disabled
+
 
             if (selectedRow) {
                 selectedRow.classList.remove("selected-row");
             }
 
+
             row.classList.add("selected-row");
             selectedRow = row;
         });
 
-        // Function to update the table dynamically
         function updateTable() {
             let tableBody = document.getElementById("userTable");
             tableBody.innerHTML = "";
 
             users.forEach((user, index) => {
                 let rowGroup = `
-                <tr class="selectable-row" data-id="${index}">
-                    <td>DUR/PPS</td>
-                    <td>Reason For Service Code</td>
-                    <td>${user.reason}</td>
-                </tr>
-                <tr>
-                    <td>DUR/PPS</td>
-                    <td>Professional Service Code</td>
-                    <td>${user.professional}</td>
-                </tr>
-                <tr>
-                    <td>DUR/PPS</td>
-                    <td>Result Code</td>
-                    <td>${user.result}</td>
-                </tr>
-                `;
+            <tr class="selectable-row" data-id="${index}">
+                <td>DUR/PPS</td>
+                <td>Reason For Service Code</td>
+                <td>${user.reason}</td>
+            </tr>
+            <tr>
+                <td>DUR/PPS</td>
+                <td>Professional Service Code</td>
+                <td>${user.professional}</td>
+            </tr>
+            <tr>
+                <td>DUR/PPS</td>
+                <td>Result Code</td>
+                <td>${user.result}</td>
+            </tr>
+            `;
 
                 tableBody.innerHTML += rowGroup;
             });
 
-            // Handle row selection after updating the table
+
             document.querySelectorAll(".selectable-row").forEach(row => {
                 row.addEventListener("click", function () {
                     if (document.getElementById("userTable").classList.contains("disabled-table")) return;
@@ -418,7 +381,7 @@
             });
         }
 
-        // Open Add Modal
+
         document.getElementById("addButton").addEventListener("click", function () {
             if (document.getElementById("userTable").classList.contains("disabled-table")) return;
             selectedId = null;
@@ -427,7 +390,7 @@
             modal.show();
         });
 
-        // Open Edit Modal
+
         document.getElementById("editButton").addEventListener("click", function () {
             if (document.getElementById("userTable").classList.contains("disabled-table")) return;
 
@@ -445,7 +408,6 @@
             modal.show();
         });
 
-        // Save Button (Add/Edit)
         document.getElementById("saveButton").addEventListener("click", function () {
             let reason = document.getElementById("reason").value;
             let professional = document.getElementById("professional").value;
@@ -466,13 +428,10 @@
             document.getElementById("DUR").reset();
             selectedId = null;
 
-            // Ensure the modal is properly hidden
-            let modalElement = document.getElementById("addModal");
-            let modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-            modalInstance.hide();
+            let modal = bootstrap.Modal.getInstance(document.getElementById("addModal"));
+            modal.hide();
         });
 
-        // Submit Form
         document.getElementById("submitForm").addEventListener("submit", function (e) {
             e.preventDefault();
 
@@ -493,44 +452,43 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(users),
             })
-            .then(response => response.json())
-            .then(data => {
-                Swal.close();
-                let countdown = 1;
-                let randomTime = Math.floor(Math.random() * 5) + 1;
+                .then(response => response.json())
+                .then(data => {
+                    Swal.close();
+                    let countdown = 3;
 
-                Swal.fire({
-                    title: "Processing Claim...",
-                    html: `Finalizing in <b>${countdown}</b> seconds...`,
-                    allowOutsideClick: false,
-                    showConfirmButton: false,
-                    didOpen: () => {
-                        const swalContent = Swal.getHtmlContainer().querySelector("b");
-                        let timer = setInterval(() => {
-                            countdown++;
-                            swalContent.textContent = countdown;
+                    Swal.fire({
+                        title: "Processing Claim...",
+                        html: `Finalizing in <b>${countdown}</b> seconds...`,
+                        allowOutsideClick: false,
+                        showConfirmButton: false,
+                        didOpen: () => {
+                            const swalContent = Swal.getHtmlContainer().querySelector("b");
+                            let timer = setInterval(() => {
+                                countdown--;
+                                swalContent.textContent = countdown;
+                                if (countdown <= 0) {
+                                    clearInterval(timer);
+                                    Swal.close();
 
-                            if (countdown > randomTime) {
-                                clearInterval(timer);
-                                Swal.close();
+                                    if (data.status === "success") {
+                                        document.querySelector(".header-alert").textContent = "Claim has been adjudicated!";
+                                        document.querySelector(".header-alert").style.color = "green";
 
-                                if (data.status === "success") {
-                                    document.querySelector(".header-alert").textContent = "Claim has been adjudicated!";
-                                    document.querySelector(".header-alert").style.color = "green";
-                                    document.getElementById("userTable").classList.add("disabled-table");
+                                        document.getElementById("userTable").classList.add("disabled-table");
 
-                                    Swal.fire({ icon: "success", title: "Paid Claim!", text: "Claim adjudicated." });
-                                } else {
-                                    Swal.fire({ icon: "error", title: "Invalid DUR Sequence!", text: "Please check the DUR sequence and try again." });
+                                        Swal.fire({ icon: "success", title: "Paid Claim!", text: "Claim adjudicated." });
+                                    } else {
+                                        Swal.fire({ icon: "error", title: "Invalid DUR Sequence!", text: "Please check the DUR sequence and try again." });
+                                    }
                                 }
-                            }
-                        }, 1000);
-                    }
+                            }, 1000);
+                        }
+                    });
+                })
+                .catch(() => {
+                    Swal.fire({ icon: "error", title: "Server Error", text: "Something went wrong." });
                 });
-            })
-            .catch(() => {
-                Swal.fire({ icon: "error", title: "Server Error", text: "Something went wrong." });
-            });
         });
 
         // Reverse Button Function
@@ -553,7 +511,6 @@
             }, 2000);
         });
 
-        // Keyboard Shortcut: ALT + E to edit selected row
         document.addEventListener("keydown", function (event) {
             if (event.altKey && event.key.toLowerCase() === "e") {
                 event.preventDefault();
@@ -563,6 +520,7 @@
             }
         });
     });
+
 </script>
 
 <!-- footer tab pane -->

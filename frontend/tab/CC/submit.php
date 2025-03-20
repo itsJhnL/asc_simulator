@@ -6,12 +6,13 @@ $username = "root";
 $password = "";
 $dbname = "rx_numbers";
 
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-
+// Define state mappings
 $state_mapping = [
     2 => "Kentucky",
     4 => "New York",
@@ -20,12 +21,6 @@ $state_mapping = [
     7 => "Massachusetts"
 ];
 
-
-$random_pages = [
-    "prescription.php",
-    "prescriptioncc.php",
-   
-];
 
 do {
     $first_digit_options = array_keys($state_mapping); 
@@ -48,8 +43,7 @@ if ($insertQuery->execute()) {
     $_SESSION['rx_number'] = $rx_number;
     $_SESSION['state'] = $state;
 
-  
-    $redirectPage = $random_pages[array_rand($random_pages)];
+    $redirectPage = "prescription.php";
 
     echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
     echo "<script>

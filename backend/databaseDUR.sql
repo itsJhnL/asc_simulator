@@ -1,0 +1,11 @@
+CREATE DATABASE dur_pps_db;
+
+USE dur_pps_db;
+
+CREATE TABLE dur_pps (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    reason VARCHAR(255) NOT NULL,
+    professional VARCHAR(255) NOT NULL,
+    result VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
