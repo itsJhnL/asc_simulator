@@ -13,7 +13,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarificationCode"] : "No clarification code saved.";
 ?>
 
-<HEAD>
+<head>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -98,8 +98,9 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
                 color: black !important;
                 border-color: black !important;
             }
+        }
     </style>
-</HEAD>
+</head>
 
 <body>
     <!-- Drug block section-->
