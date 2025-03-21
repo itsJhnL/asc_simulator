@@ -46,5 +46,3 @@ try {
     exit;
 }
 ?>
-
-<!-- pull this -->
