@@ -24,7 +24,8 @@ $state_mapping = [
 $random_pages = [
     "prescription.php",
     "prescriptioncc.php",
-
+    "prescriptionpp.php",
+   
 ];
 
 do {
