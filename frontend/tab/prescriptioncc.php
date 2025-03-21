@@ -46,18 +46,12 @@ try {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         .input-field[readonly] {
-<<<<<<< HEAD
             background-color: #f0f0f0;
             /* Light grey */
             border: 1px solid #ccc;
             /* Optional: style for borders */
             color: #333;
             /* Text color */
-=======
-            background-color: #f0f0f0; /* Light grey */
-            border: 1px solid #ccc; /* Optional: style for borders */
-            color: #333; /* Text color */
->>>>>>> c5b88a34881bdee8c96fad805ef4608d0131cd17
         }
     </style>
 </head>
