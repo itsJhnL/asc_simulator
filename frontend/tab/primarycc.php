@@ -96,7 +96,26 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
     border-color: black !important;
 }
 
+.modal-dialog {
+            max-width: 40%; /* Increase the modal width */
+        }
+        .modal-body table {
+            font-size: 0.85rem; /* Reduce font size */
+        }
+        th, td {
+            padding: 4px !important;
+        }
 
+        #searchInput {
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 5px;
+            display: none;
+        }
+        .table-disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
 </style>
 </HEAD>
 
@@ -150,11 +169,7 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
                     <td>Product/Service ID Qualifier</td>
                     <td></td>
                 </tr>
-                <tr>
-                    <td>Claim</td>
-                    <td>Special Packaging Indicator</td>
-                    <td>4</td>
-                </tr>
+               
             </tbody>
             <tbody id="userTable">
                 <!-- User input will be inserted here -->
@@ -163,6 +178,158 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
     </div>
 </div>
 
+<script>
+
+document.getElementById("searchInput").addEventListener("input", function () {
+    let filter = this.value.toLowerCase();
+    document.querySelectorAll("#fieldTable tbody tr").forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(filter) ? "" : "none";
+    });
+});
+
+document.addEventListener("keydown", function (event) {
+    if (event.ctrlKey && event.key === "f") {
+        event.preventDefault();
+        let searchInput = document.getElementById("searchInput");
+        searchInput.style.display = "block";
+        searchInput.focus();
+    }
+    if (event.altKey && event.key.toLowerCase() === "e") {
+        event.preventDefault();
+        document.getElementById("editButton")?.click();
+    }
+    if (event.altKey && event.key.toLowerCase() === "d") {
+        event.preventDefault();
+        document.getElementById("fieldModal")?.click();
+    }
+    // Remove row on "r" key press
+    if (event.key.toLowerCase() === "r") {
+        let selectedRow = document.querySelector("#userTable tr.selected");
+        if (selectedRow) {
+            let code = selectedRow.children[1].textContent.trim();
+            removeRowFromDatabase(code);  // Delete from database
+            selectedRow.remove();  // Remove row from UI
+        }
+    }
+});
+
+function fetchData() {
+    fetch("fetch_datapp.php")
+        .then(response => response.json())
+        .then(data => {
+            let userTable = document.getElementById("userTable");
+            userTable.innerHTML = ""; 
+
+            data.forEach(entry => {
+                let newRow = document.createElement("tr");
+                newRow.innerHTML = `
+                    <td>${entry.segment}</td>
+                    <td>${entry.code}</td>
+                    <td><input type='text' class='valueInput' value='${entry.value}' disabled></td>
+                    <td><button class="btn btn-danger btn-sm removeButton">Remove</button></td>
+                `;
+                userTable.appendChild(newRow);
+            });
+        })
+        .catch(error => console.error("Error fetching data:", error));
+}
+
+document.addEventListener("DOMContentLoaded", fetchData);
+
+
+
+document.getElementById("okButton").addEventListener("click", function () {
+    let checkboxes = document.querySelectorAll("#fieldTable tbody input[type='checkbox']:checked");
+    let userTable = document.getElementById("userTable");
+
+    checkboxes.forEach(checkbox => {
+        let row = checkbox.closest("tr");
+        let code = row.children[1].textContent;
+        let description = row.children[2].textContent;
+
+        let newRow = document.createElement("tr");
+        newRow.innerHTML = `
+            <td>Prescriber</td>
+            <td>${description}</td>
+            <td><input type='text' class='valueInput' placeholder='Enter value'></td>
+            <td><button class="btn btn-danger btn-sm removeButton">Remove</button></td>
+        `;
+
+        userTable.appendChild(newRow);
+    });
+
+    let modal = bootstrap.Modal.getInstance(document.getElementById("fieldModal"));
+    modal.hide();
+});
+
+document.getElementById("userTable").addEventListener("click", function (event) {
+    if (event.target.classList.contains("removeButton")) {
+        let row = event.target.closest("tr");
+        let code = row.children[1].textContent;
+
+        if (confirm("Are you sure you want to delete this field?")) {
+            removeRowFromDatabase(code);  // Delete from database
+            row.remove();  // Remove row from UI
+        }
+    }
+});
+
+function removeRowFromDatabase(code) {
+    fetch("delete_datapp.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ code: code })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log("Row deleted from the database successfully.");
+        } else {
+            alert("Error deleting field: " + data.error);
+        }
+    })
+    .catch(error => console.error("Error deleting field from the database:", error));
+}
+
+document.getElementById("saveButton").addEventListener("click", function () {
+    let updatedData = [];
+
+    document.querySelectorAll("#userTable tr").forEach(row => {
+        updatedData.push({
+            segment: row.children[0].textContent,
+            code: row.children[1].textContent,
+            value: row.children[2].querySelector("input").value
+        });
+    });
+
+    fetch("edit_datapp.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ data: updatedData })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert("Data saved successfully!");
+        document.querySelectorAll("#userTable input").forEach(input => input.setAttribute("disabled", true));
+        document.getElementById("userTable").classList.add("table-disabled");
+        document.getElementById("editButton").removeAttribute("disabled");
+        document.getElementById("saveButton").setAttribute("disabled", true);
+    })
+    .catch(error => console.error("Error saving data:", error));
+});
+
+document.getElementById("editButton").addEventListener("click", function () {
+    document.querySelectorAll("#userTable input").forEach(input => input.removeAttribute("disabled"));
+    document.getElementById("userTable").classList.remove("table-disabled");
+    document.getElementById("saveButton").removeAttribute("disabled");
+    document.getElementById("editButton").setAttribute("disabled", true);
+});
+
+</script>
 
 
 <!-- Footer Section -->
@@ -196,7 +363,8 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
                 <button class="btn btn-custom" accesskey="a" data-bs-toggle="modal" data-bs-target="#ccModal" id="ccButton">Clarification Codes</button>        </div>
         <br>
         <div class="col-md-10">
-            <button class="btn btn-custom" id="addButton">Add</button>
+        <button id="saveButton" class="btn btn-custom" accesskey="s">Save</button>
+        <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#fieldModal" accesskey="d">Add</button>
             <button class="btn btn-custom" id="editButton" accesskey="e">Edit</button>
             <button class="btn btn-custom" accesskey="r">Reverse</button>
 
@@ -214,37 +382,109 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
             </div>
         </div>
 
-        <!-- Modal DUR
-        <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addModalLabel">DUR Builder</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="DUR">
-                            <div class="mb-3">
-                                <label for="reason" class="form-label">Reason For Service Code (439-E4)</label>
-                                <input type="text" class="form-control" id="reason" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="professional" class="form-label">Professional Service Code (440-E5)</label>
-                                <input type="text" class="form-control" id="professional" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="result" class="form-label">Result Code (441-E6)</label>
-                                <input type="text" class="form-control" id="result" required>
-                            </div>
+        <div class="modal fade" id="fieldModal" tabindex="-1" aria-labelledby="fieldModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="fieldModalLabel">Add Field</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <input type="text" id="searchInput" placeholder="Search...">
 
-                            <button type="button" class="btn btn-primary" id="saveButton">Save</button>
-                        </form>
-                    </div>
+                    <table class="table table-bordered"  id="fieldTable">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Select</th>
+                                <th>Field Code</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="table-secondary">
+                                <td colspan="3"><strong>Segment: Prescriber</strong></td>
+                            </tr>
+                            <tr><td><input type="checkbox"></td><td>366-2M</td><td>Prescriber City Address</td></tr>
+                            <tr><td><input type="checkbox"></td><td>364-2J</td><td>Prescriber First Name</td></tr>
+                            <tr><td><input type="checkbox"></td><td>427-DR</td><td>Prescriber Last Name</td></tr>
+                            <tr><td><input type="checkbox"></td><td>498-PM</td><td>Prescriber Phone Number</td></tr>
+                            <tr><td><input type="checkbox"></td><td>367-2N</td><td>Prescriber State/Province Address</td></tr>
+                            <tr><td><input type="checkbox"></td><td>365-2K</td><td>Prescriber Street Address</td></tr>
+                            <tr><td><input type="checkbox"></td><td>368-2P</td><td>Prescriber Zip/Postal Code</td></tr>
+                            <tr><td><input type="checkbox"></td><td>421-DL</td><td>Primary Care Provider ID</td></tr>
+                            <tr><td><input type="checkbox"></td><td>468-2E</td><td>Primary Care Provider ID Qualifier</td></tr>
+                            <tr><td><input type="checkbox"></td><td>470-4E</td><td>Primary Care Provider Last Name</td></tr>
+                            
+                            <tr class="table-secondary">
+                            <td colspan="3"><strong>Segment: Claim</strong></td>
+                            </tr>
+                            <!-- Claim Fields -->
+                            <tr><td><input type="checkbox"></td><td>457-EP</td><td>Associated Prescription/Service Date</td></tr>
+                            <tr><td><input type="checkbox"></td><td>456-EN</td><td>Associated Prescription/Service Reference Number</td></tr>
+                            <tr><td><input type="checkbox"></td><td>996-G1</td><td>Compound Type</td></tr>
+                            <tr><td><input type="checkbox"></td><td>357-NV</td><td>Delay Reason Code</td></tr>
+                            <tr><td><input type="checkbox"></td><td>464-EX</td><td>Intermediary Authorization ID</td></tr>
+                            <tr><td><input type="checkbox"></td><td>463-EW</td><td>Intermediary Authorization Type ID</td></tr>
+                            <tr><td><input type="checkbox"></td><td>418-DI</td><td>Level of Service</td></tr>
+                            <tr><td><input type="checkbox"></td><td>391-MT</td><td>Patient Assignment Indicator</td></tr>
+                            <tr><td><input type="checkbox"></td><td>147-U7</td><td>Pharmacy Service Type</td></tr>
+                            <tr><td><input type="checkbox"></td><td>462-EV</td><td>Prior Authorization Number Submitted</td></tr>
+                            <tr><td><input type="checkbox"></td><td>461-EU</td><td>Prior Authorization Type Code</td></tr>
+                            <tr><td><input type="checkbox"></td><td>459-ER</td><td>Procedure Modifier Code</td></tr>
+                            <tr><td><input type="checkbox"></td><td>407-D7</td><td>Product/Service ID</td></tr>
+                            <tr><td><input type="checkbox"></td><td>436-E1</td><td>Product/Service ID Qualifier</td></tr>
+                            <tr><td><input type="checkbox"></td><td>460-ET</td><td>Quantity Prescribed</td></tr>
+                            <tr><td><input type="checkbox"></td><td>995-E2</td><td>Route of Administration</td></tr>
+                            <tr><td><input type="checkbox"></td><td>429-DT</td><td>Special Packaging Indicator</td></tr>
+                            <tr><td><input type="checkbox"></td><td>600-28</td><td>Unit of Measure</td></tr>
+                            <tr class="table-secondary">
+                                <td colspan="3"><strong>Segment: Pricing</strong></td>
+                            </tr>
+                            <tr><td><input type="checkbox"></td><td>423-DN</td><td>Basis Of Cost Determination</td></tr>
+                            <tr><td><input type="checkbox"></td><td>481-HA</td><td>Flat Sales Tax Amount Submitted</td></tr>
+                            <tr><td><input type="checkbox"></td><td>438-E3</td><td>Incentive Amount Submitted</td></tr>
+                            <tr><td><input type="checkbox"></td><td>480-H9</td><td>Other Amount Claimed Submitted</td></tr>
+
+                            <tr class="table-secondary">
+                                <td colspan="3"><strong>Segment: Coordination of Benefits/Other Payments</strong></td>
+                            </tr>
+                            <tr><td><input type="checkbox"></td><td>339-6C</td><td>Other Payer ID Qualifier</td></tr>
+                            <tr><td><input type="checkbox"></td><td>472-6E</td><td>Other Payer Reject Code</td></tr>
+                            <tr><td><input type="checkbox"></td><td>471-5E</td><td>Other Payer Reject Count</td></tr>
+                            <tr class="table-secondary">
+                                <td colspan="3"><strong>Segment: DUR/PPS</strong></td>
+                            </tr>
+                            <tr><td><input type="checkbox"></td><td>476-H6</td><td>DUR Co-Agent ID</td></tr>
+                            <tr><td><input type="checkbox"></td><td>475-J9</td><td>DUR Co-Agent ID Qualifier</td></tr>
+                            <tr><td><input type="checkbox"></td><td>473-7E</td><td>DUR/PPS Code Counter</td></tr>
+                            <tr><td><input type="checkbox"></td><td>474-8E</td><td>DUR/PPS Level Of Effort</td></tr>
+                            <tr><td><input type="checkbox"></td><td>440-E5</td><td>Professional Service Code</td></tr>
+                            <tr><td><input type="checkbox"></td><td>439-E4</td><td>Reason For Service Code</td></tr>
+                            <tr><td><input type="checkbox"></td><td>441-E6</td><td>Result of Service Code</td></tr>
+                            <tr class="table-secondary">
+                                <td colspan="3"><strong>Segment: Coupon</strong></td>
+                            </tr>
+                            <tr><td><input type="checkbox"></td><td>486-ME</td><td>Coupon Number</td></tr>
+                            <tr><td><input type="checkbox"></td><td>485-KE</td><td>Coupon Type</td></tr>
+                            <tr><td><input type="checkbox"></td><td>487-NE</td><td>Coupon Value Amount</td></tr>
+                            <tr class="table-secondary">
+                                <td colspan="3"><strong>Segment: Pricing</strong></td>
+                            </tr>
+                            <tr><td><input type="checkbox"></td><td>423-DN</td><td>Basis Of Cost Determination</td></tr>
+                            <tr><td><input type="checkbox"></td><td>481-HA</td><td>Flat Sales Tax Amount Submitted</td></tr>
+                            <tr><td><input type="checkbox"></td><td>438-E3</td><td>Incentive Amount Submitted</td></tr>
+                            <tr><td><input type="checkbox"></td><td>480-H9</td><td>Other Amount Claimed Submitted</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="okButton">OK</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
--
-
+    </div>
+    
         <!-- Clarification code Modal -->
      
 <!-- Clarification Code Modal -->
@@ -339,12 +579,6 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
     }
     </script>
     <!--end of despcription code -->
-
-
-
-
-
-
 
     <!--submit button code -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 

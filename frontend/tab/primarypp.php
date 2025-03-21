@@ -1,7 +1,7 @@
 <!-- This is the header of framework -->
 <!-- It display RX information -->
 <!-- including, reorder#, prescription#, Dispensed Date, Written Date, Patient, Station, Room, Floor, Sex, DOB, etc. -->
-<?php include '../includes/headercc.php'; ?>
+<?php include '../includes/headerpp.php'; ?>
 <?php
 // ✅ Start session only if not already started
 if (session_status() === PHP_SESSION_NONE) {
@@ -13,14 +13,11 @@ if (session_status() === PHP_SESSION_NONE) {
 $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarificationCode"] : "No clarification code saved.";
 ?>
 <HEAD>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
     .header-alert {
         color: red;
@@ -96,7 +93,26 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
     border-color: black !important;
 }
 
+.modal-dialog {
+            max-width: 40%; /* Increase the modal width */
+        }
+        .modal-body table {
+            font-size: 0.85rem; /* Reduce font size */
+        }
+        th, td {
+            padding: 4px !important;
+        }
 
+        #searchInput {
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 5px;
+            display: none;
+        }
+        .table-disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
 </style>
 </HEAD>
 
@@ -145,6 +161,7 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
                 </tr>
             </thead>
             <tbody>
+                <!--
                 <tr>
                     <td>Claim</td>
                     <td>Product/Service ID Qualifier</td>
@@ -156,6 +173,7 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
                     <td>4</td>
                 </tr>
             </tbody>
+    -->
             <tbody id="userTable">
                 <!-- User input will be inserted here -->
             </tbody>
@@ -188,7 +206,7 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
     <div class="col-md-5">
 
         <div class="d-flex justify-content-between mt-6">
-            <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#addModal" accesskey="B">DUR
+            <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#addModal" accesskey="B" readonly>DUR
                 Builder </button>
             <button class="btn btn-custom">Show Reject Reasons</button>
             <button class="btn btn-custom" accesskey="h" class="btn btn-custom" data-toggle="modal" id="open-modal"
@@ -196,7 +214,8 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
                 <button class="btn btn-custom" accesskey="a" data-bs-toggle="modal" data-bs-target="#ccModal" id="ccButton">Clarification Codes</button>        </div>
         <br>
         <div class="col-md-10">
-            <button class="btn btn-custom" id="addButton">Add</button>
+        <button id="saveButton" class="btn btn-custom" accesskey="s">Save</button>
+        <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#fieldModal" accesskey="d">Add</button>
             <button class="btn btn-custom" id="editButton" accesskey="e">Edit</button>
             <button class="btn btn-custom" accesskey="r">Reverse</button>
 
@@ -214,274 +233,360 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
             </div>
         </div>
 
-        <!-- Modal DUR
-        <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addModalLabel">DUR Builder</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="DUR">
-                            <div class="mb-3">
-                                <label for="reason" class="form-label">Reason For Service Code (439-E4)</label>
-                                <input type="text" class="form-control" id="reason" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="professional" class="form-label">Professional Service Code (440-E5)</label>
-                                <input type="text" class="form-control" id="professional" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="result" class="form-label">Result Code (441-E6)</label>
-                                <input type="text" class="form-control" id="result" required>
-                            </div>
+    
+        <!--Add modal -->
 
-                            <button type="button" class="btn btn-primary" id="saveButton">Save</button>
-                        </form>
-                    </div>
+        <div class="modal fade" id="fieldModal" tabindex="-1" aria-labelledby="fieldModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="fieldModalLabel">Add Field</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <input type="text" id="searchInput" placeholder="Search...">
+
+                    <table class="table table-bordered"  id="fieldTable">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Select</th>
+                                <th>Field Code</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="table-secondary">
+                                <td colspan="3"><strong>Segment: Prescriber</strong></td>
+                            </tr>
+                            <tr><td><input type="checkbox"></td><td>366-2M</td><td>Prescriber City Address</td></tr>
+                            <tr><td><input type="checkbox"></td><td>364-2J</td><td>Prescriber First Name</td></tr>
+                            <tr><td><input type="checkbox"></td><td>427-DR</td><td>Prescriber Last Name</td></tr>
+                            <tr><td><input type="checkbox"></td><td>498-PM</td><td>Prescriber Phone Number</td></tr>
+                            <tr><td><input type="checkbox"></td><td>367-2N</td><td>Prescriber State/Province Address</td></tr>
+                            <tr><td><input type="checkbox"></td><td>365-2K</td><td>Prescriber Street Address</td></tr>
+                            <tr><td><input type="checkbox"></td><td>368-2P</td><td>Prescriber Zip/Postal Code</td></tr>
+                            <tr><td><input type="checkbox"></td><td>421-DL</td><td>Primary Care Provider ID</td></tr>
+                            <tr><td><input type="checkbox"></td><td>468-2E</td><td>Primary Care Provider ID Qualifier</td></tr>
+                            <tr><td><input type="checkbox"></td><td>470-4E</td><td>Primary Care Provider Last Name</td></tr>
+                            
+                            <tr class="table-secondary">
+                            <td colspan="3"><strong>Segment: Claim</strong></td>
+                            </tr>
+                            <!-- Claim Fields -->
+                            <tr><td><input type="checkbox"></td><td>457-EP</td><td>Associated Prescription/Service Date</td></tr>
+                            <tr><td><input type="checkbox"></td><td>456-EN</td><td>Associated Prescription/Service Reference Number</td></tr>
+                            <tr><td><input type="checkbox"></td><td>996-G1</td><td>Compound Type</td></tr>
+                            <tr><td><input type="checkbox"></td><td>357-NV</td><td>Delay Reason Code</td></tr>
+                            <tr><td><input type="checkbox"></td><td>464-EX</td><td>Intermediary Authorization ID</td></tr>
+                            <tr><td><input type="checkbox"></td><td>463-EW</td><td>Intermediary Authorization Type ID</td></tr>
+                            <tr><td><input type="checkbox"></td><td>418-DI</td><td>Level of Service</td></tr>
+                            <tr><td><input type="checkbox"></td><td>391-MT</td><td>Patient Assignment Indicator</td></tr>
+                            <tr><td><input type="checkbox"></td><td>147-U7</td><td>Pharmacy Service Type</td></tr>
+                            <tr><td><input type="checkbox"></td><td>462-EV</td><td>Prior Authorization Number Submitted</td></tr>
+                            <tr><td><input type="checkbox"></td><td>461-EU</td><td>Prior Authorization Type Code</td></tr>
+                            <tr><td><input type="checkbox"></td><td>459-ER</td><td>Procedure Modifier Code</td></tr>
+                            <tr><td><input type="checkbox"></td><td>407-D7</td><td>Product/Service ID</td></tr>
+                            <tr><td><input type="checkbox"></td><td>436-E1</td><td>Product/Service ID Qualifier</td></tr>
+                            <tr><td><input type="checkbox"></td><td>460-ET</td><td>Quantity Prescribed</td></tr>
+                            <tr><td><input type="checkbox"></td><td>995-E2</td><td>Route of Administration</td></tr>
+                            <tr><td><input type="checkbox"></td><td>429-DT</td><td>Special Packaging Indicator</td></tr>
+                            <tr><td><input type="checkbox"></td><td>600-28</td><td>Unit of Measure</td></tr>
+                            <tr class="table-secondary">
+                                <td colspan="3"><strong>Segment: Pricing</strong></td>
+                            </tr>
+                            <tr><td><input type="checkbox"></td><td>423-DN</td><td>Basis Of Cost Determination</td></tr>
+                            <tr><td><input type="checkbox"></td><td>481-HA</td><td>Flat Sales Tax Amount Submitted</td></tr>
+                            <tr><td><input type="checkbox"></td><td>438-E3</td><td>Incentive Amount Submitted</td></tr>
+                            <tr><td><input type="checkbox"></td><td>480-H9</td><td>Other Amount Claimed Submitted</td></tr>
+
+                            <tr class="table-secondary">
+                                <td colspan="3"><strong>Segment: Coordination of Benefits/Other Payments</strong></td>
+                            </tr>
+                            <tr><td><input type="checkbox"></td><td>339-6C</td><td>Other Payer ID Qualifier</td></tr>
+                            <tr><td><input type="checkbox"></td><td>472-6E</td><td>Other Payer Reject Code</td></tr>
+                            <tr><td><input type="checkbox"></td><td>471-5E</td><td>Other Payer Reject Count</td></tr>
+                            <tr class="table-secondary">
+                                <td colspan="3"><strong>Segment: DUR/PPS</strong></td>
+                            </tr>
+                            <tr><td><input type="checkbox"></td><td>476-H6</td><td>DUR Co-Agent ID</td></tr>
+                            <tr><td><input type="checkbox"></td><td>475-J9</td><td>DUR Co-Agent ID Qualifier</td></tr>
+                            <tr><td><input type="checkbox"></td><td>473-7E</td><td>DUR/PPS Code Counter</td></tr>
+                            <tr><td><input type="checkbox"></td><td>474-8E</td><td>DUR/PPS Level Of Effort</td></tr>
+                            <tr><td><input type="checkbox"></td><td>440-E5</td><td>Professional Service Code</td></tr>
+                            <tr><td><input type="checkbox"></td><td>439-E4</td><td>Reason For Service Code</td></tr>
+                            <tr><td><input type="checkbox"></td><td>441-E6</td><td>Result of Service Code</td></tr>
+                            <tr class="table-secondary">
+                                <td colspan="3"><strong>Segment: Coupon</strong></td>
+                            </tr>
+                            <tr><td><input type="checkbox"></td><td>486-ME</td><td>Coupon Number</td></tr>
+                            <tr><td><input type="checkbox"></td><td>485-KE</td><td>Coupon Type</td></tr>
+                            <tr><td><input type="checkbox"></td><td>487-NE</td><td>Coupon Value Amount</td></tr>
+                            <tr class="table-secondary">
+                                <td colspan="3"><strong>Segment: Pricing</strong></td>
+                            </tr>
+                            <tr><td><input type="checkbox"></td><td>423-DN</td><td>Basis Of Cost Determination</td></tr>
+                            <tr><td><input type="checkbox"></td><td>481-HA</td><td>Flat Sales Tax Amount Submitted</td></tr>
+                            <tr><td><input type="checkbox"></td><td>438-E3</td><td>Incentive Amount Submitted</td></tr>
+                            <tr><td><input type="checkbox"></td><td>480-H9</td><td>Other Amount Claimed Submitted</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="okButton">OK</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </div>
-        </div>
--
-
-        <!-- Clarification code Modal -->
-     
-<!-- Clarification Code Modal -->
-<div class="modal" id="ccModal" tabindex="-1" aria-labelledby="ccModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-light d-flex align-items-center">
-                <h5 class="modal-title" id="rxModalLabel">Rx Clarification Codes</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="clarificationForm">
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-                            <label class="form-label">Patient</label>
-                            <input type="text" class="form-control" value="DOMINGO, JUAN PAUL" disabled>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-3">
-                            <label class="form-label">Reorder #</label>
-                            <input type="text" class="form-control" value="3189" disabled>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Prescription #</label>
-                            <input type="text" class="form-control" value="52155823" disabled>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-3">
-                            <label class="form-label">Dispensed</label>
-                            <input type="text" class="form-control" value="03/17/2025" disabled>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">RxBatch</label>
-                            <input type="text" class="form-control" value="REJECT" disabled>
-                        </div>
-                    </div>
-                </form>
-                <table class="table table-bordered table-sm">
-                    <thead>
-                        <tr>
-                            <th>Value</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <select id="valueSelect" class="form-select form-select-lg mb-3" 
-                                        aria-label=".form-select-lg example" onchange="updateDescription()">
-                                    <option value="" disabled selected>-- Select a Code --</option>
-                                    <option value="22" data-description="22 LTC Dispensing: 7 days">22 LTC Dispensing: 7 days</option>
-                                    <option value="23" data-description="23 LTC Dispensing: 4 days">23 LTC Dispensing: 4 days</option>
-                                    <option value="24" data-description="24 LTC Dispensing: 3 days">24 LTC Dispensing: 3 days</option>
-                                    <option value="25" data-description="25 LTC Dispensing: 2 days">25 LTC Dispensing: 2 days</option>
-                                    <option value="26" data-description="26 LTC Dispensing: 1 day">26 LTC Dispensing: 1 day</option>
-                                    <option value="27" data-description="27 LTC Dispensing: 4-3 days">27 LTC Dispensing: 4-3 days</option>
-                                    <option value="28" data-description="28 LTC Dispensing: 2-2-3 days">28 LTC Dispensing: 2-2-3 days</option>
-                                    <option value="29" data-description="29 LTC Dispensing: daily and 3-day weekend">29 LTC Dispensing: daily and 3-day weekend</option>
-                                    <option value="30" data-description="30 LTC Dispensing: Per shift dispensing">30 LTC Dispensing: Per shift dispensing</option>
-                                    <option value="31" data-description="31 LTC Dispensing: Per med pass dispensing">31 LTC Dispensing: Per med pass dispensing</option>
-                                    <option value="32" data-description="32 LTC Dispensing: PRN on demand">32 LTC Dispensing: PRN on demand</option>
-                                    <option value="33" data-description="33 LTC Dispensing: 7 days or less dispensing method not listed above">33 LTC Dispensing: 7 days or less dispensing method not listed above</option>
-                                    <option value="34" data-description="34 LTC Dispensing: 14 days dispensing">34 LTC Dispensing: 14 days dispensing</option>
-                                </select>
-                            </td>
-                            <td id="description"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <button type="button" id="okButton" class="btn btn-primary me-2" data-bs-dismiss="modal">Ok</button>
-                </div>
         </div>
     </div>
-</div>
-<input type="hidden" id="selected_clarification_code" name="selected_clarification_code">
-
-
-
-
-<!--description update code -->
-<script>
-    function updateDescription() {
-        const selectElement = document.getElementById('valueSelect');
-        const descriptionCell = document.getElementById('description');
-
-        const selectedOption = selectElement.options[selectElement.selectedIndex];
-        const description = selectedOption ? selectedOption.getAttribute('data-description') : '';
-
-        descriptionCell.textContent = description; 
-    }
-    </script>
-    <!--end of despcription code -->
-
-
-
-
-
-
-
-    <!--submit button code -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    let okButton = document.getElementById("okButton");
-    let ccButton = document.getElementById("ccButton");
-    let submitForm = document.getElementById("submitForm");
-    let headerAlert = document.querySelector(".header-alert"); // Select the alert text element
-
-    // ✅ Handle "OK" button click (Save Clarification Code)
-    okButton.addEventListener("click", function () {
-        let select = document.getElementById("valueSelect");
-        let selectedCode = select.value;
-
-        if (!selectedCode) {
-            Swal.fire("Error", "Please select a clarification code.", "error");
-            return;
-        }
-
-        let data = {
-            clarificationCode: selectedCode,
-            patient: "DOMINGO, JUAN PAUL",
-            prescriptionNumber: "52155823",
-        };
-
-        fetch("save_clarification.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-        .then(result => {
-            if (result.success) {
-                Swal.fire("Success", "Clarification code saved successfully!", "success");
-
-                // ✅ Update button appearance
-                ccButton.textContent = `Clarification Code: ${selectedCode}`;
-                ccButton.style.background = "yellow";
-                ccButton.style.color = "black";
-                ccButton.style.border = "2px solid black";
-                ccButton.style.fontWeight = "bold";
-                ccButton.style.boxShadow = "none";
-                ccButton.style.transition = "background-color 0.3s ease";
-
-                // ✅ Ensure hidden input exists in form
-                let hiddenInput = document.getElementById("clarificationCodeInput");
-                if (!hiddenInput) {
-                    hiddenInput = document.createElement("input");
-                    hiddenInput.type = "hidden";
-                    hiddenInput.name = "clarificationCode";
-                    hiddenInput.id = "clarificationCodeInput";
-                    submitForm.appendChild(hiddenInput);
-                }
-                hiddenInput.value = selectedCode; // Update hidden input value
-
-                // ✅ Close the modal
-                let modalElement = document.getElementById("ccModal");
-                let modalInstance = bootstrap.Modal.getInstance(modalElement);
-                modalInstance.hide();
-            } else {
-                Swal.fire("Error", "Error saving clarification code.", "error");
-            }
-        })
-        .catch(error => console.error("Error:", error));
-    });
-
-
-    submitForm.addEventListener("submit", function (event) {
-        event.preventDefault(); 
-
-        let formData = new FormData(submitForm);
-        let selectedCode = document.getElementById("clarificationCodeInput")?.value;
-
-        if (!selectedCode) {
-            Swal.fire("Error", "No clarification code selected.", "error");
-            return;
-        }
-// Reverse Button Function
-document.querySelector(".btn-custom[accesskey='r']").addEventListener("click", function () {
-            Swal.fire({
-                title: "Reversing Claim...",
-                text: "Restoring system to default...",
-                allowOutsideClick: false,
-                didOpen: () => Swal.showLoading(),
-            });
-
-            setTimeout(() => {
-                Swal.close();
-                document.querySelector(".header-alert").textContent = "Claim has been denied.";
-                document.querySelector(".header-alert").style.color = "red";
-
-                document.getElementById("userTable").classList.remove("disabled-table");
-
-                Swal.fire({ icon: "info", title: "Reversed!", text: "The claim has been reversed successfully." });
-            }, 2000);
-        });
-
-     
-        Swal.fire({
-            title: "Processing...",
-            text: "Checking clarification code and day supply...",
-            allowOutsideClick: false,
-            didOpen: () => Swal.showLoading(),
-        });
-
-        fetch("submit_clarification.php", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.json())
-        .then(result => {
-            let delay = Math.floor(Math.random() * 5000) + 1000; 
-
-            setTimeout(() => {
-                Swal.close(); 
-                
-
-                if (result.success) {
-                    Swal.fire("✅ Paid Claim", result.message, "success");
-
-                    // ✅ Update alert text to green
-                    headerAlert.textContent = "Claim has been adjudicated";
-                    headerAlert.style.color = "green";
-
-                } else {
-                    Swal.fire("Error", result.message, "error");
-                }
-            }, delay);
-        })
-        .catch(error => console.error("Error:", error));
+    
+    <script>
+document.getElementById("searchInput").addEventListener("input", function () {
+    let filter = this.value.toLowerCase();
+    document.querySelectorAll("#fieldTable tbody tr").forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(filter) ? "" : "none";
     });
 });
-</script>
+
+document.addEventListener("keydown", function (event) {
+    if (event.ctrlKey && event.key === "f") {
+        event.preventDefault();
+        let searchInput = document.getElementById("searchInput");
+        searchInput.style.display = "block";
+        searchInput.focus();
+    }
+    if (event.altKey && event.key.toLowerCase() === "e") {
+        event.preventDefault();
+        document.getElementById("editButton")?.click();
+    }
+    if (event.altKey && event.key.toLowerCase() === "d") {
+        event.preventDefault();
+        document.getElementById("fieldModal")?.click();
+    }
+    // Remove row on "r" key press
+    if (event.key.toLowerCase() === "r") {
+        let selectedRow = document.querySelector("#userTable tr.selected");
+        if (selectedRow) {
+            let code = selectedRow.children[1].textContent.trim();
+            removeRowFromDatabase(code);  // Delete from database
+            selectedRow.remove();  // Remove row from UI
+        }
+    }
+});
+
+function fetchData() {
+    fetch("fetch_datapp.php")
+        .then(response => response.json())
+        .then(data => {
+            let userTable = document.getElementById("userTable");
+            userTable.innerHTML = ""; 
+
+            data.forEach(entry => {
+                let newRow = document.createElement("tr");
+                newRow.innerHTML = `
+                    <td>${entry.segment}</td>
+                    <td>${entry.code}</td>
+                    <td><input type='text' class='valueInput' value='${entry.value}' disabled></td>
+                    <td><button class="btn btn-danger btn-sm removeButton">Remove</button></td>
+                `;
+                userTable.appendChild(newRow);
+            });
+        })
+        .catch(error => console.error("Error fetching data:", error));
+}
+
+document.addEventListener("DOMContentLoaded", fetchData);
 
 
+
+document.getElementById("okButton").addEventListener("click", function () {
+    let checkboxes = document.querySelectorAll("#fieldTable tbody input[type='checkbox']:checked");
+    let userTable = document.getElementById("userTable");
+
+    checkboxes.forEach(checkbox => {
+        let row = checkbox.closest("tr");
+        let code = row.children[1].textContent;
+        let description = row.children[2].textContent;
+
+        let newRow = document.createElement("tr");
+        newRow.innerHTML = `
+            <td>Prescriber</td>
+            <td>${description}</td>
+            <td><input type='text' class='valueInput' placeholder='Enter value'></td>
+            <td><button class="btn btn-danger btn-sm removeButton">Remove</button></td>
+        `;
+
+        userTable.appendChild(newRow);
+    });
+
+    let modal = bootstrap.Modal.getInstance(document.getElementById("fieldModal"));
+    modal.hide();
+});
+
+document.getElementById("userTable").addEventListener("click", function (event) {
+    if (event.target.classList.contains("removeButton")) {
+        let row = event.target.closest("tr");
+        let code = row.children[1].textContent;
+
+        if (confirm("Are you sure you want to delete this field?")) {
+            removeRowFromDatabase(code);  // Delete from database
+            row.remove();  // Remove row from UI
+        }
+    }
+});
+
+function removeRowFromDatabase(code) {
+    fetch("delete_datapp.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ code: code })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log("Row deleted from the database successfully.");
+        } else {
+            alert("Error deleting field: " + data.error);
+        }
+    })
+    .catch(error => console.error("Error deleting field from the database:", error));
+}
+
+document.getElementById("saveButton").addEventListener("click", function () {
+    let updatedData = [];
+
+    document.querySelectorAll("#userTable tr").forEach(row => {
+        updatedData.push({
+            segment: row.children[0].textContent,
+            code: row.children[1].textContent,
+            value: row.children[2].querySelector("input").value
+        });
+    });
+
+    fetch("edit_datapp.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ data: updatedData })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert("Data saved successfully!");
+        document.querySelectorAll("#userTable input").forEach(input => input.setAttribute("disabled", true));
+        document.getElementById("userTable").classList.add("table-disabled");
+        document.getElementById("editButton").removeAttribute("disabled");
+        document.getElementById("saveButton").setAttribute("disabled", true);
+    })
+    .catch(error => console.error("Error saving data:", error));
+});
+
+document.getElementById("editButton").addEventListener("click", function () {
+    document.querySelectorAll("#userTable input").forEach(input => input.removeAttribute("disabled"));
+    document.getElementById("userTable").classList.remove("table-disabled");
+    document.getElementById("saveButton").removeAttribute("disabled");
+    document.getElementById("editButton").setAttribute("disabled", true);
+});
+
+document.getElementById("submitForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    let rows = document.querySelectorAll("#userTable tr");
+    let prescriberLastName = "";
+    let quantityPrescribed = "";
+    let hasPrescriberLastName = false;
+    let hasQuantityPrescribed = false;
+    let isValid = true;
+    let headerAlert = document.querySelector(".header-alert");
+
+    rows.forEach(row => {
+        let code = row.children[1].textContent.trim().toLowerCase();
+        let valueInput = row.children[2].querySelector("input");
+        let value = valueInput.value.trim();
+
+        if (value === "") {
+            isValid = false;
+            valueInput.classList.add("is-invalid");
+        } else {
+            valueInput.classList.remove("is-invalid");
+        }
+
+        if (code.includes("prescriber last name")) {
+            prescriberLastName = value;
+            hasPrescriberLastName = true;
+        }
+        if (code.includes("quantity prescribed")) {
+            quantityPrescribed = value;
+            hasQuantityPrescribed = true;
+        }
+    });
+
+    if (!hasPrescriberLastName || !hasQuantityPrescribed) {
+        Swal.fire({
+            icon: "error",
+            title: "Missing Required Fields!",
+            text: "Both 'Prescriber Last Name' and 'Quantity Prescribed' must be added.",
+            confirmButtonColor: "#d33",
+        });
+        return;
+    }
+
+    if (!isValid) {
+        Swal.fire({
+            icon: "warning",
+            title: "Missing Fields!",
+            text: "Please fill in all fields before submitting.",
+            confirmButtonColor: "#3085d6",
+        });
+        return;
+    }
+    if (prescriberLastName !== "Bruno") {
+        Swal.fire({
+            icon: "error",
+            title: "Validation Error!",
+            text: "Prescriber’s Last Name must be 'Bruno'.",
+            confirmButtonColor: "#d33",
+        });
+        return;
+    }
+    if (quantityPrescribed !== "30") {
+        Swal.fire({
+            icon: "error",
+            title: "Validation Error!",
+            text: "Quantity Prescribed must be '30'.",
+            confirmButtonColor: "#d33",
+        });
+        return;
+    }
+
+    let delay = Math.floor(Math.random() * 5000) + 1000;
+
+    Swal.fire({
+        icon: "info",
+        title: "Processing...",
+        text: "Validating claim...",
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        timer: delay,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    }).then(() => {
+        headerAlert.textContent = "Claim has been adjudicated";
+        headerAlert.style.color = "green";
+
+        Swal.fire({
+            icon: "success",
+            title: "Paid Claim!",
+            text: "Claim has been adjudicated",
+            confirmButtonColor: "#3085d6",
+        });
+    });
+});
+
+
+    </script>
 
         <!-- Claim Response Modal-->
         <div class="modal fade" id="ClaimModal" tabindex="-1" aria-labelledby="ClaimModalLabel" aria-hidden="true">
@@ -603,7 +708,6 @@ document.querySelector(".btn-custom[accesskey='r']").addEventListener("click", f
 <!-- footer tab pane -->
 <?php include '../includes/footer-tabpp.php'; ?>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

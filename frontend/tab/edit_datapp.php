@@ -12,9 +12,8 @@ if ($conn->connect_error) {
     die(json_encode(["error" => "Connection failed: " . $conn->connect_error]));
 }
 
-$data = json_decode(file_get_contents("php://input"), true);
 
-file_put_contents("debug.log", print_r($data, true));  // Log received data
+$data = json_decode(file_get_contents("php://input"), true);
 
 if (!empty($data['data'])) {
     foreach ($data['data'] as $entry) {
@@ -22,15 +21,22 @@ if (!empty($data['data'])) {
         $code = $conn->real_escape_string($entry['code']);
         $value = $conn->real_escape_string($entry['value']);
 
-        $sql = "INSERT INTO ecs_submissions (segment, code, value) VALUES ('$segment', '$code', '$value')";
+       
+        $checkQuery = "SELECT * FROM ecs_fields WHERE segment='$segment' AND code='$code'";
+        $result = $conn->query($checkQuery);
 
-        if (!$conn->query($sql)) {
-            echo json_encode(["error" => "SQL Error: " . $conn->error]);
-            exit;
+        if ($result->num_rows > 0) {
+          
+            $updateQuery = "UPDATE ecs_fields SET value='$value' WHERE segment='$segment' AND code='$code'";
+            $conn->query($updateQuery);
+        } else {
+           
+            $insertQuery = "INSERT INTO ecs_fields (segment, code, value) VALUES ('$segment', '$code', '$value')";
+            $conn->query($insertQuery);
         }
     }
 
-    echo json_encode(["success" => true]);
+    echo json_encode(["message" => "Data saved successfully"]);
 } else {
     echo json_encode(["error" => "No data received"]);
 }
