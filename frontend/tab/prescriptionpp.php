@@ -439,4 +439,4 @@ document.addEventListener("DOMContentLoaded", function () {
 </div>
 
 <!-- footer tab pane -->
-<?php include '../includes/footer-tabcc.php'; ?>
+<?php include '../includes/footer-tabpp.php'; ?>

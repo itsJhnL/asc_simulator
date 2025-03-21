@@ -601,7 +601,7 @@ document.querySelector(".btn-custom[accesskey='r']").addEventListener("click", f
 
 
 <!-- footer tab pane -->
-<?php include '../includes/footer-tabcc.php'; ?>
+<?php include '../includes/footer-tabpp.php'; ?>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
