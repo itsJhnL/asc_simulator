@@ -1,61 +1,8 @@
 <!-- This is the header of framework -->
 <!-- It display RX information -->
 <!-- including, reorder#, prescription#, Dispensed Date, Written Date, Patient, Station, Room, Floor, Sex, DOB, etc. -->
-<?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+<?php include('../../includes/header.php') ?>
 
-// ✅ Retrieve clarification code from session
-$clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarificationCode"] : "No clarification code saved.";
-?>
-
-<?php include '../includes/headercc.php'; ?>
-<?php
-require_once "db_connection.php";
-
-
-$claim_id = 1;
-
-try {
-
-    $stmt = $conn->prepare("SELECT quantity, day_supply FROM claims WHERE claim_id = ?");
-    $stmt->execute([$claim_id]);
-    $claim = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    // Check if claim is found
-    if ($claim) {
-        $quantity = $claim['quantity'];
-        $day_supply = $claim['day_supply'];
-    } else {
-        $quantity = 0; // Default value if no claim is found
-        $day_supply = 0; // Default value
-    }
-} catch (PDOException $e) {
-    // Handle the exception, e.g., log it
-    error_log("Database error: " . $e->getMessage());
-    $quantity = 0; // Fallback if error occurs
-    $day_supply = 0; // Fallback
-}
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        .input-field[readonly] {
-            background-color: #f0f0f0;
-            /* Light grey */
-            border: 1px solid #ccc;
-            /* Optional: style for borders */
-            color: #333;
-            /* Text color */
-        }
-    </style>
-</head>
 
 <!-- Drug block section-->
 <div class="row mx-auto">
@@ -72,10 +19,10 @@ try {
             </div>
             <div class="col d-flex p-1">
                 <div class="">
-                    <input class="input-field" type="text" value="58561766245">
+                    <input class="input-field" type="text" value="5876452169">
                 </div>
                 <div>
-                    <input class="input-field" type="text" value="ELIQUIS TAB 10MG">
+                    <input class="input-field" type="text" value="METFORMIN TAB 500MG">
 
                 </div>
             </div>
@@ -215,134 +162,14 @@ try {
                         <label for="">Partial</label>
                         <input class="input-field" type="text" style="max-width: 10rem" value="">
                     </div>
-
-
-
-                    <!--qty and day supply-->
-                    <form id="claimForm">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <label for="quantity">Quantity</label>
-                            <input id="quantity" class="input-field" type="text" style="max-width: 5rem"
-                                value="<?= htmlspecialchars($quantity) ?>" readonly>
-                        </div>
-
-                        <div class="d-flex align-items-center justify-content-between">
-                            <label for="day_supply">Day Supply</label>
-                            <input id="day_supply" class="input-field" type="text" style="max-width: 5rem"
-                                value="<?= htmlspecialchars($day_supply) ?>" readonly>
-                        </div>
-
-                        <!-- Icons for edit and save -->
-                        <i id="edit-icon" class="fa fa-edit" style="cursor: pointer;"></i>
-                        <i id="save-icon" class="fa fa-save" style="cursor: pointer; display: none;"></i>
-                    </form>
-                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                    <script>
-                        $(document).ready(function () {
-                            $("#submitForm").submit(function (event) {
-                                event.preventDefault(); // Prevent default form submission
-
-                                let quantity = $("#quantity").val();
-                                let daySupply = $("#day_supply").val();
-                                let clarificationCode = $("#selected_clarification_code").val(); // Get stored value
-
-                                if (!clarificationCode) {
-                                    alert("Please select a clarification code before submitting.");
-                                    return;
-                                }
-
-                                $.ajax({
-                                    type: "POST",
-                                    url: "primarycc.php", // Ensure this points to the correct PHP file
-                                    data: {
-                                        qty: quantity,
-                                        day_supply: daySupply,
-                                        clarification_code: clarificationCode
-                                    },
-                                    dataType: "json",
-                                    success: function (response) {
-                                        alert("Response: " + response.status); // Show response message
-                                    },
-                                    error: function () {
-                                        alert("Error submitting claim.");
-                                    }
-                                });
-                            });
-                        });
-                    </script>
-
-                    <script>
-                        document.addEventListener("DOMContentLoaded", function () {
-                            let quantityField = document.getElementById("quantity");
-                            let daySupplyField = document.getElementById("day_supply");
-                            let editIcon = document.getElementById("edit-icon");
-                            let saveIcon = document.getElementById("save-icon");
-
-                            function enableEdit() {
-                                quantityField.removeAttribute("readonly");
-                                daySupplyField.removeAttribute("readonly");
-                                quantityField.style.backgroundColor = "white"; // Toggle back to normal
-                                daySupplyField.style.backgroundColor = "white"; // Toggle back to normal
-                                saveIcon.style.display = "inline"; // Show save icon
-                                editIcon.style.display = "none"; // Hide edit icon
-                            }
-
-                            function saveEdit() {
-                                let quantity = quantityField.value;
-                                let daySupply = daySupplyField.value;
-
-                                let formData = new FormData();
-                                formData.append("quantity", quantity);
-                                formData.append("day_supply", daySupply);
-
-                                fetch("update.php", {
-                                    method: "POST",
-                                    body: formData
-                                })
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        console.log("Server Response:", data);
-                                        if (data.status === "success") {
-                                            alert("Updated successfully!");
-
-                                            // Disable fields after saving
-                                            quantityField.setAttribute("readonly", true);
-                                            daySupplyField.setAttribute("readonly", true);
-
-                                            // Apply greyed-out style again
-                                            quantityField.style.backgroundColor = "#f0f0f0";
-                                            daySupplyField.style.backgroundColor = "#f0f0f0";
-
-                                            // Toggle icons
-                                            saveIcon.style.display = "none";
-                                            editIcon.style.display = "inline";
-                                        } else {
-                                            alert("Update failed: " + data.message);
-                                        }
-                                    })
-                                    .catch(error => {
-                                        console.error("Fetch error:", error);
-                                    });
-                            }
-
-                            // Attach click event to icons
-                            editIcon.addEventListener("click", enableEdit);
-                            saveIcon.addEventListener("click", saveEdit);
-
-                            // Handle keyboard shortcuts
-                            document.addEventListener("keydown", function (event) {
-                                if (event.key === "e" || event.key === "E") {
-                                    enableEdit();
-                                }
-                                if (event.key === "s" || event.key === "S") {
-                                    saveEdit();
-                                }
-                            });
-                        });
-                    </script>
-
-
-
+                    <div class="d-flex align-items-center justify-content-between">
+                        <label for="">Quantity</label>
+                        <input class="input-field" type="text" style="max-width: 5rem" value="30">
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <label for="">Day Supply</label>
+                        <input class="input-field" type="text" style="max-width: 5rem" value="30">
+                    </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <label for="">Times/Day</label>
                         <input class="input-field" type="text" style="max-width: 5rem" value="">
@@ -447,4 +274,4 @@ try {
 </div>
 
 <!-- footer tab pane -->
-<?php include '../includes/footer-tabcc.php'; ?>
+<?php include 'includes/footer-tab.php'; ?>

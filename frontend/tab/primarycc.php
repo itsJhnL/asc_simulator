@@ -12,71 +12,72 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarificationCode"] : "No clarification code saved.";
 ?>
-<HEAD>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<head>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<style>
-    .header-alert {
-        color: red;
-        font-weight: bold;
-    }
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    .table-container {
-        background: white;
-        border-radius: 8px;
-        padding: 10px;
-        margin-top: 15px;
-    }
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .header-alert {
+            color: red;
+            font-weight: bold;
+        }
 
-    .btn-custom {
-        background: linear-gradient(to bottom, #b0c4de, #88a3d1);
-        border: 1px solid #1d3c6a;
-        color: #000;
-        font-family: Arial, sans-serif;
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 15px;
+        }
 
-        padding: 5px 10px;
-        border-radius: 5px;
-        text-align: center;
-        cursor: pointer;
-        box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.7);
-    }
+        .btn-custom {
+            background: linear-gradient(to bottom, #b0c4de, #88a3d1);
+            border: 1px solid #1d3c6a;
+            color: #000;
+            font-family: Arial, sans-serif;
 
-    .btn-custom:hover {
-        background: linear-gradient(to bottom, #88a3d1, #b0c4de);
-    }
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.7);
+        }
 
-    .modal-header {
+        .btn-custom:hover {
+            background: linear-gradient(to bottom, #88a3d1, #b0c4de);
+        }
 
-        background: linear-gradient(to right, #D0D8F0, #A2B5E0);
-        padding: 5px;
-        font-weight: bold;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: black;
-        border-bottom: 1px solid #6B85B8;
-    }
+        .modal-header {
 
-    .modal-container {
-        display: none;
-    }
+            background: linear-gradient(to right, #D0D8F0, #A2B5E0);
+            padding: 5px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: black;
+            border-bottom: 1px solid #6B85B8;
+        }
 
-    .selected-row {
-        background-color: #f0f8ff !important;
-        font-weight: bold;
-    }
+        .modal-container {
+            display: none;
+        }
 
-    #userTable tr:hover {
-        background-color: #f0f8ff !important;
-        font-weight: bold;
-        cursor: pointer;
-    }
+        .selected-row {
+            background-color: #f0f8ff !important;
+            font-weight: bold;
+        }
+
+        #userTable tr:hover {
+            background-color: #f0f8ff !important;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
     .disabled-table {
         background-color: #e0e0e0 !important;
@@ -96,49 +97,30 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
     border-color: black !important;
 }
 
-.modal-dialog {
-            max-width: 40%; /* Increase the modal width */
-        }
-        .modal-body table {
-            font-size: 0.85rem; /* Reduce font size */
-        }
-        th, td {
-            padding: 4px !important;
-        }
 
-        #searchInput {
-            margin-bottom: 10px;
-            width: 100%;
-            padding: 5px;
-            display: none;
-        }
-        .table-disabled {
-    pointer-events: none;
-    opacity: 0.6;
-}
 </style>
 </HEAD>
 
 <body>
-<!-- Drug block section-->
-<div>
+    <!-- Drug block section-->
+    <div>
 
-    <div class="row">
-        <div class="col-12">
-            <p class="header-alert">This claim has been denied!!</p>
+        <div class="row">
+            <div class="col-12">
+                <p class="header-alert">This claim has been denied!!</p>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Transaction Type</label>
+                <input type="text" class="form-control" value="Billing">
+            </div>
+            <div class="col-md-6 d-flex align-items-end">
+                <button class="btn btn-primary ms-2">Submit P/A Request</button>
+            </div>
         </div>
-        <div class="col-md-6">
-            <label class="form-label">Transaction Type</label>
-            <input type="text" class="form-control" value="Billing">
-        </div>
-        <div class="col-md-6 d-flex align-items-end">
-            <button class="btn btn-primary ms-2">Submit P/A Request</button>
-        </div>
-    </div>
 
-    <!-- Main Table Section -->
-    <div class="table-container">
-        <h3 style="background: linear-gradient(to bottom, #6a8eb2, #2f4f7f);
+        <!-- Main Table Section -->
+        <div class="table-container">
+            <h3 style="background: linear-gradient(to bottom, #6a8eb2, #2f4f7f);
     color: white;
     text-align: center;
     font-size: 18px;
@@ -147,8 +129,8 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
     border: 1px solid #1e3b5a;
     border-radius: 3px;
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3);">Optional ECS Fields</h3>
-        <table class="table table-bordered">
-            <thead style="background: linear-gradient(to bottom, #6a8eb2, #2f4f7f);
+            <table class="table table-bordered">
+                <thead style="background: linear-gradient(to bottom, #6a8eb2, #2f4f7f);
     color: white;
     text-align: center;
     font-size: 14px;
@@ -169,7 +151,11 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
                     <td>Product/Service ID Qualifier</td>
                     <td></td>
                 </tr>
-               
+                <tr>
+                    <td>Claim</td>
+                    <td>Special Packaging Indicator</td>
+                    <td>4</td>
+                </tr>
             </tbody>
             <tbody id="userTable">
                 <!-- User input will be inserted here -->
@@ -332,27 +318,27 @@ document.getElementById("editButton").addEventListener("click", function () {
 </script>
 
 
-<!-- Footer Section -->
-<div class="row mt-3">
-    <div class="col-md-2">
-        <label class="form-label">Amount Paid</label>
-        <input type="text" class="form-control">
+    <!-- Footer Section -->
+    <div class="row mt-3">
+        <div class="col-md-2">
+            <label class="form-label">Amount Paid</label>
+            <input type="text" class="form-control">
 
-        <label class="form-label">Third Party Copay</label>
-        <input type="text" class="form-control" value="">
+            <label class="form-label">Third Party Copay</label>
+            <input type="text" class="form-control" value="">
 
-    </div>
-    <div class="col-md-4">
-        <label class="form-label">Auth. No.</label>
-        <input type="text" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Auth. No.</label>
+            <input type="text" class="form-control">
 
-        <label class="form-label">Private MOP </label>
-        <input type="text" class="form-control" value="PRIV">
-    </div>
+            <label class="form-label">Private MOP </label>
+            <input type="text" class="form-control" value="PRIV">
+        </div>
 
 
 
-    <div class="col-md-5">
+        <div class="col-md-5">
 
         <div class="d-flex justify-content-between mt-6">
             <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#addModal" accesskey="B">DUR
@@ -363,128 +349,55 @@ document.getElementById("editButton").addEventListener("click", function () {
                 <button class="btn btn-custom" accesskey="a" data-bs-toggle="modal" data-bs-target="#ccModal" id="ccButton">Clarification Codes</button>        </div>
         <br>
         <div class="col-md-10">
-        <button id="saveButton" class="btn btn-custom" accesskey="s">Save</button>
-        <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#fieldModal" accesskey="d">Add</button>
+            <button class="btn btn-custom" id="addButton">Add</button>
             <button class="btn btn-custom" id="editButton" accesskey="e">Edit</button>
             <button class="btn btn-custom" accesskey="r">Reverse</button>
 
-            <form id="submitForm">
-                <button class="btn btn-custom" type="submit" id="submitButton" accesskey="t">Submit</button>
-            </form>
+                <form id="submitForm">
+                    <button class="btn btn-custom" type="submit" id="submitButton" accesskey="t">Submit</button>
+                </form>
 
-        </div>
-
-
-        <div class="col-xl-10">
-            <div class="d-flex justify-content-end mt-3">
-
-                <button class="btn btn-outline-secondary">Track P/A Form Using <b>covermymeds</b></button>
             </div>
-        </div>
 
-        <div class="modal fade" id="fieldModal" tabindex="-1" aria-labelledby="fieldModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="fieldModalLabel">Add Field</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            <div class="col-xl-10">
+                <div class="d-flex justify-content-end mt-3">
+
+                    <button class="btn btn-outline-secondary">Track P/A Form Using <b>covermymeds</b></button>
                 </div>
-                <div class="modal-body">
-                <input type="text" id="searchInput" placeholder="Search...">
+            </div>
 
-                    <table class="table table-bordered"  id="fieldTable">
-                        <thead class="table-primary">
-                            <tr>
-                                <th>Select</th>
-                                <th>Field Code</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="table-secondary">
-                                <td colspan="3"><strong>Segment: Prescriber</strong></td>
-                            </tr>
-                            <tr><td><input type="checkbox"></td><td>366-2M</td><td>Prescriber City Address</td></tr>
-                            <tr><td><input type="checkbox"></td><td>364-2J</td><td>Prescriber First Name</td></tr>
-                            <tr><td><input type="checkbox"></td><td>427-DR</td><td>Prescriber Last Name</td></tr>
-                            <tr><td><input type="checkbox"></td><td>498-PM</td><td>Prescriber Phone Number</td></tr>
-                            <tr><td><input type="checkbox"></td><td>367-2N</td><td>Prescriber State/Province Address</td></tr>
-                            <tr><td><input type="checkbox"></td><td>365-2K</td><td>Prescriber Street Address</td></tr>
-                            <tr><td><input type="checkbox"></td><td>368-2P</td><td>Prescriber Zip/Postal Code</td></tr>
-                            <tr><td><input type="checkbox"></td><td>421-DL</td><td>Primary Care Provider ID</td></tr>
-                            <tr><td><input type="checkbox"></td><td>468-2E</td><td>Primary Care Provider ID Qualifier</td></tr>
-                            <tr><td><input type="checkbox"></td><td>470-4E</td><td>Primary Care Provider Last Name</td></tr>
-                            
-                            <tr class="table-secondary">
-                            <td colspan="3"><strong>Segment: Claim</strong></td>
-                            </tr>
-                            <!-- Claim Fields -->
-                            <tr><td><input type="checkbox"></td><td>457-EP</td><td>Associated Prescription/Service Date</td></tr>
-                            <tr><td><input type="checkbox"></td><td>456-EN</td><td>Associated Prescription/Service Reference Number</td></tr>
-                            <tr><td><input type="checkbox"></td><td>996-G1</td><td>Compound Type</td></tr>
-                            <tr><td><input type="checkbox"></td><td>357-NV</td><td>Delay Reason Code</td></tr>
-                            <tr><td><input type="checkbox"></td><td>464-EX</td><td>Intermediary Authorization ID</td></tr>
-                            <tr><td><input type="checkbox"></td><td>463-EW</td><td>Intermediary Authorization Type ID</td></tr>
-                            <tr><td><input type="checkbox"></td><td>418-DI</td><td>Level of Service</td></tr>
-                            <tr><td><input type="checkbox"></td><td>391-MT</td><td>Patient Assignment Indicator</td></tr>
-                            <tr><td><input type="checkbox"></td><td>147-U7</td><td>Pharmacy Service Type</td></tr>
-                            <tr><td><input type="checkbox"></td><td>462-EV</td><td>Prior Authorization Number Submitted</td></tr>
-                            <tr><td><input type="checkbox"></td><td>461-EU</td><td>Prior Authorization Type Code</td></tr>
-                            <tr><td><input type="checkbox"></td><td>459-ER</td><td>Procedure Modifier Code</td></tr>
-                            <tr><td><input type="checkbox"></td><td>407-D7</td><td>Product/Service ID</td></tr>
-                            <tr><td><input type="checkbox"></td><td>436-E1</td><td>Product/Service ID Qualifier</td></tr>
-                            <tr><td><input type="checkbox"></td><td>460-ET</td><td>Quantity Prescribed</td></tr>
-                            <tr><td><input type="checkbox"></td><td>995-E2</td><td>Route of Administration</td></tr>
-                            <tr><td><input type="checkbox"></td><td>429-DT</td><td>Special Packaging Indicator</td></tr>
-                            <tr><td><input type="checkbox"></td><td>600-28</td><td>Unit of Measure</td></tr>
-                            <tr class="table-secondary">
-                                <td colspan="3"><strong>Segment: Pricing</strong></td>
-                            </tr>
-                            <tr><td><input type="checkbox"></td><td>423-DN</td><td>Basis Of Cost Determination</td></tr>
-                            <tr><td><input type="checkbox"></td><td>481-HA</td><td>Flat Sales Tax Amount Submitted</td></tr>
-                            <tr><td><input type="checkbox"></td><td>438-E3</td><td>Incentive Amount Submitted</td></tr>
-                            <tr><td><input type="checkbox"></td><td>480-H9</td><td>Other Amount Claimed Submitted</td></tr>
+        <!-- Modal DUR
+        <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addModalLabel">DUR Builder</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="DUR">
+                            <div class="mb-3">
+                                <label for="reason" class="form-label">Reason For Service Code (439-E4)</label>
+                                <input type="text" class="form-control" id="reason" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="professional" class="form-label">Professional Service Code (440-E5)</label>
+                                <input type="text" class="form-control" id="professional" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="result" class="form-label">Result Code (441-E6)</label>
+                                <input type="text" class="form-control" id="result" required>
+                            </div>
 
-                            <tr class="table-secondary">
-                                <td colspan="3"><strong>Segment: Coordination of Benefits/Other Payments</strong></td>
-                            </tr>
-                            <tr><td><input type="checkbox"></td><td>339-6C</td><td>Other Payer ID Qualifier</td></tr>
-                            <tr><td><input type="checkbox"></td><td>472-6E</td><td>Other Payer Reject Code</td></tr>
-                            <tr><td><input type="checkbox"></td><td>471-5E</td><td>Other Payer Reject Count</td></tr>
-                            <tr class="table-secondary">
-                                <td colspan="3"><strong>Segment: DUR/PPS</strong></td>
-                            </tr>
-                            <tr><td><input type="checkbox"></td><td>476-H6</td><td>DUR Co-Agent ID</td></tr>
-                            <tr><td><input type="checkbox"></td><td>475-J9</td><td>DUR Co-Agent ID Qualifier</td></tr>
-                            <tr><td><input type="checkbox"></td><td>473-7E</td><td>DUR/PPS Code Counter</td></tr>
-                            <tr><td><input type="checkbox"></td><td>474-8E</td><td>DUR/PPS Level Of Effort</td></tr>
-                            <tr><td><input type="checkbox"></td><td>440-E5</td><td>Professional Service Code</td></tr>
-                            <tr><td><input type="checkbox"></td><td>439-E4</td><td>Reason For Service Code</td></tr>
-                            <tr><td><input type="checkbox"></td><td>441-E6</td><td>Result of Service Code</td></tr>
-                            <tr class="table-secondary">
-                                <td colspan="3"><strong>Segment: Coupon</strong></td>
-                            </tr>
-                            <tr><td><input type="checkbox"></td><td>486-ME</td><td>Coupon Number</td></tr>
-                            <tr><td><input type="checkbox"></td><td>485-KE</td><td>Coupon Type</td></tr>
-                            <tr><td><input type="checkbox"></td><td>487-NE</td><td>Coupon Value Amount</td></tr>
-                            <tr class="table-secondary">
-                                <td colspan="3"><strong>Segment: Pricing</strong></td>
-                            </tr>
-                            <tr><td><input type="checkbox"></td><td>423-DN</td><td>Basis Of Cost Determination</td></tr>
-                            <tr><td><input type="checkbox"></td><td>481-HA</td><td>Flat Sales Tax Amount Submitted</td></tr>
-                            <tr><td><input type="checkbox"></td><td>438-E3</td><td>Incentive Amount Submitted</td></tr>
-                            <tr><td><input type="checkbox"></td><td>480-H9</td><td>Other Amount Claimed Submitted</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="okButton">OK</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="saveButton">Save</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    
+-
+
         <!-- Clarification code Modal -->
      
 <!-- Clarification Code Modal -->
@@ -566,277 +479,287 @@ document.getElementById("editButton").addEventListener("click", function () {
 
 
 
-<!--description update code -->
-<script>
-    function updateDescription() {
-        const selectElement = document.getElementById('valueSelect');
-        const descriptionCell = document.getElementById('description');
+            <!--description update code -->
+            <script>
+                function updateDescription() {
+                    const selectElement = document.getElementById('valueSelect');
+                    const descriptionCell = document.getElementById('description');
 
-        const selectedOption = selectElement.options[selectElement.selectedIndex];
-        const description = selectedOption ? selectedOption.getAttribute('data-description') : '';
+                    const selectedOption = selectElement.options[selectElement.selectedIndex];
+                    const description = selectedOption ? selectedOption.getAttribute('data-description') : '';
 
         descriptionCell.textContent = description; 
     }
     </script>
     <!--end of despcription code -->
 
-    <!--submit button code -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    let okButton = document.getElementById("okButton");
-    let ccButton = document.getElementById("ccButton");
-    let submitForm = document.getElementById("submitForm");
-    let headerAlert = document.querySelector(".header-alert"); // Select the alert text element
-
-    // ✅ Handle "OK" button click (Save Clarification Code)
-    okButton.addEventListener("click", function () {
-        let select = document.getElementById("valueSelect");
-        let selectedCode = select.value;
-
-        if (!selectedCode) {
-            Swal.fire("Error", "Please select a clarification code.", "error");
-            return;
-        }
-
-        let data = {
-            clarificationCode: selectedCode,
-            patient: "DOMINGO, JUAN PAUL",
-            prescriptionNumber: "52155823",
-        };
-
-        fetch("save_clarification.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-        .then(result => {
-            if (result.success) {
-                Swal.fire("Success", "Clarification code saved successfully!", "success");
-
-                // ✅ Update button appearance
-                ccButton.textContent = `Clarification Code: ${selectedCode}`;
-                ccButton.style.background = "yellow";
-                ccButton.style.color = "black";
-                ccButton.style.border = "2px solid black";
-                ccButton.style.fontWeight = "bold";
-                ccButton.style.boxShadow = "none";
-                ccButton.style.transition = "background-color 0.3s ease";
-
-                // ✅ Ensure hidden input exists in form
-                let hiddenInput = document.getElementById("clarificationCodeInput");
-                if (!hiddenInput) {
-                    hiddenInput = document.createElement("input");
-                    hiddenInput.type = "hidden";
-                    hiddenInput.name = "clarificationCode";
-                    hiddenInput.id = "clarificationCodeInput";
-                    submitForm.appendChild(hiddenInput);
-                }
-                hiddenInput.value = selectedCode; // Update hidden input value
-
-                // ✅ Close the modal
-                let modalElement = document.getElementById("ccModal");
-                let modalInstance = bootstrap.Modal.getInstance(modalElement);
-                modalInstance.hide();
-            } else {
-                Swal.fire("Error", "Error saving clarification code.", "error");
-            }
-        })
-        .catch(error => console.error("Error:", error));
-    });
-
-
-    submitForm.addEventListener("submit", function (event) {
-        event.preventDefault(); 
-
-        let formData = new FormData(submitForm);
-        let selectedCode = document.getElementById("clarificationCodeInput")?.value;
-
-        if (!selectedCode) {
-            Swal.fire("Error", "No clarification code selected.", "error");
-            return;
-        }
-// Reverse Button Function
-document.querySelector(".btn-custom[accesskey='r']").addEventListener("click", function () {
-            Swal.fire({
-                title: "Reversing Claim...",
-                text: "Restoring system to default...",
-                allowOutsideClick: false,
-                didOpen: () => Swal.showLoading(),
-            });
-
-            setTimeout(() => {
-                Swal.close();
-                document.querySelector(".header-alert").textContent = "Claim has been denied.";
-                document.querySelector(".header-alert").style.color = "red";
-
-                document.getElementById("userTable").classList.remove("disabled-table");
-
-                Swal.fire({ icon: "info", title: "Reversed!", text: "The claim has been reversed successfully." });
-            }, 2000);
-        });
-
-     
-        Swal.fire({
-            title: "Processing...",
-            text: "Checking clarification code and day supply...",
-            allowOutsideClick: false,
-            didOpen: () => Swal.showLoading(),
-        });
-
-        fetch("submit_clarification.php", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.json())
-        .then(result => {
-            let delay = Math.floor(Math.random() * 5000) + 1000; 
-
-            setTimeout(() => {
-                Swal.close(); 
-
-                if (result.success) {
-                    Swal.fire("✅ Paid Claim", result.message, "success");
-
-                    // ✅ Update alert text to green
-                    headerAlert.textContent = "Claim has been adjudicated";
-                    headerAlert.style.color = "green";
-
-                } else {
-                    Swal.fire("Error", result.message, "error");
-                }
-            }, delay);
-        })
-        .catch(error => console.error("Error:", error));
-    });
-});
-</script>
 
 
 
-        <!-- Claim Response Modal-->
-        <div class="modal fade" id="ClaimModal" tabindex="-1" aria-labelledby="ClaimModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl" style="font-style=14px;">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <img src="error.png" alt="Error" width="30" class="me-2" style="align=left;">
-                        <h5 class="modal-title" id="ClaimModalLabel">The Claim Has Been Rejected</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                <th> Code</th>
-                                    <th>Field Name</th>
-                                    <th>Value</th>
-                             
-                                </tr>
-                            </thead>
-                            <tbody>
-                    
-                                <tr class="table-primary">
-                                    <td colspan="3">Response Patient</td>
-                                </tr>
-                                <tr>
-                                    <td>310-CA</td>
-                                    <td>Patient First Name</td>
-                                    <td>JUAN PAUL</td>
-                                </tr>
-                                <tr>
-                                    <td>311-CB</td>
-                                    <td>Patient Last Name</td>
-                                    <td>DOMINGO</td>
-                                </tr>
-                                <tr>
-                                    <td>304-C4</td>
-                                    <td>Date of Birth</td>
-                                    <td>19350701</td>
-                                </tr>
-                                <tr class="table-primary">
-                                    <td colspan="3">Response Status</td>
-                                </tr>
-                                <tr>
-                                    <td>112-AN</td>
-                                    <td>Transaction Response Status</td>
-                                    <td>R - Rejected</td>
-                                </tr>
-                                <tr>
-                                    <td>103-F3</td>
-                                    <td>Authorization Number</td>
-                                    <td>250692965796008999</td>
-                                </tr>
-                                <tr>
-                                    <td>510-FA</td>
-                                    <td>Reject Count</td>
-                                    <td>04</td>
-                                </tr>
-                                <tr>
-                                    <td>511-FB</td>
-                                    <td>Reject Code</td>
-                                    <td>34 - M/I submission Clarification Code</td>
-                                </tr>
-                                <tr>
-                                    <td>511-FB</td>
-                                    <td>Reject Code</td>
-                                    <td>7X - Day Supply Exceeds Plan Limitation</td>
-                                </tr>
-                                <tr>
-                                    <td>511-FB</td>
-                                    <td>Reject Code</td>
-                                    <td>613 - The Packaging Methodology Or Dispensing Frequency is Missing or Inappropriate Form</td>
-                                </tr>
-                                <tr>
-                                    <td>511-FB</td>
-                                    <td>Reject Code</td>
-                                    <td>569 - Provide Beneficiary with CMS Notice of Appeal Rights</td>
-                                    
-                                </tr>
-                                <tr>
-                                    <td>511-FB</td>
-                                    <td>Additional Message Information</td>
-                                    <td>RESIDENCE LTC-SCC (21 THRU 36) REQUIRED M/I SUBMISSION CLARIFICATION CODE DAYS SUPPLY EXCEEDED PLAN LIMITATIONS</td>
-                                    
-                                </tr>
-                               
-                                <tr class="table-primary">
-                                    <td colspan="3">Response Claim</td>
-                                </tr>
-                                <tr>
-                                    <td>455-EM</td>
-                                    <td>Prescription/Service Reference Number</td>
-                                    <td>1- Rx Billing</td>
-                                </tr>
-                                <tr>
-                                    <td>402-D2</td>
-                                    <td>Prescription/Service Reference Number</td>
-                                    <td>52025688</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" id="close-btn">Close</button>
-                        <button type="button" class="btn btn-primary">Print</button>
-                        <button type="button" class="btn btn-outline-info">Print Medicare Part D Coverage Determination
-                            Request</button>
+
+
+
+            <!--submit button code -->
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    let okButton = document.getElementById("okButton");
+                    let ccButton = document.getElementById("ccButton");
+                    let submitForm = document.getElementById("submitForm");
+                    let headerAlert = document.querySelector(".header-alert"); // Select the alert text element
+
+                    // ✅ Handle "OK" button click (Save Clarification Code)
+                    okButton.addEventListener("click", function () {
+                        let select = document.getElementById("valueSelect");
+                        let selectedCode = select.value;
+
+                        if (!selectedCode) {
+                            Swal.fire("Error", "Please select a clarification code.", "error");
+                            return;
+                        }
+
+                        let data = {
+                            clarificationCode: selectedCode,
+                            patient: "DOMINGO, JUAN PAUL",
+                            prescriptionNumber: "52155823",
+                        };
+
+                        fetch("save_clarification.php", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(data),
+                        })
+                            .then(response => response.json())
+                            .then(result => {
+                                if (result.success) {
+                                    Swal.fire("Success", "Clarification code saved successfully!", "success");
+
+                                    // ✅ Update button appearance
+                                    ccButton.textContent = `Clarification Code: ${selectedCode}`;
+                                    ccButton.style.background = "yellow";
+                                    ccButton.style.color = "black";
+                                    ccButton.style.border = "2px solid black";
+                                    ccButton.style.fontWeight = "bold";
+                                    ccButton.style.boxShadow = "none";
+                                    ccButton.style.transition = "background-color 0.3s ease";
+
+                                    // ✅ Ensure hidden input exists in form
+                                    let hiddenInput = document.getElementById("clarificationCodeInput");
+                                    if (!hiddenInput) {
+                                        hiddenInput = document.createElement("input");
+                                        hiddenInput.type = "hidden";
+                                        hiddenInput.name = "clarificationCode";
+                                        hiddenInput.id = "clarificationCodeInput";
+                                        submitForm.appendChild(hiddenInput);
+                                    }
+                                    hiddenInput.value = selectedCode; // Update hidden input value
+
+                                    // ✅ Close the modal
+                                    let modalElement = document.getElementById("ccModal");
+                                    let modalInstance = bootstrap.Modal.getInstance(modalElement);
+                                    modalInstance.hide();
+                                } else {
+                                    Swal.fire("Error", "Error saving clarification code.", "error");
+                                }
+                            })
+                            .catch(error => console.error("Error:", error));
+                    });
+
+
+                    submitForm.addEventListener("submit", function (event) {
+                        event.preventDefault();
+
+                        let formData = new FormData(submitForm);
+                        let selectedCode = document.getElementById("clarificationCodeInput")?.value;
+
+                        if (!selectedCode) {
+                            Swal.fire("Error", "No clarification code selected.", "error");
+                            return;
+                        }
+                        // Reverse Button Function
+                        document.querySelector(".btn-custom[accesskey='r']").addEventListener("click", function () {
+                            Swal.fire({
+                                title: "Reversing Claim...",
+                                text: "Restoring system to default...",
+                                allowOutsideClick: false,
+                                didOpen: () => Swal.showLoading(),
+                            });
+
+                            setTimeout(() => {
+                                Swal.close();
+                                document.querySelector(".header-alert").textContent = "Claim has been denied.";
+                                document.querySelector(".header-alert").style.color = "red";
+
+                                document.getElementById("userTable").classList.remove("disabled-table");
+
+                                Swal.fire({ icon: "info", title: "Reversed!", text: "The claim has been reversed successfully." });
+                            }, 2000);
+                        });
+
+
+                        Swal.fire({
+                            title: "Processing...",
+                            text: "Checking clarification code and day supply...",
+                            allowOutsideClick: false,
+                            didOpen: () => Swal.showLoading(),
+                        });
+
+                        fetch("submit_clarification.php", {
+                            method: "POST",
+                            body: formData
+                        })
+                            .then(response => response.json())
+                            .then(result => {
+                                let delay = Math.floor(Math.random() * 5000) + 1000;
+
+                                setTimeout(() => {
+                                    Swal.close();
+
+                                    if (result.success) {
+                                        Swal.fire("✅ Paid Claim", result.message, "success");
+
+                                        // ✅ Update alert text to green
+                                        headerAlert.textContent = "Claim has been adjudicated";
+                                        headerAlert.style.color = "green";
+
+                                    } else {
+                                        Swal.fire("Error", result.message, "error");
+                                    }
+                                }, delay);
+                            })
+                            .catch(error => console.error("Error:", error));
+                    });
+                });
+            </script>
+
+
+
+            <!-- Claim Response Modal-->
+            <div class="modal fade" id="ClaimModal" tabindex="-1" aria-labelledby="ClaimModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" style="font-style=14px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <img src="error.png" alt="Error" width="30" class="me-2" style="align=left;">
+                            <h5 class="modal-title" id="ClaimModalLabel">The Claim Has Been Rejected</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th> Code</th>
+                                        <th>Field Name</th>
+                                        <th>Value</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr class="table-primary">
+                                        <td colspan="3">Response Patient</td>
+                                    </tr>
+                                    <tr>
+                                        <td>310-CA</td>
+                                        <td>Patient First Name</td>
+                                        <td>JUAN PAUL</td>
+                                    </tr>
+                                    <tr>
+                                        <td>311-CB</td>
+                                        <td>Patient Last Name</td>
+                                        <td>DOMINGO</td>
+                                    </tr>
+                                    <tr>
+                                        <td>304-C4</td>
+                                        <td>Date of Birth</td>
+                                        <td>19350701</td>
+                                    </tr>
+                                    <tr class="table-primary">
+                                        <td colspan="3">Response Status</td>
+                                    </tr>
+                                    <tr>
+                                        <td>112-AN</td>
+                                        <td>Transaction Response Status</td>
+                                        <td>R - Rejected</td>
+                                    </tr>
+                                    <tr>
+                                        <td>103-F3</td>
+                                        <td>Authorization Number</td>
+                                        <td>250692965796008999</td>
+                                    </tr>
+                                    <tr>
+                                        <td>510-FA</td>
+                                        <td>Reject Count</td>
+                                        <td>04</td>
+                                    </tr>
+                                    <tr>
+                                        <td>511-FB</td>
+                                        <td>Reject Code</td>
+                                        <td>34 - M/I submission Clarification Code</td>
+                                    </tr>
+                                    <tr>
+                                        <td>511-FB</td>
+                                        <td>Reject Code</td>
+                                        <td>7X - Day Supply Exceeds Plan Limitation</td>
+                                    </tr>
+                                    <tr>
+                                        <td>511-FB</td>
+                                        <td>Reject Code</td>
+                                        <td>613 - The Packaging Methodology Or Dispensing Frequency is Missing or
+                                            Inappropriate Form</td>
+                                    </tr>
+                                    <tr>
+                                        <td>511-FB</td>
+                                        <td>Reject Code</td>
+                                        <td>569 - Provide Beneficiary with CMS Notice of Appeal Rights</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>511-FB</td>
+                                        <td>Additional Message Information</td>
+                                        <td>RESIDENCE LTC-SCC (21 THRU 36) REQUIRED M/I SUBMISSION CLARIFICATION CODE
+                                            DAYS SUPPLY EXCEEDED PLAN LIMITATIONS</td>
+
+                                    </tr>
+
+                                    <tr class="table-primary">
+                                        <td colspan="3">Response Claim</td>
+                                    </tr>
+                                    <tr>
+                                        <td>455-EM</td>
+                                        <td>Prescription/Service Reference Number</td>
+                                        <td>1- Rx Billing</td>
+                                    </tr>
+                                    <tr>
+                                        <td>402-D2</td>
+                                        <td>Prescription/Service Reference Number</td>
+                                        <td>52025688</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="close-btn">Close</button>
+                            <button type="button" class="btn btn-primary">Print</button>
+                            <button type="button" class="btn btn-outline-info">Print Medicare Part D Coverage
+                                Determination
+                                Request</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- end of claim response modal -->
-
+    <!-- end of claim response modal -->
 
 
-<!-- footer tab pane -->
-<?php include '../includes/footer-tabcc.php'; ?>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- footer tab pane -->
+    <?php include '../includes/footer-tabcc.php'; ?>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>

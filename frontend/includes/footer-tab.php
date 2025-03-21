@@ -62,7 +62,7 @@
 <?php
 
 /* try position-absolute */
-echo '<div class="list-group">
+echo '<div class="list-group pt-2">
     <ul class="nav nav-tabs d-flex justify-content-between" id="myTab" role="tablist" style="color:black; padding-top: 10px">
         <li class="nav-item">
             <a class="nav-link" ' . ($page == 'prescription.php' ? 'active' : '') . '" href="prescription.php" accesskey="1">1. Prescription</a>

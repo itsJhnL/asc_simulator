@@ -1,4 +1,13 @@
 <?php
+/* not working: This function for some reason when submitting the clarification code, it end up to "Error No clarification code selected.". But when I hide this function I got paid claim.  */
+
+/* include 'db_connection.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $stmt->close();
+    $conn->close();
+} */
+
 // ✅ Start session only if not started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();

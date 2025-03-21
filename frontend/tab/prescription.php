@@ -136,16 +136,46 @@
                     </div>
 
                     <textarea rows="6" cols="25" style="resize: none" name="" id="">1T PO QD</textarea>
+                    <div>
+                        <!-- Preview Button to view Sig Code -->
+                        <button type="button" class="input-field rounded-lg border text-dark" id="button-gradient"
+                            data-toggle="modal" data-target="#exampleModal">
+                            Preview Sig
+                        </button>
 
+                        <!-- Modal for Sig Code -->
+                        <!-- Modal -->
+                        <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        GIVE ONE TABLET BY MOUTH DAILY
+                                    </div>
+                                    <!-- <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="">
+
+                <div class="pt-2">
                     <div class="pb-2">
                         <label for="TypeChronic">Type</label>
-                        <input class="input-field" style="max-width: 10rem;" type="text" value="Chronic">
+                        <input class="input-field" style="max-width: 7rem;" type="text" value="Chronic">
                     </div>
-                    <div class="border rounded-lg m-1 p-2">
-                        <div class="col border rounded-lg flex-column align-items-center py-1 m-1 mx-auto">
+                    <div class="border rounded-lg border-dark m-1 p-2">
+                        <div class="col border rounded-lg border-dark flex-column align-items-center py-1  mx-auto">
                             <div class="">
                                 <p>Admin Times</p>
                             </div>
@@ -157,6 +187,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col">
                     <div class="d-flex align-items-center justify-content-between">
                         <label for="">Partial</label>
@@ -176,25 +207,30 @@
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <label for="">D/C</label>
-                        <input class="input-field" type="date" style="max-width: 5rem" value="">
+                        <input class="input-field" type="date" style="max-width: 8.5rem" value="">
                         :
-                        <input class="input-field" type="date" style="max-width: 5rem" value="">
+                        <input class="input-field" type="date" style="max-width: 8.5rem" value="">
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <label for="">Origin Code</label>
                         <input class="input-field" type="text" style="max-width: 7rem" value="Electronic">
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
-                        <label for="">Refills</label>
-                        <input class="input-field" type="text" style="max-width: 5rem" value="95">
-                        <input class="input-field" type="text" style="max-width: 5rem" value="4">
+                        <div>
+                            <label for="">Refills</label>
+                            <input class="input-field" type="text" style="max-width: 7rem" value="95">
+                        </div>
+                        <div>
+                            <label for="">Fill No.</label>
+                            <input class="input-field" type="text" style="max-width: 5rem" value="4">
+                        </div>
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <label for="">Total Qty Written</label>
-                        <input class="input-field" type="text" style="max-width: 5rem" value="42.23">
+                        <input class="input-field" type="text" style="max-width: 10rem" value="42.23">
                     </div>
-                    <div class="row">
-                        <div class="col">
+                    <div class="d-flex">
+                        <div class="">
                             <div>
                                 <input type="checkbox"> <label for="">Cycle Fill</label>
                             </div>
@@ -202,7 +238,7 @@
                                 <input type="checkbox"> <label for="">Profile Only</label>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="">
                             <div>
                                 <input type="checkbox"> <label for="">Treatment Drug</label>
                             </div>
@@ -258,13 +294,13 @@
                 <div class="border rounded-lg border-dark m-1">
                     <ul class="col overflow-auto my-2" style="list-style-type: none;">
                         <li>
-                            <input class="input-field" style="max-width: 8rem;" type="text" value="30">
+                            <input class="input-field" style="max-width: 5rem;" type="text" value="30">
                         </li>
                         <li>
-                            <input class="input-field" style="max-width: 8rem;" type="text" value="0">
+                            <input class="input-field" style="max-width: 5rem;" type="text" value="0">
                         </li>
                         <li>
-                            <input class="input-field" style="max-width: 8rem;" type="text" value="0">
+                            <input class="input-field" style="max-width: 5rem;" type="text" value="0">
                         </li>
                     </ul>
                 </div>
