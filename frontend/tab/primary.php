@@ -86,10 +86,10 @@
             </div>
             <div class="col-md-6">
                 <label class="form-label">Transaction Type</label>
-                <input type="text" class="form-control" value="Billing">
+                <input type="text" class="form-control" value="Billing" readonly>
             </div>
             <div class="col-md-6 d-flex align-items-end">
-                <button class="btn btn-primary ms-2">Submit P/A Request</button>
+                <button class="btn btn-custom">Submit P/A Request</button>
             </div>
         </div>
 
@@ -143,49 +143,48 @@
 
     <!-- Footer Section -->
     <div class="row mt-3">
-        <div class="col-md-2">
-            <label class="form-label">Amount Paid</label>
-            <input type="text" class="form-control">
-
-            <label class="form-label">Third Party Copay</label>
-            <input type="text" class="form-control" value="">
-
-        </div>
-        <div class="col-md-4">
-            <label class="form-label">Auth. No.</label>
-            <input type="text" class="form-control">
-
-            <label class="form-label">Private MOP </label>
-            <input type="text" class="form-control" value="PRIV">
-        </div>
-
-
-
-        <div class="col-md-5">
-
-            <div class="d-flex justify-content-between mt-6">
-                <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#addModal"
-                    accesskey="B">DUR
-                    Builder </button>
-                <button class="btn btn-custom">Show Reject Reasons</button>
-                <button class="btn btn-custom" accesskey="h" class="btn btn-custom" data-toggle="modal" id="open-modal"
-                    data-target="#ClaimModal">Show Claim Response</button>
-                <button class="btn btn-custom" accesskey="a">Clarification Codes</button>
+        <div class="col-4">
+            <div class="d-flex justify-content-between">
+                <label class="form-label">Amount Paid</label>
+                <input type="text" style="max-width: 12rem;" class="form-control" readonly>
             </div>
-            <br>
-            <div class="col-md-10">
-                <button class="btn btn-custom" id="addButton" accesskey="a">Add</button>
-                <button class="btn btn-custom" id="editButton" accesskey="e">Edit</button>
-                <button class="btn btn-custom" accesskey="r">Reverse</button>
 
+            <div class="d-flex justify-content-between">
+                <label class="form-label">Third Party Copay</label>
+                <input type="text" style="max-width: 12rem;" class="form-control" value="" readonly>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <label class="form-label">Auth. No.</label>
+                <input type="text" style="max-width: 12rem;" class="form-control" readonly>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <label class="form-label">Private MOP </label>
+                <input type="text" style="max-width: 12rem;" class="form-control" value="PRIV" readonly>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="d-flex align-items-center justify-content-between mt-6">
+                <button type="button" class="btn btn-custom px-3 " data-toggle="modal" data-target="#addModal"
+                    accesskey="B">DUR Builder </button>
+                <button class="btn btn-custom px-5" id="addButton" accesskey="a">Add</button>
+                <button class="btn btn-custom px-5" id="editButton" accesskey="e">Edit</button>
+                <button class="btn btn-custom px-5" accesskey="r">Reverse</button>
                 <form id="submitForm">
-                    <button class="btn btn-custom" type="submit" id="submitButton" accesskey="t">Submit</button>
+                    <button class="btn btn-custom px-5" type="submit" id="submitButton" accesskey="t">Submit</button>
                 </form>
 
             </div>
+            <div class="d-flex pt-2">
+                <button class="btn btn-custom px-3 mr-2">Show Reject Reasons</button>
+                <button class="btn btn-custom px-3 mr-2" accesskey="h" class="btn btn-custom px-3" data-toggle="modal"
+                    id="open-modal" data-target="#ClaimModal">Show Claim Response</button>
+                <button class="btn btn-custom px-3" accesskey="a">Clarification Codes</button>
+            </div>
 
-
-            <div class="col-xl-10">
+            <div class="col">
                 <div class="d-flex justify-content-end mt-3">
 
                     <button class="btn btn-outline-secondary">Track P/A Form Using <b>covermymeds</b></button>
@@ -197,8 +196,10 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addModalLabel">DUR Builder</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 class="modal-title" id="exampleModalLabel">DUR Builder</h5>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="modal-body">
                             <form id="DUR">
@@ -232,7 +233,9 @@
                             <img src="error.png" alt="Error" width="30" class="me-2" style="align=left;">
                             <h5 class="modal-title text-danger fw-bold" id="ClaimModalLabel">The Claim Has Been Rejected
                             </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="modal-body">
                             <table class="table table-striped">

@@ -7,7 +7,6 @@
 <!-- Drug block section-->
 <div class="row mx-auto">
     <div class="col">
-
         <!-- Drug type -->
         <div class="d-flex form-check">
             <div class="col-2">
@@ -18,13 +17,8 @@
                 </label>
             </div>
             <div class="col d-flex p-1">
-                <div class="">
-                    <input class="input-field" type="text" value="5876452169">
-                </div>
-                <div>
-                    <input class="input-field" type="text" value="METFORMIN TAB 500MG">
-
-                </div>
+                <input class="input-field" type="text" value="5876452169">
+                <input class="input-field" type="text" value="METFORMIN TAB 500MG">
             </div>
         </div>
 
@@ -38,13 +32,8 @@
                 </label>
             </div>
             <div class="col d-flex p-1">
-                <div>
-                    <input class="input-field" type="text" value="" readonly>
-                </div>
-                <div>
-                    <input class="input-field" type="text" value="" readonly>
-
-                </div>
+                <input class="input-field" type="text" value="" readonly>
+                <input class="input-field" type="text" value="" readonly>
             </div>
         </div>
 
@@ -58,40 +47,23 @@
                 </label>
             </div>
             <div class="col d-flex p-1">
-                <div>
-                    <input class="input-field" type="text" value="" readonly>
-                </div>
-                <div>
-                    <input class="input-field" type="text" value="" readonly>
-                </div>
+                <input class="input-field" type="text" value="" readonly>
+                <input class="input-field" type="text" value="" readonly>
             </div>
         </div>
 
-        <div class="row ml-auto">
-
-            <div class="col-2 d-flex align-items-center justify-content-between">
-                <span>Associated DX</span>
-            </div>
-
-            <div class="col d-flex p-1 ">
-                <input class="input-field" style="max-width: 30rem;" type="text" value="">
-                <button class="input-field rounded-lg border" id="button-gradient" readonly>
-                    New
-                </button>
-            </div>
-
+        <div class="d-flex pt-1">
+            <div class="mx-4">Associated DX</div>
+            <input class="input-field" type="text" value="">
+            <button class="input-field rounded-lg border text-black-50" id="button-gradient" readonly>
+                New
+            </button>
         </div>
 
-        <div class="row mx-auto">
+        <div class="d-flex mx-auto pt-1">
+            <div class="mx-4">DAW</div>
 
-            <div class="col-2 d-flex align-items-center justify-content-between">
-                <span>DAW</span>
-            </div>
-
-            <div class="col d-flex p-1">
-                <input class="input-field" style="max-width: 25rem;" type="text"
-                    value="No product selection indicated.">
-            </div>
+            <input class="input-field" type="text" value="No product selection indicated.">
 
         </div>
 
@@ -147,7 +119,7 @@
                         <!-- Modal -->
                         <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                             aria-hidden="true">
-                            <div class="modal-dialog">
+                            <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">

@@ -92,28 +92,31 @@ session_start();
                 <div class="d-flex flex-column">
                     <button class="rounded-lg text-dark border border-dark" id="button-gradient">Active
                         Reorders</button>
-                    <button class="rounded-lg text-dark border border-dark" id="button-gradient">Add to Profile</button>
-                    <button class="rounded-lg text-dark border border-dark" id="button-gradient">New Rx for Pat</button>
+                    <button class="rounded-lg text-dark border border-dark" id="button-gradient">Add to
+                        Profile</button>
+                    <button class="rounded-lg text-dark border border-dark" id="button-gradient">New Rx
+                        for Pat</button>
                 </div>
 
                 <div class="d-flex justify-content-between">
                     <div class="col flex-column">
                         <div class="">
                             <label>Patient</label>
-                            <input class="input-field" style="min-width: 19.7rem;" type="text" value="BONG, GO">
+                            <input class="input-field" style="min-width: 19.7rem;" type="text"
+                                value="DAVID PAUL, BRUNO JR.">
                         </div>
                         <div class="d-flex">
                             <div class="mr-md-2" style="max-width: 9rem;">
                                 <label for="">Station</label>
-                                <input class="input-field" style="max-width: 4rem;" type="text" value="Cabsy">
+                                <input class="input-field" style="max-width: 4rem;" type="text" value="FAC113">
                             </div>
                             <div class="mr-md-2" style="max-width: 9rem;">
                                 <label for="">Room</label>
-                                <input class="input-field" style="max-width: 4rem;" type="text" value="Cabsy">
+                                <input class="input-field" style="max-width: 4rem;" type="text" value="304">
                             </div>
                             <div class="mr-md-2" style="max-width: 9rem;">
                                 <label for="">Floor</label>
-                                <input class="input-field" style="max-width: 4rem;" type="text" value="Cabsy">
+                                <input class="input-field" style="max-width: 4rem;" type="text" value="38">
                             </div>
                         </div>
                         <br>
@@ -145,7 +148,7 @@ session_start();
                         </div>
                         <div class="col">
                             <label>Sex</label>
-                            <input class="input-field" style="max-width: 2rem;" type="text" value="F">
+                            <input class="input-field" style="max-width: 2rem;" type="text" value="M">
 
                             <label>DOB</label>
                             <input class="input-field" type="text" style="max-width: 7rem;" value="12/29/1964">
@@ -192,7 +195,7 @@ session_start();
                 <div class="pb-1 d-flex">
                     <div class="mr-md-2">
                         <label readonly>Prescriber</label>
-                        <input class="input-field" type="text" value="26647" readonly>
+                        <input class="input-field" type="text" value="MUHAMMAD, ALI" readonly>
 
                         <button class="input-field rounded-lg border " id="button-gradient" readonly>
                             <img src="../assets/images/play-button.png" style="height: 15px" alt="Patient Profile">
@@ -208,13 +211,13 @@ session_start();
 
                     <div class="mr-md-2">
                         <label>NPI #</label>
-                        <input class="input-field" style="max-width: 7rem;" type="text" value="03/22/2025" readonly>
+                        <input class="input-field" style="max-width: 7rem;" type="text" value="123456489935" readonly>
                     </div>
 
 
                     <div class="mr-md-2">
                         <label>SPI</label>
-                        <input class="input-field" type="text" value="1/14/2024" readonly>
+                        <input class="input-field" type="text" value="45648943232" readonly>
                         <button class="input-field rounded-lg border " id="button-gradient" readonly>
                             <img src="../assets/images/play-button.png" style="height: 15px" alt="Patient Profile">
                         </button>
