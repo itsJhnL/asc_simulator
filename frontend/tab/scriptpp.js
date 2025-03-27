@@ -31,7 +31,7 @@ function fetchData() {
         .then(response => response.json())
         .then(data => {
             let userTable = document.getElementById("userTable");
-            userTable.innerHTML = ""; 
+            userTable.innerHTML = "";
 
             data.forEach(entry => {
                 let newRow = document.createElement("tr");
@@ -90,16 +90,16 @@ document.getElementById("userTable").addEventListener("click", function (event) 
                 },
                 body: JSON.stringify({ code: code })
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message) {
-                    alert("Field deleted successfully!");
-                    row.remove();
-                } else {
-                    alert("Error deleting field: " + data.error);
-                }
-            })
-            .catch(error => console.error("Error deleting field:", error));
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        alert("Field deleted successfully!");
+                        row.remove();
+                    } else {
+                        alert("Error deleting field: " + data.error);
+                    }
+                })
+                .catch(error => console.error("Error deleting field:", error));
         }
     }
 });
@@ -123,15 +123,15 @@ document.getElementById("saveButton").addEventListener("click", function () {
         },
         body: JSON.stringify({ data: updatedData })
     })
-    .then(response => response.json())
-    .then(data => {
-        alert("Data saved successfully!");
-        document.querySelectorAll("#userTable input").forEach(input => input.setAttribute("disabled", true));
-        document.getElementById("userTable").classList.add("table-disabled");
-        document.getElementById("editButton").removeAttribute("disabled");
-        document.getElementById("saveButton").setAttribute("disabled", true);
-    })
-    .catch(error => console.error("Error saving data:", error));
+        .then(response => response.json())
+        .then(data => {
+            alert("Data saved successfully!");
+            document.querySelectorAll("#userTable input").forEach(input => input.setAttribute("disabled", true));
+            document.getElementById("userTable").classList.add("table-disabled");
+            document.getElementById("editButton").removeAttribute("disabled");
+            document.getElementById("saveButton").setAttribute("disabled", true);
+        })
+        .catch(error => console.error("Error saving data:", error));
 });
 
 // ✏️ Enable Editing
@@ -209,39 +209,37 @@ document.getElementById("submitButton").addEventListener("click", function () {
         },
         body: JSON.stringify({ data: finalData })
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            Swal.fire({
-                icon: "success",
-                title: "Paid Claim!",
-                text: "Data submitted successfully!",
-                confirmButtonColor: "#3085d6",
-            }).then(() => {
-                // Optionally disable inputs after submission
-                document.querySelectorAll("#userTable input").forEach(input => input.setAttribute("disabled", true));
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Paid Claim!",
+                    text: "Data submitted successfully!",
+                    confirmButtonColor: "#3085d6",
+                }).then(() => {
+                    // Optionally disable inputs after submission
+                    document.querySelectorAll("#userTable input").forEach(input => input.setAttribute("disabled", true));
 
-                // Optionally disable the submit button after completion
-                document.getElementById("submitButton").setAttribute("disabled", true);
-            });
-        } else {
+                    // Optionally disable the submit button after completion
+                    document.getElementById("submitButton").setAttribute("disabled", true);
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Submission Failed!",
+                    text: data.error || "An error occurred while submitting the data.",
+                    confirmButtonColor: "#d33",
+                });
+            }
+        })
+        .catch(error => {
+            console.error("Error submitting data:", error);
             Swal.fire({
                 icon: "error",
-                title: "Submission Failed!",
-                text: data.error || "An error occurred while submitting the data.",
+                title: "Network Error!",
+                text: "There was an issue connecting to the server.",
                 confirmButtonColor: "#d33",
             });
-        }
-    })
-    .catch(error => {
-        console.error("Error submitting data:", error);
-        Swal.fire({
-            icon: "error",
-            title: "Network Error!",
-            text: "There was an issue connecting to the server.",
-            confirmButtonColor: "#d33",
         });
-    });
 });
-
-    </script>

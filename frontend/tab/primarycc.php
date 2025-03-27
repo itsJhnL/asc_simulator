@@ -164,158 +164,7 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
     </div>
 </div>
 
-<script>
 
-document.getElementById("searchInput").addEventListener("input", function () {
-    let filter = this.value.toLowerCase();
-    document.querySelectorAll("#fieldTable tbody tr").forEach(row => {
-        row.style.display = row.textContent.toLowerCase().includes(filter) ? "" : "none";
-    });
-});
-
-document.addEventListener("keydown", function (event) {
-    if (event.ctrlKey && event.key === "f") {
-        event.preventDefault();
-        let searchInput = document.getElementById("searchInput");
-        searchInput.style.display = "block";
-        searchInput.focus();
-    }
-    if (event.altKey && event.key.toLowerCase() === "e") {
-        event.preventDefault();
-        document.getElementById("editButton")?.click();
-    }
-    if (event.altKey && event.key.toLowerCase() === "d") {
-        event.preventDefault();
-        document.getElementById("fieldModal")?.click();
-    }
-    // Remove row on "r" key press
-    if (event.key.toLowerCase() === "r") {
-        let selectedRow = document.querySelector("#userTable tr.selected");
-        if (selectedRow) {
-            let code = selectedRow.children[1].textContent.trim();
-            removeRowFromDatabase(code);  // Delete from database
-            selectedRow.remove();  // Remove row from UI
-        }
-    }
-});
-
-function fetchData() {
-    fetch("fetch_datapp.php")
-        .then(response => response.json())
-        .then(data => {
-            let userTable = document.getElementById("userTable");
-            userTable.innerHTML = ""; 
-
-            data.forEach(entry => {
-                let newRow = document.createElement("tr");
-                newRow.innerHTML = `
-                    <td>${entry.segment}</td>
-                    <td>${entry.code}</td>
-                    <td><input type='text' class='valueInput' value='${entry.value}' disabled></td>
-                    <td><button class="btn btn-danger btn-sm removeButton">Remove</button></td>
-                `;
-                userTable.appendChild(newRow);
-            });
-        })
-        .catch(error => console.error("Error fetching data:", error));
-}
-
-document.addEventListener("DOMContentLoaded", fetchData);
-
-
-
-document.getElementById("okButton").addEventListener("click", function () {
-    let checkboxes = document.querySelectorAll("#fieldTable tbody input[type='checkbox']:checked");
-    let userTable = document.getElementById("userTable");
-
-    checkboxes.forEach(checkbox => {
-        let row = checkbox.closest("tr");
-        let code = row.children[1].textContent;
-        let description = row.children[2].textContent;
-
-        let newRow = document.createElement("tr");
-        newRow.innerHTML = `
-            <td>Prescriber</td>
-            <td>${description}</td>
-            <td><input type='text' class='valueInput' placeholder='Enter value'></td>
-            <td><button class="btn btn-danger btn-sm removeButton">Remove</button></td>
-        `;
-
-        userTable.appendChild(newRow);
-    });
-
-    let modal = bootstrap.Modal.getInstance(document.getElementById("fieldModal"));
-    modal.hide();
-});
-
-document.getElementById("userTable").addEventListener("click", function (event) {
-    if (event.target.classList.contains("removeButton")) {
-        let row = event.target.closest("tr");
-        let code = row.children[1].textContent;
-
-        if (confirm("Are you sure you want to delete this field?")) {
-            removeRowFromDatabase(code);  // Delete from database
-            row.remove();  // Remove row from UI
-        }
-    }
-});
-
-function removeRowFromDatabase(code) {
-    fetch("delete_datapp.php", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ code: code })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            console.log("Row deleted from the database successfully.");
-        } else {
-            alert("Error deleting field: " + data.error);
-        }
-    })
-    .catch(error => console.error("Error deleting field from the database:", error));
-}
-
-document.getElementById("saveButton").addEventListener("click", function () {
-    let updatedData = [];
-
-    document.querySelectorAll("#userTable tr").forEach(row => {
-        updatedData.push({
-            segment: row.children[0].textContent,
-            code: row.children[1].textContent,
-            value: row.children[2].querySelector("input").value
-        });
-    });
-
-    fetch("edit_datapp.php", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ data: updatedData })
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert("Data saved successfully!");
-        document.querySelectorAll("#userTable input").forEach(input => input.setAttribute("disabled", true));
-        document.getElementById("userTable").classList.add("table-disabled");
-        document.getElementById("editButton").removeAttribute("disabled");
-        document.getElementById("saveButton").setAttribute("disabled", true);
-    })
-    .catch(error => console.error("Error saving data:", error));
-});
-
-document.getElementById("editButton").addEventListener("click", function () {
-    document.querySelectorAll("#userTable input").forEach(input => input.removeAttribute("disabled"));
-    document.getElementById("userTable").classList.remove("table-disabled");
-    document.getElementById("saveButton").removeAttribute("disabled");
-    document.getElementById("editButton").setAttribute("disabled", true);
-});
-
-</script>
 
 
     <!-- Footer Section -->
@@ -493,144 +342,157 @@ document.getElementById("editButton").addEventListener("click", function () {
     </script>
     <!--end of despcription code -->
 
-
-
-
-
-
-
             <!--submit button code -->
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
             <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    let okButton = document.getElementById("okButton");
-                    let ccButton = document.getElementById("ccButton");
-                    let submitForm = document.getElementById("submitForm");
-                    let headerAlert = document.querySelector(".header-alert"); // Select the alert text element
+             document.addEventListener("DOMContentLoaded", function () {
+    let okButton = document.getElementById("okButton");
+    let ccButton = document.getElementById("ccButton");
+    let submitForm = document.getElementById("submitForm");
+    let headerAlert = document.querySelector(".header-alert");
 
-                    // ✅ Handle "OK" button click (Save Clarification Code)
-                    okButton.addEventListener("click", function () {
-                        let select = document.getElementById("valueSelect");
-                        let selectedCode = select.value;
+    function disableInputsAndTable() {
+        document.querySelectorAll("input, select, textarea").forEach(element => {
+            element.disabled = true;
+        });
 
-                        if (!selectedCode) {
-                            Swal.fire("Error", "Please select a clarification code.", "error");
-                            return;
-                        }
+        document.querySelectorAll("table").forEach(table => {
+            table.classList.add("disabled-table");
+        });
+    }
 
-                        let data = {
-                            clarificationCode: selectedCode,
-                            patient: "DOMINGO, JUAN PAUL",
-                            prescriptionNumber: "52155823",
-                        };
+    function enableInputsAndTable() {
+        document.querySelectorAll("input, select, textarea").forEach(element => {
+            element.disabled = false;
+        });
 
-                        fetch("save_clarification.php", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify(data),
-                        })
-                            .then(response => response.json())
-                            .then(result => {
-                                if (result.success) {
-                                    Swal.fire("Success", "Clarification code saved successfully!", "success");
+        document.querySelectorAll("table").forEach(table => {
+            table.classList.remove("disabled-table");
+        });
+    }
 
-                                    // ✅ Update button appearance
-                                    ccButton.textContent = `Clarification Code: ${selectedCode}`;
-                                    ccButton.style.background = "yellow";
-                                    ccButton.style.color = "black";
-                                    ccButton.style.border = "2px solid black";
-                                    ccButton.style.fontWeight = "bold";
-                                    ccButton.style.boxShadow = "none";
-                                    ccButton.style.transition = "background-color 0.3s ease";
+    okButton.addEventListener("click", function () {
+        let select = document.getElementById("valueSelect");
+        let selectedCode = select.value;
 
-                                    // ✅ Ensure hidden input exists in form
-                                    let hiddenInput = document.getElementById("clarificationCodeInput");
-                                    if (!hiddenInput) {
-                                        hiddenInput = document.createElement("input");
-                                        hiddenInput.type = "hidden";
-                                        hiddenInput.name = "clarificationCode";
-                                        hiddenInput.id = "clarificationCodeInput";
-                                        submitForm.appendChild(hiddenInput);
-                                    }
-                                    hiddenInput.value = selectedCode; // Update hidden input value
+        if (!selectedCode) {
+            Swal.fire("Error", "Please select a clarification code.", "error");
+            return;
+        }
 
-                                    // ✅ Close the modal
-                                    let modalElement = document.getElementById("ccModal");
-                                    let modalInstance = bootstrap.Modal.getInstance(modalElement);
-                                    modalInstance.hide();
-                                } else {
-                                    Swal.fire("Error", "Error saving clarification code.", "error");
-                                }
-                            })
-                            .catch(error => console.error("Error:", error));
-                    });
+        let data = {
+            clarificationCode: selectedCode,
+            patient: "DOMINGO, JUAN PAUL",
+            prescriptionNumber: "52155823",
+        };
+
+        fetch("save_clarification.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    Swal.fire("Success", "Clarification code saved successfully!", "success");
+
+                    ccButton.textContent = `Clarification Code: ${selectedCode}`;
+                    ccButton.style.background = "yellow";
+                    ccButton.style.color = "black";
+                    ccButton.style.border = "2px solid black";
+                    ccButton.style.fontWeight = "bold";
+                    ccButton.style.boxShadow = "none";
+                    ccButton.style.transition = "background-color 0.3s ease";
+
+                    let hiddenInput = document.getElementById("clarificationCodeInput");
+                    if (!hiddenInput) {
+                        hiddenInput = document.createElement("input");
+                        hiddenInput.type = "hidden";
+                        hiddenInput.name = "clarificationCode";
+                        hiddenInput.id = "clarificationCodeInput";
+                        submitForm.appendChild(hiddenInput);
+                    }
+                    hiddenInput.value = selectedCode;
+
+                    let modalElement = document.getElementById("ccModal");
+                    let modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    modalInstance.hide();
+                } else {
+                    Swal.fire("Error", "Error saving clarification code.", "error");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+    });
+
+    submitForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        let formData = new FormData(submitForm);
+        let selectedCode = document.getElementById("clarificationCodeInput")?.value;
+
+        if (!selectedCode) {
+            Swal.fire("Error", "No clarification code selected.", "error");
+            return;
+        }
+
+        Swal.fire({
+            title: "Processing...",
+            text: "Checking clarification code and day supply...",
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading(),
+        });
+
+        fetch("submit_clarification.php", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.json())
+            .then(result => {
+                let delay = Math.floor(Math.random() * 5000) + 1000;
+
+                setTimeout(() => {
+                    Swal.close();
+
+                    if (result.success) {
+                        Swal.fire("✅ Paid Claim", result.message, "success");
+
+                        headerAlert.textContent = "Claim has been adjudicated";
+                        headerAlert.style.color = "green";
+
+                        // ✅ Disable inputs & tables but keep buttons active
+                        disableInputsAndTable();
+                    } else {
+                        Swal.fire("Error", result.message, "error");
+                    }
+                }, delay);
+            })
+            .catch(error => console.error("Error:", error));
+    });
+
+    // ✅ Reverse Button Function (Enables Everything Again)
+    document.querySelector(".btn-custom[accesskey='r']").addEventListener("click", function () {
+        Swal.fire({
+            title: "Reversing Claim...",
+            text: "Restoring system to default...",
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading(),
+        });
+
+        setTimeout(() => {
+            Swal.close();
+            document.querySelector(".header-alert").textContent = "Claim has been denied.";
+            document.querySelector(".header-alert").style.color = "red";
+
+            // ✅ Enable inputs & tables (buttons stay active)
+            enableInputsAndTable();
+
+            Swal.fire({ icon: "info", title: "Reversed!", text: "The claim has been reversed successfully." });
+        }, 2000);
+    });
+});
 
 
-                    submitForm.addEventListener("submit", function (event) {
-                        event.preventDefault();
-
-                        let formData = new FormData(submitForm);
-                        let selectedCode = document.getElementById("clarificationCodeInput")?.value;
-
-                        if (!selectedCode) {
-                            Swal.fire("Error", "No clarification code selected.", "error");
-                            return;
-                        }
-                        // Reverse Button Function
-                        document.querySelector(".btn-custom[accesskey='r']").addEventListener("click", function () {
-                            Swal.fire({
-                                title: "Reversing Claim...",
-                                text: "Restoring system to default...",
-                                allowOutsideClick: false,
-                                didOpen: () => Swal.showLoading(),
-                            });
-
-                            setTimeout(() => {
-                                Swal.close();
-                                document.querySelector(".header-alert").textContent = "Claim has been denied.";
-                                document.querySelector(".header-alert").style.color = "red";
-
-                                document.getElementById("userTable").classList.remove("disabled-table");
-
-                                Swal.fire({ icon: "info", title: "Reversed!", text: "The claim has been reversed successfully." });
-                            }, 2000);
-                        });
-
-
-                        Swal.fire({
-                            title: "Processing...",
-                            text: "Checking clarification code and day supply...",
-                            allowOutsideClick: false,
-                            didOpen: () => Swal.showLoading(),
-                        });
-
-                        fetch("submit_clarification.php", {
-                            method: "POST",
-                            body: formData
-                        })
-                            .then(response => response.json())
-                            .then(result => {
-                                let delay = Math.floor(Math.random() * 5000) + 1000;
-
-                                setTimeout(() => {
-                                    Swal.close();
-
-                                    if (result.success) {
-                                        Swal.fire("✅ Paid Claim", result.message, "success");
-
-                                        // ✅ Update alert text to green
-                                        headerAlert.textContent = "Claim has been adjudicated";
-                                        headerAlert.style.color = "green";
-
-                                    } else {
-                                        Swal.fire("Error", result.message, "error");
-                                    }
-                                }, delay);
-                            })
-                            .catch(error => console.error("Error:", error));
-                    });
-                });
             </script>
 
 
