@@ -1,0 +1,27 @@
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js">
+
+</script>
+
+
+<script type="text/javascript">
+
+function Getunits(value) {
+var units = document.getElementById('units');
+for(count=0; count<=units; count++) {
+$("<input type='text'>").appendTo("inpane");
+ }
+document.getElementByTag('futureacc').InnerHTML='What is your account number? <input type="text" value="accountnum">';
+
+}
+</script>
+</head>
+<body>
+<div id="container">
+<form method="post" action="sendcontact.php">
+<div id="unitammount" class="inpane">
+Number of units ordered: <input type="text" name="units" id="units"/><br />
+</div>
+
+<div id="futureacc" class="inpane">
+Are these units to be provisioned? <input type="radio" name="select" value="yes" onClick="Getunits('units.value')"/> Yes <input type="radio" name="select" value="no"/> No
+</div>
