@@ -92,7 +92,6 @@
                     <input class="input-field mx-2" style="max-width: 5rem;" type="text" value="ADV1">
                 </div>
             </div>
-
         </div>
 
         <div class="pt-2">
@@ -116,7 +115,6 @@
                         </button>
 
                         <!-- Modal for Sig Code -->
-                        <!-- Modal -->
                         <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                             aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
@@ -129,11 +127,6 @@
                                     <div class="modal-body">
                                         GIVE ONE TABLET BY MOUTH DAILY
                                     </div>
-                                    <!-- <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Save changes</button>
-                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -175,7 +168,7 @@
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <label for="">Times/Day</label>
-                        <input class="input-field" type="text" style="max-width: 5rem" value="">
+                        <input class="input-field" type="text" style="max-width: 5rem" value="1">
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <label for="">D/C</label>
@@ -185,7 +178,7 @@
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <label for="">Origin Code</label>
-                        <input class="input-field" type="text" style="max-width: 7rem" value="Electronic">
+                        <input class="input-field" type="text" style="max-width: 9rem" value="Electronic">
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
@@ -199,7 +192,7 @@
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <label for="">Total Qty Written</label>
-                        <input class="input-field" type="text" style="max-width: 10rem" value="42.23">
+                        <input class="input-field" type="text" style="max-width: 5rem" value="0">
                     </div>
                     <div class="d-flex">
                         <div class="">
@@ -269,10 +262,10 @@
                             <input class="input-field" style="max-width: 5rem;" type="text" value="30">
                         </li>
                         <li>
-                            <input class="input-field" style="max-width: 5rem;" type="text" value="0">
+                            <input class="input-field" style="max-width: 5rem;" type="text" value="">
                         </li>
                         <li>
-                            <input class="input-field" style="max-width: 5rem;" type="text" value="0">
+                            <input class="input-field" style="max-width: 5rem;" type="text" value="">
                         </li>
                     </ul>
                 </div>

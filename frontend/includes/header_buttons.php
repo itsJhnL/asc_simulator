@@ -5,7 +5,7 @@
         color: #000;
         font-family: Arial, sans-serif;
 
-        padding: 5px 10px;
+        /* padding: 5px 10px; */
         border-radius: 5px;
         text-align: center;
         cursor: pointer;
@@ -15,20 +15,32 @@
     .btn-custom:hover {
         background: linear-gradient(to bottom, #88a3d1, #b0c4de);
     }
+
+    .height_image_buttons {
+        height: 16px;
+    }
 </style>
-<div>
-    <div class="row position-absolute">
+<div class="pb-2">
+    <div class="d-flex mx-auto">
         <div class="px-1">
-            <button type="button" class="btn btn-custom">Edit</button>
+            <button type="button" class="btn btn-custom" id="editButton">
+                <img src="../assets/images/edit.png" class="height_image_buttons" alt="header button">
+            </button>
         </div>
         <div class="px-1">
-            <button type="button" class="btn btn-custom">Save</button>
+            <button type="submit" class="btn btn-custom" id="saveButton">
+                <img src="../assets/images/save.png" class="height_image_buttons" alt="header button">
+            </button>
         </div>
         <div class="px-1">
-            <button type="button" class="btn btn-custom">Undo</button>
+            <button type="button" class="btn btn-custom" id="">
+                <img src="../assets/images/undo.png" class="height_image_buttons" alt="header button">
+            </button>
         </div>
         <div class="px-1">
-            <button type="button" class="btn btn-custom">Show Prescription</button>
+            <button type="button" class="btn btn-custom" id="">
+                <img src="../assets/images/show.png" class="height_image_buttons" alt="header button">
+            </button>
         </div>
     </div>
 </div>

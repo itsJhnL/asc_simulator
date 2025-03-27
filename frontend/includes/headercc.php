@@ -41,8 +41,11 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <body>
     <div class="container col-md-10" style="max-width: 69rem;">
-    <span class="edit-icon" onclick="enableEdit()" accesskey="e">✏️</span>
-    <span class="save-icon" onclick="saveEdit()" style="display: none;" accesskey="s">✅</span>
+        <header class="">
+            <h5 style="background-color: ;">Rx Entry - Batch Reject - Reject</h5>
+        </header>
+        <!-- Header buttons // Edit, Save, Undo etc. -->
+        <?php include('header_buttons.php') ?>
         <!-- to keep show tab list -->
         <?php include('../includes/active.php') ?>
 
@@ -50,9 +53,6 @@ if (session_status() === PHP_SESSION_NONE) {
         <!-- It display RX information -->
         <!-- including, reorder#, prescription#, Dispensed Date, Written Date, Patient, Station, Room, Floor, Sex, DOB, etc. -->
         <div>
-            <header>
-                <h3 style="background-color: ;">Rx Entry - Batch Reject - Reject</h3>
-            </header>
             <div class="row mx-auto justify-content-between">
                 <div class="pb-1 d-flex">
                     <div class="mr-md-2">
@@ -102,7 +102,8 @@ if (session_status() === PHP_SESSION_NONE) {
                     <div class="col flex-column">
                         <div class="">
                             <label>Patient</label>
-                            <input class="input-field" style="min-width: 19.7rem;" type="text" value="DOMINGO, JUAN PAUL">
+                            <input class="input-field" style="min-width: 19.7rem;" type="text"
+                                value="DOMINGO, JUAN PAUL">
                         </div>
                         <div class="d-flex">
                             <div class="mr-md-2" style="max-width: 9rem;">

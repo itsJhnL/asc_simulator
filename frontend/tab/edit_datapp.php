@@ -21,16 +21,16 @@ if (!empty($data['data'])) {
         $code = $conn->real_escape_string($entry['code']);
         $value = $conn->real_escape_string($entry['value']);
 
-       
+
         $checkQuery = "SELECT * FROM ecs_fields WHERE segment='$segment' AND code='$code'";
         $result = $conn->query($checkQuery);
 
         if ($result->num_rows > 0) {
-          
+
             $updateQuery = "UPDATE ecs_fields SET value='$value' WHERE segment='$segment' AND code='$code'";
             $conn->query($updateQuery);
         } else {
-           
+
             $insertQuery = "INSERT INTO ecs_fields (segment, code, value) VALUES ('$segment', '$code', '$value')";
             $conn->query($insertQuery);
         }

@@ -194,56 +194,52 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
 
     <!-- Footer Section -->
     <div class="row mt-3">
-        <div class="col-4">
-            <div class="d-flex justify-content-between">
-                <label class="form-label">Amount Paid</label>
-                <input type="text" style="max-width: 12rem;" class="form-control" id="amountPaid" readonly>
-            </div>
+        <div class="col-md-2">
+            <label class="form-label">Amount Paid</label>
+            <input type="text" class="form-control">
 
-            <div class="d-flex justify-content-between">
-                <label class="form-label">Third Party Copay</label>
-                <input type="text" style="max-width: 12rem;" class="form-control" id="tCoPay" value="" readonly>
-            </div>
+            <label class="form-label">Third Party Copay</label>
+            <input type="text" class="form-control" value="">
 
-            <div class="d-flex justify-content-between">
-                <label class="form-label">Auth. No.</label>
-                <input type="text" style="max-width: 12rem;" class="form-control" readonly>
-            </div>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Auth. No.</label>
+            <input type="text" class="form-control">
 
-            <div class="d-flex justify-content-between">
-                <label class="form-label">Private MOP </label>
-                <input type="text" style="max-width: 12rem;" class="form-control" value="PRIV" readonly>
-            </div>
+            <label class="form-label">Private MOP </label>
+            <input type="text" class="form-control" value="PRIV">
         </div>
 
 
 
-        <div class="col">
+        <div class="col-md-5">
 
-            <div class="d-flex align-items-center mt-6">
-                <button type="button" class="btn btn-custom px-3 mr-2" data-toggle="modal" data-target="#addModal"
-                    accesskey="B">DUR Builder </button>
-                <button class="btn btn-custom px-3 mr-2" data-bs-toggle="modal" data-bs-target="#fieldModal"
-                    accesskey="d">Add</button>
-                <!-- moved to header -->
-                <!-- <button class="btn btn-custom px-5" id="editButton" accesskey="e">Edit</button> -->
-                <button class="btn btn-custom px-3 mr-2" accesskey="r">Reverse</button>
-                <form id="submitForm">
-                    <button class="btn btn-custom px-4 mr-2" type="submit" id="submitButton"
-                        accesskey="t">Submit</button>
-                </form>
-
-            </div>
-
-            <div class="d-flex pt-2">
+            <div class="d-flex justify-content-between mt-6">
+                <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#addModal" accesskey="B"
+                    readonly>DUR
+                    Builder </button>
                 <button class="btn btn-custom">Show Reject Reasons</button>
                 <button class="btn btn-custom" accesskey="h" class="btn btn-custom" data-toggle="modal" id="open-modal"
                     data-target="#ClaimModal">Show Claim Response</button>
                 <button class="btn btn-custom" accesskey="a" data-bs-toggle="modal" data-bs-target="#ccModal"
                     id="ccButton">Clarification Codes</button>
             </div>
+            <br>
+            <div class="col-md-10">
+                <!-- <button id="saveButton" class="btn btn-custom" accesskey="s">Save</button> -->
+                <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#fieldModal"
+                    accesskey="d">Add</button>
+                <!-- <button class="btn btn-custom" id="editButton" accesskey="e">Edit</button> -->
+                <button class="btn btn-custom" accesskey="r">Reverse</button>
 
-            <div class="col">
+                <form id="submitForm">
+                    <button class="btn btn-custom" type="submit" id="submitButton" accesskey="t">Submit</button>
+                </form>
+
+            </div>
+
+
+            <div class="col-xl-10">
                 <div class="d-flex justify-content-end mt-3">
 
                     <button class="btn btn-outline-secondary">Track P/A Form Using <b>covermymeds</b></button>
@@ -252,7 +248,6 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
 
 
             <!--Add modal -->
-
             <div class="modal fade" id="fieldModal" tabindex="-1" aria-labelledby="fieldModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
