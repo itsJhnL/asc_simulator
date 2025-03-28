@@ -368,185 +368,159 @@
 </body>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let users = [];
-        let selectedId = null;
-        let selectedRow = null;
+document.addEventListener("DOMContentLoaded", function () {
+    let users = [];
+    let selectedId = null;
+    const reverseButton = document.querySelector(".btn-custom[accesskey='r']");
+    reverseButton.disabled = true;
 
-        function toggleInputs(disable) {
-            document.querySelectorAll("input, select, button").forEach(input => {
-                if (!input.classList.contains("btn-custom")) {
-                    input.disabled = disable;
-                }
-            });
-        }
-
-        const reverseButton = document.querySelector(".btn-custom[accesskey='r']");
-        reverseButton.disabled = true;
-
-        document.getElementById("userTable").addEventListener("click", function (event) {
-            let row = event.target.closest("tr");
-            if (!row || document.getElementById("userTable").classList.contains("disabled-table")) return;
-
-            if (selectedRow) {
-                selectedRow.classList.remove("selected-row");
+    function toggleInputs(disable) {
+        document.querySelectorAll(".btn-custom, input, select, textarea").forEach(element => {
+            if (element !== reverseButton) {
+                element.disabled = disable;
             }
-
-            row.classList.add("selected-row");
-            selectedRow = row;
-
-
-            selectedId = row.dataset.id ? parseInt(row.dataset.id) : null;
         });
+    }
 
-        function updateTable() {
-            let tableBody = document.getElementById("userTable");
-            tableBody.innerHTML = "";
+    function updateTable() {
+        let tableBody = document.getElementById("userTable");
+        tableBody.innerHTML = "";
 
-            users.forEach((user, index) => {
-                let rowGroup = `
-            <tr class="selectable-row" data-id="${index}">
-                <td>DUR/PPS</td>
-                <td>Reason For Service Code</td>
-                <td>${user.reason}</td>
-            </tr>
-            <tr>
-                <td>DUR/PPS</td>
-                <td>Professional Service Code</td>
-                <td>${user.professional}</td>
-            </tr>
-            <tr>
-                <td>DUR/PPS</td>
-                <td>Result Code</td>
-                <td>${user.result}</td>
-            </tr>
+        users.forEach((user, index) => {
+            let rowGroup = `
+                <tr class="selectable-row" data-id="${index}">
+                    <td>DUR/PPS</td>
+                    <td>Reason For Service Code</td>
+                    <td class="editable" data-field="reason" data-id="${index}">${user.reason}</td>
+                </tr>
+                <tr>
+                    <td>DUR/PPS</td>
+                    <td>Professional Service Code</td>
+                    <td class="editable" data-field="professional" data-id="${index}">${user.professional}</td>
+                </tr>
+                <tr>
+                    <td>DUR/PPS</td>
+                    <td>Result Code</td>
+                    <td class="editable" data-field="result" data-id="${index}">${user.result}</td>
+                </tr>
             `;
-                tableBody.innerHTML += rowGroup;
+            tableBody.innerHTML += rowGroup;
+        });
+    }
+
+    document.getElementById("userTable").addEventListener("click", function (event) {
+        if (event.target.classList.contains("editable")) {
+            let cell = event.target;
+            let field = cell.getAttribute("data-field");
+            let id = parseInt(cell.getAttribute("data-id"));
+            let currentValue = cell.textContent;
+
+            let input = document.createElement("input");
+            input.type = "text";
+            input.value = currentValue;
+            input.classList.add("form-control");
+            
+            cell.innerHTML = "";
+            cell.appendChild(input);
+            input.focus();
+
+            input.addEventListener("blur", function () {
+                users[id][field] = input.value;
+                updateTable();
+            });
+
+            input.addEventListener("keydown", function (e) {
+                if (e.key === "Enter") {
+                    input.blur();
+                }
             });
         }
-
-        document.getElementById("addButton").addEventListener("click", function () {
-            if (document.getElementById("userTable").classList.contains("disabled-table")) return;
-            selectedId = null;
-            document.getElementById("DUR").reset();
-            let modal = new bootstrap.Modal(document.getElementById("addModal"));
-            modal.show();
-        });
-
-        document.getElementById("editButton").addEventListener("click", function () {
-            if (document.getElementById("userTable").classList.contains("disabled-table")) return;
-            if (selectedId === null) {
-                Swal.fire({ icon: "warning", title: "No Row Selected", text: "Please select a record first." });
-                return;
-            }
-
-            let user = users[selectedId];
-            document.getElementById("reason").value = user.reason;
-            document.getElementById("professional").value = user.professional;
-            document.getElementById("result").value = user.result;
-
-            let modal = new bootstrap.Modal(document.getElementById("addModal"));
-            modal.show();
-        });
-
-        document.getElementById("saveDurButton").addEventListener("click", function () {
-            let reason = document.getElementById("reason").value;
-            let professional = document.getElementById("professional").value;
-            let result = document.getElementById("result").value;
-
-            if (!reason || !professional || !result) {
-                Swal.fire({ icon: "warning", title: "Missing Fields", text: "Please fill in all fields." });
-                return;
-            }
-
-            if (selectedId !== null) {
-                users[selectedId] = { reason, professional, result };
-            } else {
-                users.push({ reason, professional, result });
-            }
-
-            updateTable();
-            document.getElementById("DUR").reset();
-            selectedId = null;
-            let modalElement = document.getElementById("addModal");
-            let modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-            modalInstance.hide();
-        });
-
-        document.getElementById("submitForm").addEventListener("submit", function (e) {
-            e.preventDefault();
-
-            if (users.length === 0) {
-                Swal.fire({ icon: "error", title: "No Data!", text: "Please add some data before submitting." });
-                return;
-            }
-
-            Swal.fire({
-                title: "Submitting...",
-                text: "Processing your request...",
-                allowOutsideClick: false,
-                didOpen: () => Swal.showLoading(),
-            });
-
-            fetch("function.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(users),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    Swal.close();
-                    if (data.status === "success") {
-
-                        // Generate random amounts
-                        let randomAmountPaid = (Math.random() * (100 - 10) + 10).toFixed(2);
-                        let randomCoPay = (Math.random() * (20 - 1) + 1).toFixed(2);
-
-                        // Set values in input fields
-                        document.getElementById("amountPaid").value = `$${randomAmountPaid}`;
-                        document.getElementById("tCoPay").value = `$${randomCoPay}`;
-
-                        document.querySelector(".header-alert").textContent = "Claim has been adjudicated!";
-                        document.querySelector(".header-alert").style.color = "green";
-                        document.getElementById("userTable").classList.add("disabled-table");
-                        toggleInputs(true);
-                        reverseButton.disabled = false;
-
-                        Swal.fire({ icon: "success", title: "Paid Claim!", text: "Claim adjudicated." });
-                    } else {
-                        Swal.fire({ icon: "error", title: "Invalid DUR Sequence!", text: "Please check the DUR sequence and try again." });
-                    }
-                })
-                .catch(() => {
-                    Swal.fire({ icon: "error", title: "Server Error", text: "Something went wrong." });
-                });
-        });
-
-        reverseButton.addEventListener("click", function () {
-            Swal.fire({ title: "Reversing Claim...", text: "Restoring system to default...", allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-            setTimeout(() => {
-                Swal.close();
-                document.querySelector(".header-alert").textContent = "Claim has been denied.";
-                document.querySelector(".header-alert").style.color = "red";
-                document.getElementById("userTable").classList.remove("disabled-table");
-                toggleInputs(false);
-                Swal.fire({ icon: "info", title: "Reversed!", text: "The claim has been reversed successfully." });
-                reverseButton.disabled = true;
-            }, 2000);
-        });
-
-        document.addEventListener("keydown", function (event) {
-            if (event.altKey && event.key.toLowerCase() === "e") {
-                event.preventDefault();
-                if (!document.getElementById("userTable").classList.contains("disabled-table")) {
-                    document.getElementById("editButton").click();
-                }
-            }
-        });
     });
 
+    document.getElementById("saveDurButton").addEventListener("click", function () {
+        let reason = document.getElementById("reason").value;
+        let professional = document.getElementById("professional").value;
+        let result = document.getElementById("result").value;
 
+        if (!reason || !professional || !result) {
+            Swal.fire({ icon: "warning", title: "Missing Fields", text: "Please fill in all fields." });
+            return;
+        }
 
+        if (selectedId !== null) {
+            users[selectedId] = { reason, professional, result };
+        } else {
+            users.push({ reason, professional, result });
+        }
+
+        updateTable();
+        document.getElementById("DUR").reset();
+        selectedId = null;
+        bootstrap.Modal.getInstance(document.getElementById("addModal")).hide();
+    });
+
+    document.getElementById("submitForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        if (users.length === 0) {
+            Swal.fire({ icon: "error", title: "No Data!", text: "Please add some data before submitting." });
+            return;
+        }
+
+        Swal.fire({
+            title: "Submitting...",
+            text: "Processing your request...",
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading(),
+        });
+
+        fetch("function.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(users),
+        })
+            .then(response => response.json())
+            .then(data => {
+                Swal.close();
+                if (data.status === "success") {
+                    document.getElementById("userTable").classList.add("disabled-table");
+                    toggleInputs(true);
+                    document.querySelector(".header-alert").textContent = "Claim has been adjudicated!";
+                    document.querySelector(".header-alert").style.color = "green";
+                    reverseButton.disabled = false;
+
+                    let randomAmountPaid = (Math.random() * (100 - 10) + 10).toFixed(2);
+                    let randomCoPay = (Math.random() * (20 - 1) + 1).toFixed(2);
+                    document.getElementById("amountPaid").value = `$${randomAmountPaid}`;
+                    document.getElementById("tCoPay").value = `$${randomCoPay}`;
+
+                    Swal.fire({ icon: "success", title: "Paid Claim!", text: "Claim adjudicated." });
+                } else {
+                    Swal.fire({ icon: "error", title: "Submission Failed", text: "Please try again." });
+                }
+            })
+            .catch(() => {
+                Swal.fire({ icon: "error", title: "Server Error", text: "Something went wrong." });
+            });
+    });
+
+    reverseButton.addEventListener("click", function () {
+        Swal.fire({ title: "Reversing Claim...", text: "Restoring system to default...", allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        setTimeout(() => {
+            Swal.close();
+            document.querySelector(".header-alert").textContent = "This claim has been denied!!";
+            document.querySelector(".header-alert").style.color = "red";
+            document.getElementById("userTable").classList.remove("disabled-table");
+            toggleInputs(false);
+            document.getElementById("amountPaid").value = "";
+            document.getElementById("tCoPay").value = "";
+            Swal.fire({ icon: "info", title: "Reversed!", text: "The claim has been reversed successfully." });
+            reverseButton.disabled = true;
+        }, 2000);
+    });
+
+    updateTable();
+});
 </script>
 
 <!-- footer tab pane -->
