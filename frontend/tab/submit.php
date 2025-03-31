@@ -25,7 +25,7 @@ $random_pages = [
     "prescription.php",
     "prescriptioncc.php",
     "prescriptionpp.php",
-    // "prescriptionDualDUR.php",
+    "v2/prescription.php",
 
 ];
 
@@ -78,4 +78,3 @@ if ($insertQuery->execute()) {
 }
 
 $conn->close();
-?>

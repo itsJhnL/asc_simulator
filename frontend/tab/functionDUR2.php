@@ -57,5 +57,3 @@ if ($hasDD && $hasTD && $validProfessional && $validResult) {
 }
 
 exit;
-
-?>

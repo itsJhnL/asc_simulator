@@ -532,7 +532,7 @@
                 didOpen: () => Swal.showLoading(),
             });
 
-            fetch("function.php", {
+            fetch("functionDUR2.php", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

@@ -587,7 +587,9 @@ if (file_exists($tempFile)) {
                         <div class="modal-header">
                             <img src="error.png" alt="Error" width="30" class="me-2">
                             <h5 class="modal-title" id="ClaimModalLabel">The Claim Has Been Rejected</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="modal-body">
                             <table class="table table-striped">
@@ -684,7 +686,9 @@ if (file_exists($tempFile)) {
                             </table>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" id="close-btn">Close</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">
+                                Close
+                            </button>
                             <button type="button" class="btn btn-primary">Print</button>
                             <button type="button" class="btn btn-outline-info">Print Medicare Part D Coverage
                                 Determination

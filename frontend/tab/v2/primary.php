@@ -1,7 +1,7 @@
 <!-- This is the header of framework -->
 <!-- It display RX information -->
 <!-- including, reorder#, prescription#, Dispensed Date, Written Date, Patient, Station, Room, Floor, Sex, DOB, etc. -->
-<?php include '../includes/header.php'; ?>
+<?php include 'headerDUR.php'; ?>
 <style>
     .header-alert {
         color: red;
@@ -66,12 +66,6 @@
         /* Disable interactions */
         opacity: 0.5;
         /* Fade out text */
-    }
-
-    @media (min-width: 1200px) {
-        .modal-xl {
-            max-width: 95%;
-        }
     }
 </style>
 
@@ -146,12 +140,12 @@
         <div class="col-4">
             <div class="d-flex justify-content-between">
                 <label class="form-label">Amount Paid</label>
-                <input type="text" style="max-width: 12rem;" class="form-control" readonly>
+                <input type="text" style="max-width: 12rem;" class="form-control" id="amountPaid" readonly>
             </div>
 
             <div class="d-flex justify-content-between">
                 <label class="form-label">Third Party Copay</label>
-                <input type="text" style="max-width: 12rem;" class="form-control" value="" readonly>
+                <input type="text" style="max-width: 12rem;" class="form-control" id="tCoPay" value="" readonly>
             </div>
 
             <div class="d-flex justify-content-between">
@@ -166,14 +160,16 @@
         </div>
 
         <div class="col">
-            <div class="d-flex align-items-center justify-content-between mt-6">
-                <button type="button" class="btn btn-custom px-3 " data-toggle="modal" data-target="#addModal"
+            <div class="d-flex align-items-center mt-6">
+                <button type="button" class="btn btn-custom px-3 mr-2" data-toggle="modal" data-target="#addModal"
                     accesskey="B">DUR Builder </button>
-                <button class="btn btn-custom px-5" id="addButton" accesskey="a">Add</button>
-                <button class="btn btn-custom px-5" id="editButton" accesskey="e">Edit</button>
-                <button class="btn btn-custom px-5" accesskey="r">Reverse</button>
+                <button class="btn btn-custom px-3 mr-2" id="addButton" accesskey="a">Add</button>
+                <!-- moved to header -->
+                <!-- <button class="btn btn-custom px-5" id="editButton" accesskey="e">Edit</button> -->
+                <button class="btn btn-custom px-3 mr-2" accesskey="r">Reverse</button>
                 <form id="submitForm">
-                    <button class="btn btn-custom px-5" type="submit" id="submitButton" accesskey="t">Submit</button>
+                    <button class="btn btn-custom px-4 mr-2" type="submit" id="submitButton"
+                        accesskey="t">Submit</button>
                 </form>
 
             </div>
@@ -205,19 +201,22 @@
                             <form id="DUR">
                                 <div class="mb-3">
                                     <label for="reason" class="form-label">Reason For Service Code (439-E4)</label>
-                                    <input type="text" class="form-control" id="reason" required>
+                                    <input type="text" class="form-control" id="reason" onkeyup="lettersOnly(this)"
+                                        oninput="this.value = this.value.toUpperCase()" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="professional" class="form-label">Professional Service Code
                                         (440-E5)</label>
-                                    <input type="text" class="form-control" id="professional" required>
+                                    <input type="text" class="form-control" id="professional" onkeyup="lettersOnly(this)"
+                                        oninput="this.value = this.value.toUpperCase()" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="result" class="form-label">Result Code (441-E6)</label>
-                                    <input type="text" class="form-control" id="result" required>
+                                    <input type="text" class="form-control" id="result" onkeyup="lettersOnly(this)"
+                                        oninput="this.value = this.value.toUpperCase()" required>
                                 </div>
 
-                                <button type="button" class="btn btn-primary" id="saveButton">Save</button>
+                                <button type="button" class="btn btn-primary" id="saveDurButton">Save</button>
                             </form>
                         </div>
                     </div>
@@ -226,13 +225,15 @@
 
 
             <!-- Claim Response Modal-->
-            <div class="modal fade" id="ClaimModal" tabindex="-1" aria-labelledby="ClaimModalLabel" aria-hidden="true">
+            <div class="modal fade " id="ClaimModal" tabindex="-1" aria-labelledby="ClaimModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
-                        <div class="modal-header bg-light d-flex align-items-center">
-                            <img src="error.png" alt="Error" width="30" class="me-2" style="align=left;">
-                            <h5 class="modal-title text-danger fw-bold" id="ClaimModalLabel">The Claim Has Been Rejected
-                            </h5>
+                        <div class="modal-header bg-light d-flex">
+                            <div class="d-flex">
+                                <img src="../error.png" alt="Error" width="30" class="me-2">
+                                <h5 class="modal-title text-danger fw-bold pl-1" id="ClaimModalLabel">The Claim Has Been Rejected
+                                </h5>
+                            </div>
                             <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -341,7 +342,9 @@
                             </table>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" id="close-btn">Close</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">
+                                Close
+                            </button>
                             <button type="button" class="btn btn-primary">Print</button>
                             <button type="button" class="btn btn-outline-info">Print Medicare Part D Coverage
                                 Determination
@@ -356,22 +359,19 @@
 </body>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         let users = [];
         let selectedId = null;
-        let selectedRow = null;
+        const reverseButton = document.querySelector(".btn-custom[accesskey='r']");
+        reverseButton.disabled = true;
 
-        document.getElementById("userTable").addEventListener("click", function (event) {
-            let row = event.target.closest("tr");
-            if (!row || document.getElementById("userTable").classList.contains("disabled-table")) return;
-
-            if (selectedRow) {
-                selectedRow.classList.remove("selected-row");
-            }
-
-            row.classList.add("selected-row");
-            selectedRow = row;
-        });
+        function toggleInputs(disable) {
+            document.querySelectorAll(".btn-custom, input, select, textarea").forEach(element => {
+                if (element !== reverseButton) {
+                    element.disabled = disable;
+                }
+            });
+        }
 
         function updateTable() {
             let tableBody = document.getElementById("userTable");
@@ -382,93 +382,95 @@
                 <tr class="selectable-row" data-id="${index}">
                     <td>DUR/PPS</td>
                     <td>Reason For Service Code</td>
-                    <td>${user.reason}</td>
+                    <td class="editable" data-field="reason" data-id="${index}">${user.reason}</td>
                 </tr>
                 <tr>
                     <td>DUR/PPS</td>
                     <td>Professional Service Code</td>
-                    <td>${user.professional}</td>
+                    <td class="editable" data-field="professional" data-id="${index}">${user.professional}</td>
                 </tr>
                 <tr>
                     <td>DUR/PPS</td>
                     <td>Result Code</td>
-                    <td>${user.result}</td>
+                    <td class="editable" data-field="result" data-id="${index}">${user.result}</td>
                 </tr>
-                `;
-
+            `;
                 tableBody.innerHTML += rowGroup;
-            });
-
-            document.querySelectorAll(".selectable-row").forEach(row => {
-                row.addEventListener("click", function () {
-                    if (document.getElementById("userTable").classList.contains("disabled-table")) return;
-                    document.querySelectorAll(".selectable-row").forEach(r => r.classList.remove("selected"));
-                    selectedId = this.dataset.id;
-                    this.classList.add("selected");
-                });
             });
         }
 
-        // Open Add Modal
-        document.getElementById("addButton").addEventListener("click", function () {
-            if (document.getElementById("userTable").classList.contains("disabled-table")) return;
-            selectedId = null;
-            document.getElementById("DUR").reset();
-            let modal = new bootstrap.Modal(document.getElementById("addModal"));
-            modal.show();
-        });
+        document.getElementById("userTable").addEventListener("click", function(event) {
+            if (event.target.classList.contains("editable")) {
+                let cell = event.target;
+                let field = cell.getAttribute("data-field");
+                let id = parseInt(cell.getAttribute("data-id"));
+                let currentValue = cell.textContent;
 
-        // Open Edit Modal
-        document.getElementById("editButton").addEventListener("click", function () {
-            if (document.getElementById("userTable").classList.contains("disabled-table")) return;
+                let input = document.createElement("input");
+                input.type = "text";
+                input.value = currentValue;
+                input.classList.add("form-control");
 
-            if (selectedId === null) {
-                Swal.fire({ icon: "warning", title: "No Row Selected", text: "Please select a record first." });
-                return;
+                cell.innerHTML = "";
+                cell.appendChild(input);
+                input.focus();
+
+                input.addEventListener("blur", function() {
+                    users[id][field] = input.value;
+                    updateTable();
+                });
+
+                input.addEventListener("keydown", function(e) {
+                    if (e.key === "Enter") {
+                        input.blur();
+                    }
+                });
             }
-
-            let user = users[selectedId];
-            document.getElementById("reason").value = user.reason;
-            document.getElementById("professional").value = user.professional;
-            document.getElementById("result").value = user.result;
-
-            let modal = new bootstrap.Modal(document.getElementById("addModal"));
-            modal.show();
         });
 
-        // Save Button (Add/Edit)
-        document.getElementById("saveButton").addEventListener("click", function () {
+        document.getElementById("saveDurButton").addEventListener("click", function() {
             let reason = document.getElementById("reason").value;
             let professional = document.getElementById("professional").value;
             let result = document.getElementById("result").value;
 
             if (!reason || !professional || !result) {
-                Swal.fire({ icon: "warning", title: "Missing Fields", text: "Please fill in all fields." });
+                Swal.fire({
+                    icon: "warning",
+                    title: "Missing Fields",
+                    text: "Please fill in all fields."
+                });
                 return;
             }
 
             if (selectedId !== null) {
-                users[selectedId] = { reason, professional, result };
+                users[selectedId] = {
+                    reason,
+                    professional,
+                    result
+                };
             } else {
-                users.push({ reason, professional, result });
+                users.push({
+                    reason,
+                    professional,
+                    result
+                });
             }
 
             updateTable();
             document.getElementById("DUR").reset();
             selectedId = null;
-
-            // Ensure the modal is properly hidden
-            let modalElement = document.getElementById("addModal");
-            let modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-            modalInstance.hide();
+            bootstrap.Modal.getInstance(document.getElementById("addModal")).hide();
         });
 
-        // Submit Form
-        document.getElementById("submitForm").addEventListener("submit", function (e) {
+        document.getElementById("submitForm").addEventListener("submit", function(e) {
             e.preventDefault();
 
             if (users.length === 0) {
-                Swal.fire({ icon: "error", title: "No Data!", text: "Please add some data before submitting." });
+                Swal.fire({
+                    icon: "error",
+                    title: "No Data!",
+                    text: "Please add some data before submitting."
+                });
                 return;
             }
 
@@ -479,85 +481,82 @@
                 didOpen: () => Swal.showLoading(),
             });
 
-            fetch("function.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(users),
-            })
+            fetch("functionDUR.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(users),
+                })
                 .then(response => response.json())
                 .then(data => {
                     Swal.close();
-                    let countdown = 1;
-                    let randomTime = Math.floor(Math.random() * 5) + 1;
+                    if (data.status === "success") {
+                        document.getElementById("userTable").classList.add("disabled-table");
+                        toggleInputs(true);
+                        document.querySelector(".header-alert").textContent = "Claim has been adjudicated!";
+                        document.querySelector(".header-alert").style.color = "green";
+                        reverseButton.disabled = false;
 
-                    Swal.fire({
-                        title: "Processing Claim...",
-                        html: `Finalizing in <b>${countdown}</b> seconds...`,
-                        allowOutsideClick: false,
-                        showConfirmButton: false,
-                        didOpen: () => {
-                            const swalContent = Swal.getHtmlContainer().querySelector("b");
-                            let timer = setInterval(() => {
-                                countdown++;
-                                swalContent.textContent = countdown;
+                        let randomAmountPaid = (Math.random() * (100 - 10) + 10).toFixed(2);
+                        let randomCoPay = (Math.random() * (20 - 1) + 1).toFixed(2);
+                        document.getElementById("amountPaid").value = `$${randomAmountPaid}`;
+                        document.getElementById("tCoPay").value = `$${randomCoPay}`;
 
-                                if (countdown > randomTime) {
-                                    clearInterval(timer);
-                                    Swal.close();
+                        Swal.fire({
+                            icon: "success",
+                            title: "Paid Claim!",
+                            text: "Claim adjudicated."
+                        });
 
-                                    if (data.status === "success") {
-                                        document.querySelector(".header-alert").textContent = "Claim has been adjudicated!";
-                                        document.querySelector(".header-alert").style.color = "green";
-                                        document.getElementById("userTable").classList.add("disabled-table");
+                    } else {
 
-                                        Swal.fire({ icon: "success", title: "Paid Claim!", text: "Claim adjudicated." });
-                                    } else {
-                                        Swal.fire({ icon: "error", title: "Invalid DUR Sequence!", text: "Please check the DUR sequence and try again." });
-                                    }
-                                }
-                            }, 1000);
-                        }
-                    });
+                        Swal.fire({
+                            icon: "error",
+                            title: "Invalid DUR Sequence!",
+                            text: "Please check the DUR sequence and try again."
+                        });
+                    }
                 })
                 .catch(() => {
-                    Swal.fire({ icon: "error", title: "Server Error", text: "Something went wrong." });
+                    Swal.fire({
+                        icon: "error",
+                        title: "Server Error",
+                        text: "Something went wrong."
+                    });
                 });
         });
 
-        // Reverse Button Function
-        document.querySelector(".btn-custom[accesskey='r']").addEventListener("click", function () {
+        reverseButton.addEventListener("click", function() {
             Swal.fire({
                 title: "Reversing Claim...",
                 text: "Restoring system to default...",
                 allowOutsideClick: false,
-                didOpen: () => Swal.showLoading(),
+                didOpen: () => Swal.showLoading()
             });
-
             setTimeout(() => {
                 Swal.close();
-                document.querySelector(".header-alert").textContent = "Claim has been denied.";
+                document.querySelector(".header-alert").textContent = "This claim has been denied!!";
                 document.querySelector(".header-alert").style.color = "red";
-
                 document.getElementById("userTable").classList.remove("disabled-table");
-
-                Swal.fire({ icon: "info", title: "Reversed!", text: "The claim has been reversed successfully." });
+                toggleInputs(false);
+                document.getElementById("amountPaid").value = "";
+                document.getElementById("tCoPay").value = "";
+                Swal.fire({
+                    icon: "info",
+                    title: "Reversed!",
+                    text: "The claim has been reversed successfully."
+                });
+                reverseButton.disabled = true;
             }, 2000);
         });
 
-        // Keyboard Shortcut: ALT + E to edit selected row
-        document.addEventListener("keydown", function (event) {
-            if (event.altKey && event.key.toLowerCase() === "e") {
-                event.preventDefault();
-                if (!document.getElementById("userTable").classList.contains("disabled-table")) {
-                    document.getElementById("editButton").click();
-                }
-            }
-        });
+        updateTable();
     });
 </script>
 
 <!-- footer tab pane -->
-<?php include '../includes/footer-tab.php'; ?>
+<?php include 'footer-tab-DUR.php'; ?>
 </div>
 
 <!-- Bootstrap JS (required for modal functionality) -->

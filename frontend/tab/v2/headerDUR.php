@@ -9,7 +9,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale: 1.0">
     <title>Prescription Entry</title>
-    <link rel="stylesheet" href="../styles/framework.css">
+    <link rel="stylesheet" href="../../styles/framework.css">
     <!-- Bootstrap 4.5.3 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
     <!-- Bootstrap JavaScript (Required for Modal) -->
@@ -42,13 +42,13 @@ session_start();
         <header class="d-flex justify-content-between">
             <h5>Rx Entry - Batch Reject - Reject</h5>
             <div class="px-1">
-                <a href="../tab/submit.php">Next RX</a>
+                <a href="../../tab/submit.php">Next RX</a>
             </div>
         </header>
         <!-- Header buttons // Edit, Save, Undo etc. -->
         <?php include('header_buttons.php') ?>
         <!-- to keep show tab list -->
-        <?php include('../includes/active.php') ?>
+        <?php include('../../includes/active.php') ?>
 
         <!-- This is the header of framework -->
         <!-- It display RX information -->
@@ -135,12 +135,12 @@ session_start();
                         <div>
                             <div class="col">
                                 <button class="input-field rounded-lg border " id="button-gradient" readonly>
-                                    <img src="../assets/images/play-button.png" style="height: 15px"
+                                    <img src="../../assets/images/play-button.png" style="height: 15px"
                                         alt="Patient Profile">
                                 </button>
 
                                 <button class="input-field rounded-lg border " id="button-gradient" readonly>
-                                    <img src="../assets/images/hospital-button.png" style="height: 15px"
+                                    <img src="../../assets/images/hospital-button.png" style="height: 15px"
                                         alt="Patient Profile">
                                 </button>
 
@@ -159,7 +159,7 @@ session_start();
                                 <input class="input-field" type="text" style="max-width: 7rem;" value="12/29/1964">
 
                                 <button class="input-field rounded-lg border " id="button-gradient" readonly>
-                                    <img src="../assets/images/docs.png" style="height: 15px" alt="Patient Profile">
+                                    <img src="../../assets/images/docs.png" style="height: 15px" alt="Patient Profile">
                                 </button>
                             </div>
                         </div>
@@ -205,7 +205,7 @@ session_start();
                             <input class="input-field" type="text" value="MUHAMMAD, ALI" readonly>
 
                             <button class="input-field rounded-lg border " id="button-gradient" readonly>
-                                <img src="../assets/images/play-button.png" style="height: 15px" alt="Patient Profile">
+                                <img src="../../assets/images/play-button.png" style="height: 15px" alt="Patient Profile">
                             </button>
 
                         </div>
@@ -227,7 +227,7 @@ session_start();
                             <label>SPI</label>
                             <input class="input-field" type="text" value="45648943232" readonly>
                             <button class="input-field rounded-lg border " id="button-gradient" readonly>
-                                <img src="../assets/images/play-button.png" style="height: 15px" alt="Patient Profile">
+                                <img src="../../assets/images/play-button.png" style="height: 15px" alt="Patient Profile">
                             </button>
                         </div>
                     </div>
