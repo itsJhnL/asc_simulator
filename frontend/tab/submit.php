@@ -25,7 +25,8 @@ $random_pages = [
     "prescription.php",
     "prescriptioncc.php",
     "prescriptionpp.php",
-   
+    // "prescriptionDualDUR.php",
+
 ];
 
 do {

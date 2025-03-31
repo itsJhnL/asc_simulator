@@ -8,6 +8,12 @@ if (!isset($_POST["clarificationCode"])) {
     exit;
 }
 
+// ✅ Check Special Packaging Indicator
+if (!isset($_POST["specialPackagingIndicator"]) || $_POST["specialPackagingIndicator"] !== "4") {
+    echo json_encode(["success" => false, "message" => "M/I Special Packaging Indicator"]);
+    exit;
+}
+
 $clarificationCode = $_POST["clarificationCode"];
 $claim_id = 1; // Assuming claim_id is fixed for now
 
@@ -24,19 +30,17 @@ try {
         exit;
     }
 
-    // ✅ Condition 1: Clarification code check
+    // ✅ Validate Clarification Code and Day Supply
     if ($clarificationCode != "34") {
         echo json_encode(["success" => false, "message" => "❌ ACA Shortcycle drug, please adjust the day supply and qty accordingly."]);
         exit;
     }
 
-    // ✅ Condition 2: Day supply check (must be 14)
     if ($day_supply != 14) {
         echo json_encode(["success" => false, "message" => "❌ ACA Shortcycle drug. Day supply must be set to 14 days."]);
         exit;
     }
 
-    // ✅ If both conditions pass, return success
     echo json_encode(["success" => true, "message" => "✅ Paid Claim"]);
     exit;
 

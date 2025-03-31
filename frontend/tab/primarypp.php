@@ -554,252 +554,198 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
             </div>
 
             <script>
-                document.getElementById("searchInput").addEventListener("input", function () {
-                    let filter = this.value.toLowerCase();
-                    document.querySelectorAll("#fieldTable tbody tr").forEach(row => {
-                        row.style.display = row.textContent.toLowerCase().includes(filter) ? "" : "none";
-                    });
-                });
+              document.getElementById("searchInput").addEventListener("input", function () {
+    let filter = this.value.toLowerCase();
+    document.querySelectorAll("#fieldTable tbody tr").forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(filter) ? "" : "none";
+    });
+});
 
-                document.addEventListener("keydown", function (event) {
-                    if (event.ctrlKey && event.key === "f") {
-                        event.preventDefault();
-                        let searchInput = document.getElementById("searchInput");
-                        searchInput.style.display = "block";
-                        searchInput.focus();
-                    }
-                    if (event.altKey && event.key.toLowerCase() === "e") {
-                        event.preventDefault();
-                        document.getElementById("editButton")?.click();
-                    }
-                    if (event.altKey && event.key.toLowerCase() === "d") {
-                        event.preventDefault();
-                        document.getElementById("fieldModal")?.click();
-                    }
-                    // Remove row on "r" key press
-                    if (event.key.toLowerCase() === "r") {
-                        let selectedRow = document.querySelector("#userTable tr.selected");
-                        if (selectedRow) {
-                            let code = selectedRow.children[1].textContent.trim();
-                            removeRowFromDatabase(code);  // Delete from database
-                            selectedRow.remove();  // Remove row from UI
-                        }
-                    }
-                });
+document.addEventListener("keydown", function (event) {
+    if (event.ctrlKey && event.key === "f") {
+        event.preventDefault();
+        let searchInput = document.getElementById("searchInput");
+        searchInput.style.display = "block";
+        searchInput.focus();
+    }
+    if (event.altKey && event.key.toLowerCase() === "e") {
+        event.preventDefault();
+        document.getElementById("editButton")?.click();
+    }
+    if (event.altKey && event.key.toLowerCase() === "d") {
+        event.preventDefault();
+        document.getElementById("fieldModal")?.click();
+    }
+    if (event.key.toLowerCase() === "r") {
+        let selectedRow = document.querySelector("#userTable tr.selected");
+        if (selectedRow) {
+            let code = selectedRow.children[1].textContent.trim();
+            removeRowFromDatabase(code);
+            selectedRow.remove();
+        }
+    }
+});
 
-                function fetchData() {
-                    fetch("fetch_datapp.php")
-                        .then(response => response.json())
-                        .then(data => {
-                            let userTable = document.getElementById("userTable");
-                            userTable.innerHTML = "";
+function fetchData() {
+    fetch("fetch_datapp.php")
+        .then(response => response.json())
+        .then(data => {
+            let userTable = document.getElementById("userTable");
+            userTable.innerHTML = "";
 
-                            data.forEach(entry => {
-                                let newRow = document.createElement("tr");
-                                newRow.innerHTML = `
+            data.forEach(entry => {
+                let newRow = document.createElement("tr");
+                newRow.innerHTML = `
                     <td>${entry.segment}</td>
                     <td>${entry.code}</td>
                     <td><input type='text' class='valueInput' value='${entry.value}' disabled></td>
                     <td><button class="btn btn-danger btn-sm removeButton">Remove</button></td>
                 `;
-                                userTable.appendChild(newRow);
-                            });
-                        })
-                        .catch(error => console.error("Error fetching data:", error));
-                }
+                userTable.appendChild(newRow);
+            });
+        })
+        .catch(error => console.error("Error fetching data:", error));
+}
 
-                document.addEventListener("DOMContentLoaded", fetchData);
+document.addEventListener("DOMContentLoaded", fetchData);
 
+document.getElementById("okButton").addEventListener("click", function () {
+    let checkboxes = document.querySelectorAll("#fieldTable tbody input[type='checkbox']:checked");
+    let userTable = document.getElementById("userTable");
 
+    checkboxes.forEach(checkbox => {
+        let row = checkbox.closest("tr");
+        let code = row.children[1].textContent;
+        let description = row.children[2].textContent;
 
-                document.getElementById("okButton").addEventListener("click", function () {
-                    let checkboxes = document.querySelectorAll("#fieldTable tbody input[type='checkbox']:checked");
-                    let userTable = document.getElementById("userTable");
-
-                    checkboxes.forEach(checkbox => {
-                        let row = checkbox.closest("tr");
-                        let code = row.children[1].textContent;
-                        let description = row.children[2].textContent;
-
-                        let newRow = document.createElement("tr");
-                        newRow.innerHTML = `
+        let newRow = document.createElement("tr");
+        newRow.innerHTML = `
             <td>Prescriber</td>
             <td>${description}</td>
             <td><input type='text' class='valueInput' placeholder='Enter value'></td>
             <td><button class="btn btn-danger btn-sm removeButton">Remove</button></td>
         `;
 
-                        userTable.appendChild(newRow);
-                    });
+        userTable.appendChild(newRow);
+    });
 
-                    let modal = bootstrap.Modal.getInstance(document.getElementById("fieldModal"));
-                    modal.hide();
-                });
+    let modal = bootstrap.Modal.getInstance(document.getElementById("fieldModal"));
+    modal.hide();
+});
 
-                document.getElementById("userTable").addEventListener("click", function (event) {
-                    if (event.target.classList.contains("removeButton")) {
-                        let row = event.target.closest("tr");
-                        let code = row.children[1].textContent;
+document.getElementById("userTable").addEventListener("click", function (event) {
+    if (event.target.classList.contains("removeButton")) {
+        let row = event.target.closest("tr");
+        let code = row.children[1].textContent;
 
-                        if (confirm("Are you sure you want to delete this field?")) {
-                            removeRowFromDatabase(code);  // Delete from database
-                            row.remove();  // Remove row from UI
-                        }
-                    }
-                });
+        if (confirm("Are you sure you want to delete this field?")) {
+            removeRowFromDatabase(code);
+            row.remove();
+        }
+    }
+});
 
-                function removeRowFromDatabase(code) {
-                    fetch("delete_datapp.php", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({ code: code })
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                console.log("Row deleted from the database successfully.");
-                            } else {
-                                alert("Error deleting field: " + data.error);
-                            }
-                        })
-                        .catch(error => console.error("Error deleting field from the database:", error));
-                }
+function removeRowFromDatabase(code) {
+    fetch("delete_datapp.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ code: code })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log("Row deleted from the database successfully.");
+            } else {
+                alert("Error deleting field: " + data.error);
+            }
+        })
+        .catch(error => console.error("Error deleting field from the database:", error));
+}
 
-                document.getElementById("saveButton").addEventListener("click", function () {
-                    let updatedData = [];
+document.getElementById("submitForm").addEventListener("submit", function (event) {
+    event.preventDefault();
 
-                    document.querySelectorAll("#userTable tr").forEach(row => {
-                        updatedData.push({
-                            segment: row.children[0].textContent,
-                            code: row.children[1].textContent,
-                            value: row.children[2].querySelector("input").value
-                        });
-                    });
+    let isClaimPaid = document.querySelector(".header-alert").textContent.includes("Claim has been adjudicated");
+    if (isClaimPaid) {
+        Swal.fire({
+            icon: "error",
+            title: "Claim is already paid!",
+            text: "You cannot edit or submit again.",
+            confirmButtonColor: "#d33",
+        });
+        return;
+    }
 
-                    fetch("edit_datapp.php", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({ data: updatedData })
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            alert("Data saved successfully!");
-                            document.querySelectorAll("#userTable input").forEach(input => input.setAttribute("disabled", true));
-                            document.getElementById("userTable").classList.add("table-disabled");
-                            document.getElementById("editButton").removeAttribute("disabled");
-                            document.getElementById("saveButton").setAttribute("disabled", true);
-                        })
-                        .catch(error => console.error("Error saving data:", error));
-                });
+    let rows = document.querySelectorAll("#userTable tr");
+    let prescriberLastName = "";
+    let quantityPrescribed = "";
+    let hasPrescriberLastName = false;
+    let hasQuantityPrescribed = false;
+    let isValid = true;
+    let headerAlert = document.querySelector(".header-alert");
 
-                document.getElementById("editButton").addEventListener("click", function () {
-                    document.querySelectorAll("#userTable input").forEach(input => input.removeAttribute("disabled"));
-                    document.getElementById("userTable").classList.remove("table-disabled");
-                    document.getElementById("saveButton").removeAttribute("disabled");
-                    document.getElementById("editButton").setAttribute("disabled", true);
-                });
+    rows.forEach(row => {
+        let code = row.children[1].textContent.trim().toLowerCase();
+        let valueInput = row.children[2].querySelector("input");
+        let value = valueInput.value.trim();
 
-                document.getElementById("submitForm").addEventListener("submit", function (event) {
-                    event.preventDefault();
+        if (value === "") {
+            isValid = false;
+            valueInput.classList.add("is-invalid");
+        } else {
+            valueInput.classList.remove("is-invalid");
+        }
 
-                    let rows = document.querySelectorAll("#userTable tr");
-                    let prescriberLastName = "";
-                    let quantityPrescribed = "";
-                    let hasPrescriberLastName = false;
-                    let hasQuantityPrescribed = false;
-                    let isValid = true;
-                    let headerAlert = document.querySelector(".header-alert");
+        if (code.includes("prescriber last name")) {
+            prescriberLastName = value;
+            hasPrescriberLastName = true;
+        }
+        if (code.includes("quantity prescribed")) {
+            quantityPrescribed = value;
+            hasQuantityPrescribed = true;
+        }
+    });
 
-                    rows.forEach(row => {
-                        let code = row.children[1].textContent.trim().toLowerCase();
-                        let valueInput = row.children[2].querySelector("input");
-                        let value = valueInput.value.trim();
+    if (!hasPrescriberLastName || !hasQuantityPrescribed) {
+        Swal.fire({
+            icon: "error",
+            title: "Missing Required Fields!",
+            text: "Both 'Prescriber Last Name' and 'Quantity Prescribed' must be added.",
+            confirmButtonColor: "#d33",
+        });
+        return;
+    }
 
-                        if (value === "") {
-                            isValid = false;
-                            valueInput.classList.add("is-invalid");
-                        } else {
-                            valueInput.classList.remove("is-invalid");
-                        }
+    if (!isValid) {
+        Swal.fire({
+            icon: "warning",
+            title: "Missing Fields!",
+            text: "Please fill in all fields before submitting.",
+            confirmButtonColor: "#3085d6",
+        });
+        return;
+    }
 
-                        if (code.includes("prescriber last name")) {
-                            prescriberLastName = value;
-                            hasPrescriberLastName = true;
-                        }
-                        if (code.includes("quantity prescribed")) {
-                            quantityPrescribed = value;
-                            hasQuantityPrescribed = true;
-                        }
-                    });
+    let delay = Math.floor(Math.random() * 5000) + 1000;
 
-                    if (!hasPrescriberLastName || !hasQuantityPrescribed) {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Missing Required Fields!",
-                            text: "Both 'Prescriber Last Name' and 'Quantity Prescribed' must be added.",
-                            confirmButtonColor: "#d33",
-                        });
-                        return;
-                    }
-
-                    if (!isValid) {
-                        Swal.fire({
-                            icon: "warning",
-                            title: "Missing Fields!",
-                            text: "Please fill in all fields before submitting.",
-                            confirmButtonColor: "#3085d6",
-                        });
-                        return;
-                    }
-                    if (prescriberLastName !== "Bruno") {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Validation Error!",
-                            text: "Prescriber’s Last Name must be 'Bruno'.",
-                            confirmButtonColor: "#d33",
-                        });
-                        return;
-                    }
-                    if (quantityPrescribed !== "30") {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Validation Error!",
-                            text: "Quantity Prescribed must be '30'.",
-                            confirmButtonColor: "#d33",
-                        });
-                        return;
-                    }
-
-                    let delay = Math.floor(Math.random() * 5000) + 1000;
-
-                    Swal.fire({
-                        icon: "info",
-                        title: "Processing...",
-                        text: "Validating claim...",
-                        showConfirmButton: false,
-                        allowOutsideClick: false,
-                        timer: delay,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    }).then(() => {
-                        headerAlert.textContent = "Claim has been adjudicated";
-                        headerAlert.style.color = "green";
-
-                        Swal.fire({
-                            icon: "success",
-                            title: "Paid Claim!",
-                            text: "Claim has been adjudicated",
-                            confirmButtonColor: "#3085d6",
-                        });
-                    });
-                });
-
-
+    Swal.fire({
+        icon: "info",
+        title: "Processing...",
+        text: "Validating claim...",
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        timer: delay,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    }).then(() => {
+        headerAlert.textContent = "Claim has been adjudicated";
+        headerAlert.style.color = "green";
+        disableInputsAndButtons();
+    });
+});
             </script>
 
             <!-- Claim Response Modal-->

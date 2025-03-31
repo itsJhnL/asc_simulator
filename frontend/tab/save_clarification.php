@@ -1,33 +1,19 @@
 <?php
-/* not working: This function for some reason when submitting the clarification code, it end up to "Error No clarification code selected.". But when I hide this function I got paid claim.  */
-
-/* include 'db_connection.php';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $stmt->close();
-    $conn->close();
-} */
-
-// ✅ Start session only if not started
+// ✅ Only start session if it is not already active
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Database connection
-$host = "localhost";
-$user = "root"; // Change this to your database user
-$pass = ""; // Change this to your database password
-$dbname = "clarification"; // Change this to your actual database
+header("Content-Type: application/json");
 
-$conn = new mysqli($host, $user, $pass, $dbname);
+// ✅ Get JSON data from frontend
+$data = json_decode(file_get_contents("php://input"), true);
 
-// Check connection
-if ($conn->connect_error) {
-    die(json_encode(["success" => false, "message" => "Database connection failed"]));
+if (!isset($data["clarificationCode"])) {
+    echo json_encode(["success" => false, "message" => "No clarification code provided."]);
+    exit;
 }
 
-// Get JSON data from frontend
-$data = json_decode(file_get_contents("php://input"), true);
 $clarificationCode = $data["clarificationCode"];
 $patient = $data["patient"];
 $prescriptionNumber = $data["prescriptionNumber"];
@@ -35,23 +21,44 @@ $prescriptionNumber = $data["prescriptionNumber"];
 // ✅ Store clarification code in session
 $_SESSION["clarificationCode"] = $clarificationCode;
 
-// Prepare SQL statement to insert data
-$sql = "INSERT INTO clarification_codes (clarification_code, patient, prescription_number) VALUES (?, ?, ?)";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("sss", $clarificationCode, $patient, $prescriptionNumber);
+// Database connection
+$host = "localhost";
+$user = "root";
+$pass = "";
+$dbname = "clarification";
 
-$response = [];
-if ($stmt->execute()) {
-    $response["success"] = true;
-    $response["message"] = "Clarification code saved successfully!";
-} else {
-    $response["success"] = false;
-    $response["message"] = "Failed to save clarification code.";
+$conn = new mysqli($host, $user, $pass, $dbname);
+if ($conn->connect_error) {
+    echo json_encode(["success" => false, "message" => "Database connection failed: " . $conn->connect_error]);
+    exit;
 }
 
-echo json_encode($response);
+// ✅ Check if the record already exists
+$sql_check = "SELECT id FROM clarification_codes WHERE clarification_code = ? AND patient = ? AND prescription_number = ?";
+$stmt_check = $conn->prepare($sql_check);
+$stmt_check->bind_param("sss", $clarificationCode, $patient, $prescriptionNumber);
+$stmt_check->execute();
+$stmt_check->store_result();
 
-// Close database connection
-$stmt->close();
+if ($stmt_check->num_rows > 0) {
+    echo json_encode(["success" => true, "message" => "Clarification code already saved."]);
+    $stmt_check->close();
+    $conn->close();
+    exit;
+}
+$stmt_check->close();
+
+// ✅ Insert into database
+$sql_insert = "INSERT INTO clarification_codes (clarification_code, patient, prescription_number) VALUES (?, ?, ?)";
+$stmt_insert = $conn->prepare($sql_insert);
+$stmt_insert->bind_param("sss", $clarificationCode, $patient, $prescriptionNumber);
+
+if ($stmt_insert->execute()) {
+    echo json_encode(["success" => true, "message" => "Clarification code saved successfully!"]);
+} else {
+    echo json_encode(["success" => false, "message" => "Failed to save clarification code: " . $stmt_insert->error]);
+}
+
+$stmt_insert->close();
 $conn->close();
 ?>

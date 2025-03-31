@@ -28,7 +28,7 @@
             </button>
         </div>
         <div class="px-1">
-            <button type="submit" class="btn btn-custom" id="saveButton">
+            <button type="button" class="btn btn-custom" id="saveButton" accesskey="s">
                 <img src="../assets/images/save.png" class="height_image_buttons" alt="header button">
             </button>
         </div>

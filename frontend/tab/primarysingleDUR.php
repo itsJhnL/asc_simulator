@@ -361,7 +361,6 @@
         let selectedId = null;
         let selectedRow = null;
 
-        // Handle row selection
         document.getElementById("userTable").addEventListener("click", function (event) {
             let row = event.target.closest("tr");
             if (!row || document.getElementById("userTable").classList.contains("disabled-table")) return;
@@ -374,7 +373,6 @@
             selectedRow = row;
         });
 
-        // Function to update the table dynamically
         function updateTable() {
             let tableBody = document.getElementById("userTable");
             tableBody.innerHTML = "";
@@ -401,7 +399,6 @@
                 tableBody.innerHTML += rowGroup;
             });
 
-            // Handle row selection after updating the table
             document.querySelectorAll(".selectable-row").forEach(row => {
                 row.addEventListener("click", function () {
                     if (document.getElementById("userTable").classList.contains("disabled-table")) return;
