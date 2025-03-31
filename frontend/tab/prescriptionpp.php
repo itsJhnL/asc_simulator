@@ -251,7 +251,7 @@ try {
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <label for="">Total Qty Written</label>
-                        <input class="input-field" type="text" style="max-width: 5rem" value="0">
+                        <input class="input-field" type="text" style="max-width: 5rem" value="30">
                     </div>
                     <div class="d-flex">
                         <div class="">

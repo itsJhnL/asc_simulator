@@ -216,8 +216,8 @@ if (file_exists($tempFile)) {
                 <button class="btn btn-custom" accesskey="h" class="btn btn-custom" data-toggle="modal" id="open-modal"
                     data-target="#ClaimModal">Show Claim Response</button>
                 <button id="ccButton" class="btn-custom" accesskey="a" data-bs-toggle="modal" data-bs-target="#ccModal">
-    <?= $clarificationCode ? "Clarification Code: $clarificationCode" : "Select Clarification Code" ?>
-</button>
+                    <?= $clarificationCode ? "Clarification Code: $clarificationCode" : "Select Clarification Code" ?>
+                </button>
             </div>
 
             <div class="col">
@@ -352,7 +352,7 @@ if (file_exists($tempFile)) {
                     </div>
                 </div>
             </div>
-<input type="hidden" name="clarificationCode" id="clarificationCodeInput" value="<?= htmlspecialchars($clarificationCode) ?>">
+            <input type="hidden" name="clarificationCode" id="clarificationCodeInput" value="<?= htmlspecialchars($clarificationCode) ?>">
 
 
 
@@ -377,202 +377,214 @@ if (file_exists($tempFile)) {
 
 
 
-   <script>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    let okButton = document.getElementById("okButton");
+                    let ccButton = document.getElementById("ccButton");
+                    let submitForm = document.getElementById("submitForm");
+                    let headerAlert = document.querySelector(".header-alert");
+                    let specialPackagingInput = document.getElementById("specialPackagingInput");
+                    let saveButton = document.getElementById("saveButton");
+                    let editButton = document.getElementById("editButton");
+                    let specialPackagingRow = specialPackagingInput.closest("tr");
 
-    document.addEventListener("DOMContentLoaded", function () {
-    let okButton = document.getElementById("okButton");
-    let ccButton = document.getElementById("ccButton");
-    let submitForm = document.getElementById("submitForm");
-    let headerAlert = document.querySelector(".header-alert");
-    let specialPackagingInput = document.getElementById("specialPackagingInput");
-    let saveButton = document.getElementById("saveButton");
-    let editButton = document.getElementById("editButton");
-    let specialPackagingRow = specialPackagingInput.closest("tr");
+                    specialPackagingInput.value = "";
+                    localStorage.removeItem("specialPackagingIndicator");
 
-    specialPackagingInput.value = "";
-    localStorage.removeItem("specialPackagingIndicator");
+                    function disableInputsAndTable() {
+                        document.querySelectorAll("input, select, textarea").forEach(el => el.disabled = true);
+                        document.querySelectorAll("table").forEach(table => table.classList.add("disabled-table"));
+                    }
 
-    function disableInputsAndTable() {
-        document.querySelectorAll("input, select, textarea").forEach(el => el.disabled = true);
-        document.querySelectorAll("table").forEach(table => table.classList.add("disabled-table"));
-    }
+                    function enableInputsAndTable() {
+                        document.querySelectorAll("input, select, textarea").forEach(el => el.disabled = false);
+                        document.querySelectorAll("table").forEach(table => table.classList.remove("disabled-table"));
+                    }
 
-    function enableInputsAndTable() {
-        document.querySelectorAll("input, select, textarea").forEach(el => el.disabled = false);
-        document.querySelectorAll("table").forEach(table => table.classList.remove("disabled-table"));
-    }
+                    function disableButtonsExceptReverse() {
+                        document.querySelectorAll(".btn-custom").forEach(button => {
+                            if (button.getAttribute("accesskey") !== "r") {
+                                button.disabled = true;
+                            }
+                        });
+                    }
 
-    function disableButtonsExceptReverse() {
-        document.querySelectorAll(".btn-custom").forEach(button => {
-            if (button.getAttribute("accesskey") !== "r") {
-                button.disabled = true;
-            }
-        });
-    }
-    function enableAllButtons() {
-        document.querySelectorAll(".btn-custom").forEach(button => {
-            button.disabled = false;
-        });
-    }
-    let claimStatus = localStorage.getItem("claimStatus");
-    if (claimStatus === "paid") {
-        headerAlert.textContent = "Claim has been adjudicated";
-        headerAlert.style.color = "green";
-        disableInputsAndTable();
-        disableButtonsExceptReverse();
-    }
+                    function enableAllButtons() {
+                        document.querySelectorAll(".btn-custom").forEach(button => {
+                            button.disabled = false;
+                        });
+                    }
+                    let claimStatus = localStorage.getItem("claimStatus");
+                    if (claimStatus === "paid") {
+                        headerAlert.textContent = "Claim has been adjudicated";
+                        headerAlert.style.color = "green";
+                        disableInputsAndTable();
+                        disableButtonsExceptReverse();
+                    }
 
 
-    saveButton.addEventListener("click", function () {
-        let value = specialPackagingInput.value.trim();
+                    saveButton.addEventListener("click", function() {
+                        let value = specialPackagingInput.value.trim();
 
-        if (!value) {
-            Swal.fire("Error", "Special Packaging Indicator cannot be empty.", "error");
-            return;
-        }
-        localStorage.setItem("specialPackagingIndicator", value);
-        specialPackagingRow.classList.add("disabled-row");
-        specialPackagingInput.disabled = true;
-        saveButton.disabled = true;
-        editButton.disabled = false;
-    });
-
-    editButton.addEventListener("click", function () {
-        specialPackagingRow.classList.remove("disabled-row");
-        specialPackagingInput.disabled = false;
-        saveButton.disabled = false;
-        editButton.disabled = true;
-    });
-
-    let savedCode = sessionStorage.getItem("clarificationCode");
-    if (savedCode) {
-        ccButton.textContent = `Clarification Code: ${savedCode}`;
-        ccButton.style.background = "yellow";
-        ccButton.style.color = "black";
-        ccButton.style.border = "2px solid black";
-
-        let hiddenInput = document.getElementById("clarificationCodeInput") || document.createElement("input");
-        hiddenInput.type = "hidden";
-        hiddenInput.name = "clarificationCode";
-        hiddenInput.id = "clarificationCodeInput";
-        hiddenInput.value = savedCode;
-        submitForm.appendChild(hiddenInput);
-    }
-
-    okButton.addEventListener("click", function () {
-        let select = document.getElementById("valueSelect");
-        let selectedCode = select.value;
-
-        if (!selectedCode) {
-            Swal.fire("Error", "Please select a clarification code.", "error");
-            return;
-        }
-        sessionStorage.setItem("clarificationCode", selectedCode);
-        ccButton.textContent = `Clarification Code: ${selectedCode}`;
-        ccButton.style.background = "yellow";
-        ccButton.style.color = "black";
-        ccButton.style.border = "2px solid black";
-
-        let hiddenInput = document.getElementById("clarificationCodeInput") || document.createElement("input");
-        hiddenInput.type = "hidden";
-        hiddenInput.name = "clarificationCode";
-        hiddenInput.id = "clarificationCodeInput";
-        hiddenInput.value = selectedCode;
-        submitForm.appendChild(hiddenInput);
-
-        bootstrap.Modal.getInstance(document.getElementById("ccModal")).hide();
-    });
-
-    submitForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-    let formData = new FormData(submitForm);
-    let storedSPI = localStorage.getItem("specialPackagingIndicator");
-    let selectedCode = document.getElementById("clarificationCodeInput")?.value;
-
-    if (!storedSPI || storedSPI !== "4") {
-        Swal.fire("Error", "Claim cannot be paid. Special Packaging Indicator must be set to '4'.", "error");
-        return;
-    }
-
-    if (!selectedCode) {
-        Swal.fire("Error", "No clarification code selected.", "error");
-        return;
-    }
-    formData.append("specialPackagingIndicator", storedSPI);
-
-    Swal.fire({
-        title: "Processing...",
-        text: "Checking clarification code and day supply...",
-        allowOutsideClick: false,
-        didOpen: () => Swal.showLoading()
-    });
-
-    let delay = Math.floor(Math.random() * 5000) + 1000; 
-
-    setTimeout(() => {
-        fetch("submit_clarification.php", { method: "POST", body: formData })
-            .then(response => response.json())
-            .then(result => {
-                Swal.close();
-                if (result.success) {
-            
-                    localStorage.setItem("claimStatus", "paid");
-                    headerAlert.textContent = "Claim has been adjudicated";
-                    headerAlert.style.color = "green";
-                    disableInputsAndTable();
-                    disableButtonsExceptReverse();
-                    let randomAmountPaid = (Math.random() * (100 - 10) + 10).toFixed(2);
-                    let randomCoPay = (Math.random() * (20 - 1) + 1).toFixed(2);
-                    document.getElementById("amountPaid").value = `$${randomAmountPaid}`;
-                    document.getElementById("tCoPay").value = `$${randomCoPay}`;
-                    Swal.fire({
-                        icon: "success",
-                        title: "Claim has been adjudicated!",
-                        text: "Paid claim",
-                        confirmButtonText: "OK"
+                        if (!value) {
+                            Swal.fire("Error", "Special Packaging Indicator cannot be empty.", "error");
+                            return;
+                        }
+                        localStorage.setItem("specialPackagingIndicator", value);
+                        specialPackagingRow.classList.add("disabled-row");
+                        specialPackagingInput.disabled = true;
+                        saveButton.disabled = true;
+                        editButton.disabled = false;
                     });
 
-                } else {
-                    Swal.fire("Error", result.message, "error");
-                }
-            })
-            .catch(error => console.error("Error:", error));
-    }, delay); 
-});
-    document.querySelector(".btn-custom[accesskey='r']").addEventListener("click", function () {
-        localStorage.removeItem("claimStatus");
-        sessionStorage.removeItem("clarificationCode");
-        ccButton.textContent = "Select Clarification Code";
-        ccButton.style.background = "";
-        ccButton.style.color = "";
-        ccButton.style.border = "";
+                    editButton.addEventListener("click", function() {
+                        specialPackagingRow.classList.remove("disabled-row");
+                        specialPackagingInput.disabled = false;
+                        saveButton.disabled = false;
+                        editButton.disabled = true;
+                    });
 
-        let hiddenInput = document.getElementById("clarificationCodeInput");
-        if (hiddenInput) {
-            hiddenInput.remove();
-        }
-        Swal.fire({ title: "Reversing Claim...", text: "Restoring system to default...", allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-        setTimeout(() => {
-            Swal.close();
-            headerAlert.textContent = "Claim has been denied.";
-            headerAlert.style.color = "red";
-            enableInputsAndTable();
-            enableAllButtons();
-            Swal.fire({ icon: "info", title: "Reversed!", text: "The claim has been reversed successfully." });
-        }, 2000);
-    });
-});
-</script>
+                    let savedCode = sessionStorage.getItem("clarificationCode");
+                    if (savedCode) {
+                        ccButton.textContent = `Clarification Code: ${savedCode}`;
+                        ccButton.style.background = "yellow";
+                        ccButton.style.color = "black";
+                        ccButton.style.border = "2px solid black";
+
+                        let hiddenInput = document.getElementById("clarificationCodeInput") || document.createElement("input");
+                        hiddenInput.type = "hidden";
+                        hiddenInput.name = "clarificationCode";
+                        hiddenInput.id = "clarificationCodeInput";
+                        hiddenInput.value = savedCode;
+                        submitForm.appendChild(hiddenInput);
+                    }
+
+                    okButton.addEventListener("click", function() {
+                        let select = document.getElementById("valueSelect");
+                        let selectedCode = select.value;
+
+                        if (!selectedCode) {
+                            Swal.fire("Error", "Please select a clarification code.", "error");
+                            return;
+                        }
+                        sessionStorage.setItem("clarificationCode", selectedCode);
+                        ccButton.textContent = `Clarification Code: ${selectedCode}`;
+                        ccButton.style.background = "yellow";
+                        ccButton.style.color = "black";
+                        ccButton.style.border = "2px solid black";
+
+                        let hiddenInput = document.getElementById("clarificationCodeInput") || document.createElement("input");
+                        hiddenInput.type = "hidden";
+                        hiddenInput.name = "clarificationCode";
+                        hiddenInput.id = "clarificationCodeInput";
+                        hiddenInput.value = selectedCode;
+                        submitForm.appendChild(hiddenInput);
+
+                        bootstrap.Modal.getInstance(document.getElementById("ccModal")).hide();
+                    });
+
+                    submitForm.addEventListener("submit", function(event) {
+                        event.preventDefault();
+                        let formData = new FormData(submitForm);
+                        let storedSPI = localStorage.getItem("specialPackagingIndicator");
+                        let selectedCode = document.getElementById("clarificationCodeInput")?.value;
+
+                        if (!storedSPI || storedSPI !== "4") {
+                            Swal.fire("Error", "Claim cannot be paid. Special Packaging Indicator must be set to '4'.", "error");
+                            return;
+                        }
+
+                        if (!selectedCode) {
+                            Swal.fire("Error", "No clarification code selected.", "error");
+                            return;
+                        }
+                        formData.append("specialPackagingIndicator", storedSPI);
+
+                        Swal.fire({
+                            title: "Processing...",
+                            text: "Checking clarification code and day supply...",
+                            allowOutsideClick: false,
+                            didOpen: () => Swal.showLoading()
+                        });
+
+                        let delay = Math.floor(Math.random() * 5000) + 1000;
+
+                        setTimeout(() => {
+                            fetch("submit_clarification.php", {
+                                    method: "POST",
+                                    body: formData
+                                })
+                                .then(response => response.json())
+                                .then(result => {
+                                    Swal.close();
+                                    if (result.success) {
+
+                                        localStorage.setItem("claimStatus", "paid");
+                                        headerAlert.textContent = "Claim has been adjudicated";
+                                        headerAlert.style.color = "green";
+                                        disableInputsAndTable();
+                                        disableButtonsExceptReverse();
+                                        let randomAmountPaid = (Math.random() * (100 - 10) + 10).toFixed(2);
+                                        let randomCoPay = (Math.random() * (20 - 1) + 1).toFixed(2);
+                                        document.getElementById("amountPaid").value = `$${randomAmountPaid}`;
+                                        document.getElementById("tCoPay").value = `$${randomCoPay}`;
+                                        Swal.fire({
+                                            icon: "success",
+                                            title: "Claim has been adjudicated!",
+                                            text: "Paid claim",
+                                            confirmButtonText: "OK"
+                                        });
+
+                                    } else {
+                                        Swal.fire("Error", result.message, "error");
+                                    }
+                                })
+                                .catch(error => console.error("Error:", error));
+                        }, delay);
+                    });
+                    document.querySelector(".btn-custom[accesskey='r']").addEventListener("click", function() {
+                        localStorage.removeItem("claimStatus");
+                        sessionStorage.removeItem("clarificationCode");
+                        ccButton.textContent = "Select Clarification Code";
+                        ccButton.style.background = "";
+                        ccButton.style.color = "";
+                        ccButton.style.border = "";
+
+                        let hiddenInput = document.getElementById("clarificationCodeInput");
+                        if (hiddenInput) {
+                            hiddenInput.remove();
+                        }
+                        Swal.fire({
+                            title: "Reversing Claim...",
+                            text: "Restoring system to default...",
+                            allowOutsideClick: false,
+                            didOpen: () => Swal.showLoading()
+                        });
+                        setTimeout(() => {
+                            Swal.close();
+                            headerAlert.textContent = "Claim has been denied.";
+                            headerAlert.style.color = "red";
+                            enableInputsAndTable();
+                            enableAllButtons();
+                            Swal.fire({
+                                icon: "info",
+                                title: "Reversed!",
+                                text: "The claim has been reversed successfully."
+                            });
+                        }, 2000);
+                    });
+                });
+            </script>
 
 
 
 
             <!-- Claim Response Modal-->
             <div class="modal fade" id="ClaimModal" tabindex="-1" aria-labelledby="ClaimModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl" style="font-style=14px;">
+                <div class="modal-dialog modal-xl" style="font-style: 14px;">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <img src="error.png" alt="Error" width="30" class="me-2" style="align=left;">
+                            <img src="error.png" alt="Error" width="30" class="me-2">
                             <h5 class="modal-title" id="ClaimModalLabel">The Claim Has Been Rejected</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>

@@ -237,8 +237,8 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
 
             <div class="d-flex pt-2">
                 <button class="btn btn-custom">Show Reject Reasons</button>
-                <button class="btn btn-custom" accesskey="h" class="btn btn-custom" data-toggle="modal" id="open-modal"
-                    data-target="#ClaimModal">Show Claim Response</button>
+                <button class="btn btn-custom" accesskey="h" data-bs-toggle="modal" data-bs-target="#ClaimModal"
+                    accesskey="d">Show Claim Response</button>
                 <button class="btn btn-custom" accesskey="a" data-bs-toggle="modal" data-bs-target="#ccModal"
                     id="ccButton">Clarification Codes</button>
             </div>
@@ -247,6 +247,102 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
                 <div class="d-flex justify-content-end mt-3">
 
                     <button class="btn btn-outline-secondary">Track P/A Form Using <b>covermymeds</b></button>
+                </div>
+            </div>
+
+            <!-- Claim Response Modal-->
+            <div class="modal fade" id="ClaimModal" tabindex="-1" aria-labelledby="ClaimModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" style="font-style=14px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <img src="error.png" alt="Error" width="30" class="me-2" style="align=left;">
+                            <h5 class="modal-title" id="ClaimModalLabel">The Claim Has Been Rejected</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th> Code</th>
+                                        <th>Field Name</th>
+                                        <th>Value</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr class="table-primary">
+                                        <td colspan="3">Response Patient</td>
+                                    </tr>
+                                    <tr>
+                                        <td>310-CA</td>
+                                        <td>Patient First Name</td>
+                                        <td>JUAN PAUL</td>
+                                    </tr>
+                                    <tr>
+                                        <td>311-CB</td>
+                                        <td>Patient Last Name</td>
+                                        <td>DOMINGO</td>
+                                    </tr>
+                                    <tr>
+                                        <td>304-C4</td>
+                                        <td>Date of Birth</td>
+                                        <td>19350701</td>
+                                    </tr>
+                                    <tr class="table-primary">
+                                        <td colspan="3">Response Status</td>
+                                    </tr>
+                                    <tr>
+                                        <td>112-AN</td>
+                                        <td>Transaction Response Status</td>
+                                        <td>R - Rejected</td>
+                                    </tr>
+                                    <tr>
+                                        <td>103-F3</td>
+                                        <td>Authorization Number</td>
+                                        <td>250692965796008999</td>
+                                    </tr>
+                                    <tr>
+                                        <td>510-FA</td>
+                                        <td>Reject Count</td>
+                                        <td>01</td>
+                                    </tr>
+                                    <tr>
+                                        <td>511-FB</td>
+                                        <td>Reject Code</td>
+                                        <td>M/I Prescriber Last Name</td>
+                                    </tr>
+                                    <tr>
+                                        <td>511-FB</td>
+                                        <td>Reject Code</td>
+                                        <td>M/I Quantity Prescribed</td>
+                                    </tr>
+
+                                    <tr class="table-primary">
+                                        <td colspan="3">Response Claim</td>
+                                    </tr>
+                                    <tr>
+                                        <td>455-EM</td>
+                                        <td>Prescription/Service Reference Number</td>
+                                        <td>1- Rx Billing</td>
+                                    </tr>
+                                    <tr>
+                                        <td>402-D2</td>
+                                        <td>Prescription/Service Reference Number</td>
+                                        <td>52025688</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                                aria-label="Close">Close</button>
+                            <button type="button" class="btn btn-info">Print</button>
+                            <button type="button" class="btn btn-outline-info">Print Medicare Part D Coverage
+                                Determination
+                                Request</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -553,314 +649,267 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
                 </div>
             </div>
 
+
+
             <script>
-              document.getElementById("searchInput").addEventListener("input", function () {
-    let filter = this.value.toLowerCase();
-    document.querySelectorAll("#fieldTable tbody tr").forEach(row => {
-        row.style.display = row.textContent.toLowerCase().includes(filter) ? "" : "none";
-    });
-});
+                document.getElementById("searchInput").addEventListener("input", function () {
+                    let filter = this.value.toLowerCase();
+                    document.querySelectorAll("#fieldTable tbody tr").forEach(row => {
+                        row.style.display = row.textContent.toLowerCase().includes(filter) ? "" : "none";
+                    });
+                });
 
-document.addEventListener("keydown", function (event) {
-    if (event.ctrlKey && event.key === "f") {
-        event.preventDefault();
-        let searchInput = document.getElementById("searchInput");
-        searchInput.style.display = "block";
-        searchInput.focus();
-    }
-    if (event.altKey && event.key.toLowerCase() === "e") {
-        event.preventDefault();
-        document.getElementById("editButton")?.click();
-    }
-    if (event.altKey && event.key.toLowerCase() === "d") {
-        event.preventDefault();
-        document.getElementById("fieldModal")?.click();
-    }
-    if (event.key.toLowerCase() === "r") {
-        let selectedRow = document.querySelector("#userTable tr.selected");
-        if (selectedRow) {
-            let code = selectedRow.children[1].textContent.trim();
-            removeRowFromDatabase(code);
-            selectedRow.remove();
-        }
-    }
-});
+                document.addEventListener("keydown", function (event) {
+                    if (event.ctrlKey && event.key === "f") {
+                        event.preventDefault();
+                        let searchInput = document.getElementById("searchInput");
+                        searchInput.style.display = "block";
+                        searchInput.focus();
+                    }
+                    if (event.altKey && event.key.toLowerCase() === "e") {
+                        event.preventDefault();
+                        document.getElementById("editButton")?.click();
+                    }
+                    if (event.altKey && event.key.toLowerCase() === "d") {
+                        event.preventDefault();
+                        document.getElementById("fieldModal")?.click();
+                    }
+                    // Remove row on "r" key press
+                    if (event.key.toLowerCase() === "r") {
+                        let selectedRow = document.querySelector("#userTable tr.selected");
+                        if (selectedRow) {
+                            let code = selectedRow.children[1].textContent.trim();
+                            removeRowFromDatabase(code);  // Delete from database
+                            selectedRow.remove();  // Remove row from UI
+                        }
+                    }
+                });
 
-function fetchData() {
-    fetch("fetch_datapp.php")
-        .then(response => response.json())
-        .then(data => {
-            let userTable = document.getElementById("userTable");
-            userTable.innerHTML = "";
+                function fetchData() {
+                    fetch("fetch_datapp.php")
+                        .then(response => response.json())
+                        .then(data => {
+                            let userTable = document.getElementById("userTable");
+                            userTable.innerHTML = "";
 
-            data.forEach(entry => {
-                let newRow = document.createElement("tr");
-                newRow.innerHTML = `
+                            data.forEach(entry => {
+                                let newRow = document.createElement("tr");
+                                newRow.innerHTML = `
                     <td>${entry.segment}</td>
                     <td>${entry.code}</td>
                     <td><input type='text' class='valueInput' value='${entry.value}' disabled></td>
                     <td><button class="btn btn-danger btn-sm removeButton">Remove</button></td>
                 `;
-                userTable.appendChild(newRow);
-            });
-        })
-        .catch(error => console.error("Error fetching data:", error));
-}
+                                userTable.appendChild(newRow);
+                            });
+                        })
+                        .catch(error => console.error("Error fetching data:", error));
+                }
 
-document.addEventListener("DOMContentLoaded", fetchData);
+                document.addEventListener("DOMContentLoaded", fetchData);
 
-document.getElementById("okButton").addEventListener("click", function () {
-    let checkboxes = document.querySelectorAll("#fieldTable tbody input[type='checkbox']:checked");
-    let userTable = document.getElementById("userTable");
 
-    checkboxes.forEach(checkbox => {
-        let row = checkbox.closest("tr");
-        let code = row.children[1].textContent;
-        let description = row.children[2].textContent;
 
-        let newRow = document.createElement("tr");
-        newRow.innerHTML = `
+                document.getElementById("okButton").addEventListener("click", function () {
+                    let checkboxes = document.querySelectorAll("#fieldTable tbody input[type='checkbox']:checked");
+                    let userTable = document.getElementById("userTable");
+
+                    checkboxes.forEach(checkbox => {
+                        let row = checkbox.closest("tr");
+                        let code = row.children[1].textContent;
+                        let description = row.children[2].textContent;
+
+                        let newRow = document.createElement("tr");
+                        newRow.innerHTML = `
             <td>Prescriber</td>
             <td>${description}</td>
-            <td><input type='text' class='valueInput' placeholder='Enter value'></td>
+            <td><input type='text' class='valueInput' placeholder='Enter value' onkeyup="lettersOnly(this)"
+                                        oninput="this.value = this.value.toUpperCase()"></td>
             <td><button class="btn btn-danger btn-sm removeButton">Remove</button></td>
         `;
 
-        userTable.appendChild(newRow);
-    });
+                        userTable.appendChild(newRow);
+                    });
 
-    let modal = bootstrap.Modal.getInstance(document.getElementById("fieldModal"));
-    modal.hide();
-});
+                    let modal = bootstrap.Modal.getInstance(document.getElementById("fieldModal"));
+                    modal.hide();
+                });
 
-document.getElementById("userTable").addEventListener("click", function (event) {
-    if (event.target.classList.contains("removeButton")) {
-        let row = event.target.closest("tr");
-        let code = row.children[1].textContent;
+                document.getElementById("userTable").addEventListener("click", function (event) {
+                    if (event.target.classList.contains("removeButton")) {
+                        let row = event.target.closest("tr");
+                        let code = row.children[1].textContent;
 
-        if (confirm("Are you sure you want to delete this field?")) {
-            removeRowFromDatabase(code);
-            row.remove();
-        }
-    }
-});
+                        if (confirm("Are you sure you want to delete this field?")) {
+                            removeRowFromDatabase(code);  // Delete from database
+                            row.remove();  // Remove row from UI
+                        }
+                    }
+                });
 
-function removeRowFromDatabase(code) {
-    fetch("delete_datapp.php", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ code: code })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                console.log("Row deleted from the database successfully.");
-            } else {
-                alert("Error deleting field: " + data.error);
-            }
-        })
-        .catch(error => console.error("Error deleting field from the database:", error));
-}
+                function removeRowFromDatabase(code) {
+                    fetch("delete_datapp.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ code: code })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                console.log("Row deleted from the database successfully.");
+                            } else {
+                                alert("Error deleting field: " + data.error);
+                            }
+                        })
+                        .catch(error => console.error("Error deleting field from the database:", error));
+                }
 
-document.getElementById("submitForm").addEventListener("submit", function (event) {
-    event.preventDefault();
+                document.getElementById("saveButton").addEventListener("click", function () {
+                    let updatedData = [];
 
-    let isClaimPaid = document.querySelector(".header-alert").textContent.includes("Claim has been adjudicated");
-    if (isClaimPaid) {
-        Swal.fire({
-            icon: "error",
-            title: "Claim is already paid!",
-            text: "You cannot edit or submit again.",
-            confirmButtonColor: "#d33",
-        });
-        return;
-    }
+                    document.querySelectorAll("#userTable tr").forEach(row => {
+                        updatedData.push({
+                            segment: row.children[0].textContent,
+                            code: row.children[1].textContent,
+                            value: row.children[2].querySelector("input").value
+                        });
+                    });
 
-    let rows = document.querySelectorAll("#userTable tr");
-    let prescriberLastName = "";
-    let quantityPrescribed = "";
-    let hasPrescriberLastName = false;
-    let hasQuantityPrescribed = false;
-    let isValid = true;
-    let headerAlert = document.querySelector(".header-alert");
+                    fetch("edit_datapp.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ data: updatedData })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            alert("Data saved successfully!");
+                            document.querySelectorAll("#userTable input").forEach(input => input.setAttribute("disabled", true));
+                            document.getElementById("userTable").classList.add("table-disabled");
+                            document.getElementById("editButton").removeAttribute("disabled");
+                            document.getElementById("saveButton").setAttribute("disabled", true);
+                        })
+                        .catch(error => console.error("Error saving data:", error));
+                });
 
-    rows.forEach(row => {
-        let code = row.children[1].textContent.trim().toLowerCase();
-        let valueInput = row.children[2].querySelector("input");
-        let value = valueInput.value.trim();
+                document.getElementById("editButton").addEventListener("click", function () {
+                    document.querySelectorAll("#userTable input").forEach(input => input.removeAttribute("disabled"));
+                    document.getElementById("userTable").classList.remove("table-disabled");
+                    document.getElementById("saveButton").removeAttribute("disabled");
+                    document.getElementById("editButton").setAttribute("disabled", true);
+                });
 
-        if (value === "") {
-            isValid = false;
-            valueInput.classList.add("is-invalid");
-        } else {
-            valueInput.classList.remove("is-invalid");
-        }
+                document.getElementById("submitForm").addEventListener("submit", function (event) {
+                    event.preventDefault();
 
-        if (code.includes("prescriber last name")) {
-            prescriberLastName = value;
-            hasPrescriberLastName = true;
-        }
-        if (code.includes("quantity prescribed")) {
-            quantityPrescribed = value;
-            hasQuantityPrescribed = true;
-        }
-    });
+                    let isClaimPaid = document.querySelector(".header-alert").textContent.includes("Claim has been adjudicated");
+                    if (isClaimPaid) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Claim is already paid!",
+                            text: "You cannot edit or submit again.",
+                            confirmButtonColor: "#d33",
+                        });
+                        return;
+                    }
 
-    if (!hasPrescriberLastName || !hasQuantityPrescribed) {
-        Swal.fire({
-            icon: "error",
-            title: "Missing Required Fields!",
-            text: "Both 'Prescriber Last Name' and 'Quantity Prescribed' must be added.",
-            confirmButtonColor: "#d33",
-        });
-        return;
-    }
+                    let rows = document.querySelectorAll("#userTable tr");
+                    let prescriberLastName = "";
+                    let quantityPrescribed = "";
+                    let hasPrescriberLastName = false;
+                    let hasQuantityPrescribed = false;
+                    let isValid = true;
+                    let headerAlert = document.querySelector(".header-alert");
 
-    if (!isValid) {
-        Swal.fire({
-            icon: "warning",
-            title: "Missing Fields!",
-            text: "Please fill in all fields before submitting.",
-            confirmButtonColor: "#3085d6",
-        });
-        return;
-    }
+                    rows.forEach(row => {
+                        let code = row.children[1].textContent.trim().toLowerCase();
+                        let valueInput = row.children[2].querySelector("input");
+                        let value = valueInput.value.trim();
 
-    let delay = Math.floor(Math.random() * 5000) + 1000;
+                        if (value === "") {
+                            isValid = false;
+                            valueInput.classList.add("is-invalid");
+                        } else {
+                            valueInput.classList.remove("is-invalid");
+                        }
 
-    Swal.fire({
-        icon: "info",
-        title: "Processing...",
-        text: "Validating claim...",
-        showConfirmButton: false,
-        allowOutsideClick: false,
-        timer: delay,
-        didOpen: () => {
-            Swal.showLoading();
-        }
-    }).then(() => {
-        headerAlert.textContent = "Claim has been adjudicated";
-        headerAlert.style.color = "green";
-        disableInputsAndButtons();
-    });
-});
+                        if (code.includes("prescriber last name")) {
+                            prescriberLastName = value;
+                            hasPrescriberLastName = true;
+                        }
+                        if (code.includes("quantity prescribed")) {
+                            quantityPrescribed = value;
+                            hasQuantityPrescribed = true;
+                        }
+                    });
+
+                    if (!hasPrescriberLastName || !hasQuantityPrescribed) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Missing Required Fields!",
+                            text: "Both 'Prescriber Last Name' and 'Quantity Prescribed' must be added.",
+                            confirmButtonColor: "#d33",
+                        });
+                        return;
+                    }
+
+                    if (!isValid) {
+                        Swal.fire({
+                            icon: "warning",
+                            title: "Missing Fields!",
+                            text: "Please fill in all fields before submitting.",
+                            confirmButtonColor: "#3085d6",
+                        });
+                        return;
+                    }
+                    if (prescriberLastName !== "SMITH") {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Validation Error!",
+                            text: "Prescriber’s Last Name must be 'SMITH'.",
+                            confirmButtonColor: "#d33",
+                        });
+                        return;
+                    }
+                    if (quantityPrescribed !== "30") {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Validation Error!",
+                            text: "Quantity Prescribed must be '30'.",
+                            confirmButtonColor: "#d33",
+                        });
+                        return;
+                    }
+
+                    let delay = Math.floor(Math.random() * 5000) + 1000;
+
+                    Swal.fire({
+                        icon: "info",
+                        title: "Processing...",
+                        text: "Validating claim...",
+                        showConfirmButton: false,
+                        allowOutsideClick: false,
+                        timer: delay,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    }).then(() => {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Paid claim!",
+                            text: "Claim has been adjudicated.",
+                            confirmButtonText: "OK"
+                        });
+
+                        headerAlert.textContent = "Claim has been adjudicated";
+                        headerAlert.style.color = "green";
+                        disableInputsAndButtons();
+                    });
+                });
             </script>
-
-            <!-- Claim Response Modal-->
-            <div class="modal fade" id="ClaimModal" tabindex="-1" aria-labelledby="ClaimModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl" style="font-style=14px;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <img src="error.png" alt="Error" width="30" class="me-2" style="align=left;">
-                            <h5 class="modal-title" id="ClaimModalLabel">The Claim Has Been Rejected</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th> Code</th>
-                                        <th>Field Name</th>
-                                        <th>Value</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    <tr class="table-primary">
-                                        <td colspan="3">Response Patient</td>
-                                    </tr>
-                                    <tr>
-                                        <td>310-CA</td>
-                                        <td>Patient First Name</td>
-                                        <td>JUAN PAUL</td>
-                                    </tr>
-                                    <tr>
-                                        <td>311-CB</td>
-                                        <td>Patient Last Name</td>
-                                        <td>DOMINGO</td>
-                                    </tr>
-                                    <tr>
-                                        <td>304-C4</td>
-                                        <td>Date of Birth</td>
-                                        <td>19350701</td>
-                                    </tr>
-                                    <tr class="table-primary">
-                                        <td colspan="3">Response Status</td>
-                                    </tr>
-                                    <tr>
-                                        <td>112-AN</td>
-                                        <td>Transaction Response Status</td>
-                                        <td>R - Rejected</td>
-                                    </tr>
-                                    <tr>
-                                        <td>103-F3</td>
-                                        <td>Authorization Number</td>
-                                        <td>250692965796008999</td>
-                                    </tr>
-                                    <tr>
-                                        <td>510-FA</td>
-                                        <td>Reject Count</td>
-                                        <td>04</td>
-                                    </tr>
-                                    <tr>
-                                        <td>511-FB</td>
-                                        <td>Reject Code</td>
-                                        <td>34 - M/I submission Clarification Code</td>
-                                    </tr>
-                                    <tr>
-                                        <td>511-FB</td>
-                                        <td>Reject Code</td>
-                                        <td>7X - Day Supply Exceeds Plan Limitation</td>
-                                    </tr>
-                                    <tr>
-                                        <td>511-FB</td>
-                                        <td>Reject Code</td>
-                                        <td>613 - The Packaging Methodology Or Dispensing Frequency is Missing or
-                                            Inappropriate Form</td>
-                                    </tr>
-                                    <tr>
-                                        <td>511-FB</td>
-                                        <td>Reject Code</td>
-                                        <td>569 - Provide Beneficiary with CMS Notice of Appeal Rights</td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>511-FB</td>
-                                        <td>Additional Message Information</td>
-                                        <td>RESIDENCE LTC-SCC (21 THRU 36) REQUIRED M/I SUBMISSION CLARIFICATION CODE
-                                            DAYS SUPPLY EXCEEDED PLAN LIMITATIONS</td>
-
-                                    </tr>
-
-                                    <tr class="table-primary">
-                                        <td colspan="3">Response Claim</td>
-                                    </tr>
-                                    <tr>
-                                        <td>455-EM</td>
-                                        <td>Prescription/Service Reference Number</td>
-                                        <td>1- Rx Billing</td>
-                                    </tr>
-                                    <tr>
-                                        <td>402-D2</td>
-                                        <td>Prescription/Service Reference Number</td>
-                                        <td>52025688</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" id="close-btn">Close</button>
-                            <button type="button" class="btn btn-primary">Print</button>
-                            <button type="button" class="btn btn-outline-info">Print Medicare Part D Coverage
-                                Determination
-                                Request</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 

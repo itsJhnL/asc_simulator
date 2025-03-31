@@ -276,9 +276,6 @@
                                         <td>00075445151848</td>
                                     </tr>
 
-
-
-
                                     <tr class="table-primary">
                                         <td colspan="3">Response Status</td>
                                     </tr>
@@ -305,10 +302,55 @@
                                     <tr class="table-primary">
                                         <td colspan="3">Response DUR/PPS</td>
                                     </tr>
+
+                                    <!-- TD MO 1B -->
                                     <tr>
                                         <td>567-J6</td>
                                         <td>DUR/PPS Response Code Counter</td>
                                         <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>439-E4</td>
+                                        <td>Reason For Service Code</td>
+                                        <td>TD- Therapeutic-Duplicate Interaction</td>
+                                    </tr>
+                                    <tr>
+                                        <td>528-FS</td>
+                                        <td>Clinical Significance Code</td>
+                                        <td>2- Moderate</td>
+                                    </tr>
+                                    <tr>
+                                        <td>529-FT</td>
+                                        <td>Other Pharmacy Indicator</td>
+                                        <td>1- Your Pharmacy </td>
+                                    </tr>
+                                    <tr>
+                                        <td>530-FU</td>
+                                        <td>Previous Date of fill</td>
+                                        <td>1- 20250317 </td>
+                                    </tr>
+                                    <tr>
+                                        <td>531-FV</td>
+                                        <td>Quantity of Previous fill</td>
+                                        <td>000012000 </td>
+                                    </tr>
+                                    <tr>
+                                        <td>531-FW</td>
+                                        <td>Database Indicator</td>
+                                        <td>1- First Databank </td>
+                                    </tr>
+                                    <tr>
+                                        <td>533-FX</td>
+                                        <td>Other Prescriber Indicator</td>
+                                        <td>2- Other Prescriber </td>
+                                    </tr>
+
+                                    <!-- DD MO 1B -->
+
+                                    <tr>
+                                        <td>567-J6</td>
+                                        <td>DUR/PPS Response Code Counter</td>
+                                        <td>2</td>
                                     </tr>
                                     <tr>
                                         <td>439-E4</td>
@@ -368,26 +410,26 @@
 </body>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    let users = [];
-    let selectedId = null;
-    const reverseButton = document.querySelector(".btn-custom[accesskey='r']");
-    reverseButton.disabled = true;
+    document.addEventListener("DOMContentLoaded", function () {
+        let users = [];
+        let selectedId = null;
+        const reverseButton = document.querySelector(".btn-custom[accesskey='r']");
+        reverseButton.disabled = true;
 
-    function toggleInputs(disable) {
-        document.querySelectorAll(".btn-custom, input, select, textarea").forEach(element => {
-            if (element !== reverseButton) {
-                element.disabled = disable;
-            }
-        });
-    }
+        function toggleInputs(disable) {
+            document.querySelectorAll(".btn-custom, input, select, textarea").forEach(element => {
+                if (element !== reverseButton) {
+                    element.disabled = disable;
+                }
+            });
+        }
 
-    function updateTable() {
-        let tableBody = document.getElementById("userTable");
-        tableBody.innerHTML = "";
+        function updateTable() {
+            let tableBody = document.getElementById("userTable");
+            tableBody.innerHTML = "";
 
-        users.forEach((user, index) => {
-            let rowGroup = `
+            users.forEach((user, index) => {
+                let rowGroup = `
                 <tr class="selectable-row" data-id="${index}">
                     <td>DUR/PPS</td>
                     <td>Reason For Service Code</td>
@@ -404,123 +446,125 @@ document.addEventListener("DOMContentLoaded", function () {
                     <td class="editable" data-field="result" data-id="${index}">${user.result}</td>
                 </tr>
             `;
-            tableBody.innerHTML += rowGroup;
+                tableBody.innerHTML += rowGroup;
+            });
+        }
+
+        document.getElementById("userTable").addEventListener("click", function (event) {
+            if (event.target.classList.contains("editable")) {
+                let cell = event.target;
+                let field = cell.getAttribute("data-field");
+                let id = parseInt(cell.getAttribute("data-id"));
+                let currentValue = cell.textContent;
+
+                let input = document.createElement("input");
+                input.type = "text";
+                input.value = currentValue;
+                input.classList.add("form-control");
+
+                cell.innerHTML = "";
+                cell.appendChild(input);
+                input.focus();
+
+                input.addEventListener("blur", function () {
+                    users[id][field] = input.value;
+                    updateTable();
+                });
+
+                input.addEventListener("keydown", function (e) {
+                    if (e.key === "Enter") {
+                        input.blur();
+                    }
+                });
+            }
         });
-    }
 
-    document.getElementById("userTable").addEventListener("click", function (event) {
-        if (event.target.classList.contains("editable")) {
-            let cell = event.target;
-            let field = cell.getAttribute("data-field");
-            let id = parseInt(cell.getAttribute("data-id"));
-            let currentValue = cell.textContent;
+        document.getElementById("saveDurButton").addEventListener("click", function () {
+            let reason = document.getElementById("reason").value;
+            let professional = document.getElementById("professional").value;
+            let result = document.getElementById("result").value;
 
-            let input = document.createElement("input");
-            input.type = "text";
-            input.value = currentValue;
-            input.classList.add("form-control");
-            
-            cell.innerHTML = "";
-            cell.appendChild(input);
-            input.focus();
+            if (!reason || !professional || !result) {
+                Swal.fire({ icon: "warning", title: "Missing Fields", text: "Please fill in all fields." });
+                return;
+            }
 
-            input.addEventListener("blur", function () {
-                users[id][field] = input.value;
-                updateTable();
+            if (selectedId !== null) {
+                users[selectedId] = { reason, professional, result };
+            } else {
+                users.push({ reason, professional, result });
+            }
+
+            updateTable();
+            document.getElementById("DUR").reset();
+            selectedId = null;
+            bootstrap.Modal.getInstance(document.getElementById("addModal")).hide();
+        });
+
+        document.getElementById("submitForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            if (users.length === 0) {
+                Swal.fire({ icon: "error", title: "No Data!", text: "Please add some data before submitting." });
+                return;
+            }
+
+            Swal.fire({
+                title: "Submitting...",
+                text: "Processing your request...",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading(),
             });
 
-            input.addEventListener("keydown", function (e) {
-                if (e.key === "Enter") {
-                    input.blur();
-                }
-            });
-        }
-    });
+            fetch("function.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(users),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    Swal.close();
+                    if (data.status === "success") {
+                        document.getElementById("userTable").classList.add("disabled-table");
+                        toggleInputs(true);
+                        document.querySelector(".header-alert").textContent = "Claim has been adjudicated!";
+                        document.querySelector(".header-alert").style.color = "green";
+                        reverseButton.disabled = false;
 
-    document.getElementById("saveDurButton").addEventListener("click", function () {
-        let reason = document.getElementById("reason").value;
-        let professional = document.getElementById("professional").value;
-        let result = document.getElementById("result").value;
+                        let randomAmountPaid = (Math.random() * (100 - 10) + 10).toFixed(2);
+                        let randomCoPay = (Math.random() * (20 - 1) + 1).toFixed(2);
+                        document.getElementById("amountPaid").value = `$${randomAmountPaid}`;
+                        document.getElementById("tCoPay").value = `$${randomCoPay}`;
 
-        if (!reason || !professional || !result) {
-            Swal.fire({ icon: "warning", title: "Missing Fields", text: "Please fill in all fields." });
-            return;
-        }
+                        Swal.fire({ icon: "success", title: "Paid Claim!", text: "Claim adjudicated." });
 
-        if (selectedId !== null) {
-            users[selectedId] = { reason, professional, result };
-        } else {
-            users.push({ reason, professional, result });
-        }
+                    } else {
+
+                        Swal.fire({ icon: "error", title: "Invalid DUR Sequence!", text: "Please check the DUR sequence and try again." });
+                    }
+                })
+                .catch(() => {
+                    Swal.fire({ icon: "error", title: "Server Error", text: "Something went wrong." });
+                });
+        });
+
+        reverseButton.addEventListener("click", function () {
+            Swal.fire({ title: "Reversing Claim...", text: "Restoring system to default...", allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+            setTimeout(() => {
+                Swal.close();
+                document.querySelector(".header-alert").textContent = "This claim has been denied!!";
+                document.querySelector(".header-alert").style.color = "red";
+                document.getElementById("userTable").classList.remove("disabled-table");
+                toggleInputs(false);
+                document.getElementById("amountPaid").value = "";
+                document.getElementById("tCoPay").value = "";
+                Swal.fire({ icon: "info", title: "Reversed!", text: "The claim has been reversed successfully." });
+                reverseButton.disabled = true;
+            }, 2000);
+        });
 
         updateTable();
-        document.getElementById("DUR").reset();
-        selectedId = null;
-        bootstrap.Modal.getInstance(document.getElementById("addModal")).hide();
     });
-
-    document.getElementById("submitForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        if (users.length === 0) {
-            Swal.fire({ icon: "error", title: "No Data!", text: "Please add some data before submitting." });
-            return;
-        }
-
-        Swal.fire({
-            title: "Submitting...",
-            text: "Processing your request...",
-            allowOutsideClick: false,
-            didOpen: () => Swal.showLoading(),
-        });
-
-        fetch("function.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(users),
-        })
-            .then(response => response.json())
-            .then(data => {
-                Swal.close();
-                if (data.status === "success") {
-                    document.getElementById("userTable").classList.add("disabled-table");
-                    toggleInputs(true);
-                    document.querySelector(".header-alert").textContent = "Claim has been adjudicated!";
-                    document.querySelector(".header-alert").style.color = "green";
-                    reverseButton.disabled = false;
-
-                    let randomAmountPaid = (Math.random() * (100 - 10) + 10).toFixed(2);
-                    let randomCoPay = (Math.random() * (20 - 1) + 1).toFixed(2);
-                    document.getElementById("amountPaid").value = `$${randomAmountPaid}`;
-                    document.getElementById("tCoPay").value = `$${randomCoPay}`;
-
-                    Swal.fire({ icon: "success", title: "Paid Claim!", text: "Claim adjudicated." });
-                } else {
-                    Swal.fire({ icon: "error", title: "Submission Failed", text: "Please try again." });
-                }
-            })
-            .catch(() => {
-                Swal.fire({ icon: "error", title: "Server Error", text: "Something went wrong." });
-            });
-    });
-
-    reverseButton.addEventListener("click", function () {
-        Swal.fire({ title: "Reversing Claim...", text: "Restoring system to default...", allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-        setTimeout(() => {
-            Swal.close();
-            document.querySelector(".header-alert").textContent = "This claim has been denied!!";
-            document.querySelector(".header-alert").style.color = "red";
-            document.getElementById("userTable").classList.remove("disabled-table");
-            toggleInputs(false);
-            document.getElementById("amountPaid").value = "";
-            document.getElementById("tCoPay").value = "";
-            Swal.fire({ icon: "info", title: "Reversed!", text: "The claim has been reversed successfully." });
-            reverseButton.disabled = true;
-        }, 2000);
-    });
-
-    updateTable();
-});
 </script>
 
 <!-- footer tab pane -->

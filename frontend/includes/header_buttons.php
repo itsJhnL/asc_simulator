@@ -32,7 +32,7 @@
                 <img src="../assets/images/save.png" class="height_image_buttons" alt="header button">
             </button>
         </div>
-        <div class="px-1">
+        <!-- <div class="px-1">
             <button type="button" class="btn btn-custom" id="">
                 <img src="../assets/images/undo.png" class="height_image_buttons" alt="header button">
             </button>
@@ -41,6 +41,6 @@
             <button type="button" class="btn btn-custom" id="">
                 <img src="../assets/images/show.png" class="height_image_buttons" alt="header button">
             </button>
-        </div>
+        </div> -->
     </div>
 </div>

@@ -38,8 +38,11 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <body>
     <div class="container col-md-10" style="max-width: 69rem;">
-        <header class="">
+        <header class="d-flex justify-content-between">
             <h5 style="background-color: ;">Rx Entry - Batch Reject - Reject</h5>
+            <div class="px-1">
+                <a href="../tab/submit.php" class="text-dark">Next RX</a>
+            </div>
         </header>
         <!-- Header buttons // Edit, Save, Undo etc. -->
         <?php include('header_buttons.php') ?>
@@ -192,7 +195,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 <div class="pb-1 d-flex">
                     <div class="mr-md-2">
                         <label readonly>Prescriber</label>
-                        <input class="input-field" type="text" value="Bruno, Davy" readonly>
+                        <input class="input-field" type="text" value="SMITH, JOHN" readonly>
 
                         <button class="input-field rounded-lg border " id="button-gradient" readonly>
                             <img src="../assets/images/play-button.png" style="height: 15px" alt="Patient Profile">

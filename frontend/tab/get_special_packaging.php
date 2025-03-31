@@ -9,4 +9,3 @@ if (!empty($_SESSION["specialPackagingIndicator"])) {
 }
 
 echo json_encode($response);
-?>

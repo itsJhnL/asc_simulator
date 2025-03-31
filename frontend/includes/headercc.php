@@ -37,8 +37,11 @@
 
 <body>
     <div class="container col-md-10" style="max-width: 69rem;">
-        <header class="">
+        <header class="d-flex justify-content-between">
             <h5 style="background-color: ;">Rx Entry - Batch Reject - Reject</h5>
+            <div class="px-1">
+                <a href="../tab/submit.php">Next RX</a>
+            </div>
         </header>
         <!-- Header buttons // Edit, Save, Undo etc. -->
         <?php include('header_buttons.php') ?>

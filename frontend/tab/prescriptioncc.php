@@ -74,7 +74,7 @@ try {
             </div>
             <div class="col d-flex p-1">
                 <input class="input-field" type="text" value="58561766245">
-                <input class="input-field" type="text" value="ELIQUIS TAB 10MG">
+                <input class="input-field" type="text" value="TRAMADOL HCL TAB 50MG ">
             </div>
         </div>
 
@@ -254,7 +254,7 @@ try {
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <label for="">Total Qty Written</label>
-                        <input class="input-field" type="text" style="max-width: 5rem" value="0">
+                        <input class="input-field" type="text" style="max-width: 5rem" value="">
                     </div>
                     <div class="d-flex">
                         <div class="">
@@ -405,7 +405,7 @@ try {
                 .then(data => {
                     console.log("Server Response:", data);
                     if (data.status === "success") {
-                        alert("Updated successfully!");
+                        Swal.fire("Success", "Saved successfully!", "success");
 
                         // Disable fields after saving
                         quantityField.setAttribute("readonly", true);
