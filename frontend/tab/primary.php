@@ -237,7 +237,7 @@
                     <div class="modal-content">
                         <div class="modal-header bg-light d-flex">
                             <div class="d-flex align-items-center">
-                                <img src="error.png" alt="Error" width="30" class="me-2" style="align=left;">
+                                <img src="error.png" alt="Error" width="30" class="me-2">
                                 <h5 class="pl-2 modal-title text-danger fw-bold" id="ClaimModalLabel">The Claim Has Been
                                     Rejected
                                 </h5>
@@ -312,7 +312,7 @@
                                     <tr>
                                         <td>439-E4</td>
                                         <td>Reason For Service Code</td>
-                                        <td>TD- Therapeutic-Duplicate Interaction</td>
+                                        <td>TD - Therapeutic-Duplicate Interaction</td>
                                     </tr>
                                     <tr>
                                         <td>528-FS</td>
@@ -396,8 +396,8 @@
                                 aria-label="Close">
                                 Close
                             </button>
-                            <button type="button" class="btn btn-primary">Print</button>
-                            <button type="button" class="btn btn-outline-info">Print Medicare Part D Coverage
+                            <button type="button" class="btn btn-primary" style="cursor: not-allowed;" disabled>Print</button>
+                            <button type="button" class="btn btn-outline-info" style="cursor: not-allowed;" disabled>Print Medicare Part D Coverage
                                 Determination
                                 Request</button>
                         </div>
@@ -410,7 +410,7 @@
 </body>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         let users = [];
         let selectedId = null;
         const reverseButton = document.querySelector(".btn-custom[accesskey='r']");
@@ -450,7 +450,7 @@
             });
         }
 
-        document.getElementById("userTable").addEventListener("click", function (event) {
+        document.getElementById("userTable").addEventListener("click", function(event) {
             if (event.target.classList.contains("editable")) {
                 let cell = event.target;
                 let field = cell.getAttribute("data-field");
@@ -466,12 +466,12 @@
                 cell.appendChild(input);
                 input.focus();
 
-                input.addEventListener("blur", function () {
+                input.addEventListener("blur", function() {
                     users[id][field] = input.value;
                     updateTable();
                 });
 
-                input.addEventListener("keydown", function (e) {
+                input.addEventListener("keydown", function(e) {
                     if (e.key === "Enter") {
                         input.blur();
                     }
@@ -479,20 +479,32 @@
             }
         });
 
-        document.getElementById("saveDurButton").addEventListener("click", function () {
+        document.getElementById("saveDurButton").addEventListener("click", function() {
             let reason = document.getElementById("reason").value;
             let professional = document.getElementById("professional").value;
             let result = document.getElementById("result").value;
 
             if (!reason || !professional || !result) {
-                Swal.fire({ icon: "warning", title: "Missing Fields", text: "Please fill in all fields." });
+                Swal.fire({
+                    icon: "warning",
+                    title: "Missing Fields",
+                    text: "Please fill in all fields."
+                });
                 return;
             }
 
             if (selectedId !== null) {
-                users[selectedId] = { reason, professional, result };
+                users[selectedId] = {
+                    reason,
+                    professional,
+                    result
+                };
             } else {
-                users.push({ reason, professional, result });
+                users.push({
+                    reason,
+                    professional,
+                    result
+                });
             }
 
             updateTable();
@@ -501,11 +513,15 @@
             bootstrap.Modal.getInstance(document.getElementById("addModal")).hide();
         });
 
-        document.getElementById("submitForm").addEventListener("submit", function (e) {
+        document.getElementById("submitForm").addEventListener("submit", function(e) {
             e.preventDefault();
 
             if (users.length === 0) {
-                Swal.fire({ icon: "error", title: "No Data!", text: "Please add some data before submitting." });
+                Swal.fire({
+                    icon: "error",
+                    title: "No Data!",
+                    text: "Please add some data before submitting."
+                });
                 return;
             }
 
@@ -517,10 +533,12 @@
             });
 
             fetch("function.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(users),
-            })
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(users),
+                })
                 .then(response => response.json())
                 .then(data => {
                     Swal.close();
@@ -536,20 +554,37 @@
                         document.getElementById("amountPaid").value = `$${randomAmountPaid}`;
                         document.getElementById("tCoPay").value = `$${randomCoPay}`;
 
-                        Swal.fire({ icon: "success", title: "Paid Claim!", text: "Claim adjudicated." });
+                        Swal.fire({
+                            icon: "success",
+                            title: "Paid Claim!",
+                            text: "Claim adjudicated."
+                        });
 
                     } else {
 
-                        Swal.fire({ icon: "error", title: "Invalid DUR Sequence!", text: "Please check the DUR sequence and try again." });
+                        Swal.fire({
+                            icon: "error",
+                            title: "Invalid DUR Sequence!",
+                            text: "Please check the DUR sequence and try again."
+                        });
                     }
                 })
                 .catch(() => {
-                    Swal.fire({ icon: "error", title: "Server Error", text: "Something went wrong." });
+                    Swal.fire({
+                        icon: "error",
+                        title: "Server Error",
+                        text: "Something went wrong."
+                    });
                 });
         });
 
-        reverseButton.addEventListener("click", function () {
-            Swal.fire({ title: "Reversing Claim...", text: "Restoring system to default...", allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        reverseButton.addEventListener("click", function() {
+            Swal.fire({
+                title: "Reversing Claim...",
+                text: "Restoring system to default...",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
             setTimeout(() => {
                 Swal.close();
                 document.querySelector(".header-alert").textContent = "This claim has been denied!!";
@@ -558,7 +593,11 @@
                 toggleInputs(false);
                 document.getElementById("amountPaid").value = "";
                 document.getElementById("tCoPay").value = "";
-                Swal.fire({ icon: "info", title: "Reversed!", text: "The claim has been reversed successfully." });
+                Swal.fire({
+                    icon: "info",
+                    title: "Reversed!",
+                    text: "The claim has been reversed successfully."
+                });
                 reverseButton.disabled = true;
             }, 2000);
         });

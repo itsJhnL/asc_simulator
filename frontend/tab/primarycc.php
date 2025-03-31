@@ -99,6 +99,7 @@ if (file_exists($tempFile)) {
                 color: black !important;
                 border-color: black !important;
             }
+        }
     </style>
 </HEAD>
 

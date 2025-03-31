@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,7 +36,7 @@
 <body>
     <div class="container col-md-10" style="max-width: 69rem;">
         <header class="d-flex justify-content-between">
-            <h5 style="background-color: ;">Rx Entry - Batch Reject - Reject</h5>
+            <h5>Rx Entry - Batch Reject - Reject</h5>
             <div class="px-1">
                 <a href="../tab/submit.php">Next RX</a>
             </div>

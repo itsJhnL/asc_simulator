@@ -13,7 +13,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarificationCode"] : "No clarification code saved.";
 ?>
 
-<HEAD>
+<head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -122,8 +122,9 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
                 pointer-events: none;
                 opacity: 0.6;
             }
+        }
     </style>
-</HEAD>
+</head>
 
 <body>
     <!-- Drug block section-->
@@ -252,10 +253,10 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
 
             <!-- Claim Response Modal-->
             <div class="modal fade" id="ClaimModal" tabindex="-1" aria-labelledby="ClaimModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl" style="font-style=14px;">
+                <div class="modal-dialog modal-xl" style="font-style: 14px;">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <img src="error.png" alt="Error" width="30" class="me-2" style="align=left;">
+                            <img src="error.png" alt="Error" width="30" class="me-2">
                             <h5 class="modal-title" id="ClaimModalLabel">The Claim Has Been Rejected</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -652,14 +653,14 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
 
 
             <script>
-                document.getElementById("searchInput").addEventListener("input", function () {
+                document.getElementById("searchInput").addEventListener("input", function() {
                     let filter = this.value.toLowerCase();
                     document.querySelectorAll("#fieldTable tbody tr").forEach(row => {
                         row.style.display = row.textContent.toLowerCase().includes(filter) ? "" : "none";
                     });
                 });
 
-                document.addEventListener("keydown", function (event) {
+                document.addEventListener("keydown", function(event) {
                     if (event.ctrlKey && event.key === "f") {
                         event.preventDefault();
                         let searchInput = document.getElementById("searchInput");
@@ -679,8 +680,8 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
                         let selectedRow = document.querySelector("#userTable tr.selected");
                         if (selectedRow) {
                             let code = selectedRow.children[1].textContent.trim();
-                            removeRowFromDatabase(code);  // Delete from database
-                            selectedRow.remove();  // Remove row from UI
+                            removeRowFromDatabase(code); // Delete from database
+                            selectedRow.remove(); // Remove row from UI
                         }
                     }
                 });
@@ -710,7 +711,7 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
 
 
 
-                document.getElementById("okButton").addEventListener("click", function () {
+                document.getElementById("okButton").addEventListener("click", function() {
                     let checkboxes = document.querySelectorAll("#fieldTable tbody input[type='checkbox']:checked");
                     let userTable = document.getElementById("userTable");
 
@@ -735,26 +736,28 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
                     modal.hide();
                 });
 
-                document.getElementById("userTable").addEventListener("click", function (event) {
+                document.getElementById("userTable").addEventListener("click", function(event) {
                     if (event.target.classList.contains("removeButton")) {
                         let row = event.target.closest("tr");
                         let code = row.children[1].textContent;
 
                         if (confirm("Are you sure you want to delete this field?")) {
-                            removeRowFromDatabase(code);  // Delete from database
-                            row.remove();  // Remove row from UI
+                            removeRowFromDatabase(code); // Delete from database
+                            row.remove(); // Remove row from UI
                         }
                     }
                 });
 
                 function removeRowFromDatabase(code) {
                     fetch("delete_datapp.php", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({ code: code })
-                    })
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                code: code
+                            })
+                        })
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
@@ -766,7 +769,7 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
                         .catch(error => console.error("Error deleting field from the database:", error));
                 }
 
-                document.getElementById("saveButton").addEventListener("click", function () {
+                document.getElementById("saveButton").addEventListener("click", function() {
                     let updatedData = [];
 
                     document.querySelectorAll("#userTable tr").forEach(row => {
@@ -778,12 +781,14 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
                     });
 
                     fetch("edit_datapp.php", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({ data: updatedData })
-                    })
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                data: updatedData
+                            })
+                        })
                         .then(response => response.json())
                         .then(data => {
                             alert("Data saved successfully!");
@@ -795,14 +800,14 @@ $clarificationCode = isset($_SESSION["clarificationCode"]) ? $_SESSION["clarific
                         .catch(error => console.error("Error saving data:", error));
                 });
 
-                document.getElementById("editButton").addEventListener("click", function () {
+                document.getElementById("editButton").addEventListener("click", function() {
                     document.querySelectorAll("#userTable input").forEach(input => input.removeAttribute("disabled"));
                     document.getElementById("userTable").classList.remove("table-disabled");
                     document.getElementById("saveButton").removeAttribute("disabled");
                     document.getElementById("editButton").setAttribute("disabled", true);
                 });
 
-                document.getElementById("submitForm").addEventListener("submit", function (event) {
+                document.getElementById("submitForm").addEventListener("submit", function(event) {
                     event.preventDefault();
 
                     let isClaimPaid = document.querySelector(".header-alert").textContent.includes("Claim has been adjudicated");
