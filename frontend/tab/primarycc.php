@@ -353,7 +353,8 @@ if (file_exists($tempFile)) {
                     </div>
                 </div>
             </div>
-            <input type="hidden" name="clarificationCode" id="clarificationCodeInput" value="<?= htmlspecialchars($clarificationCode) ?>">
+            <input type="hidden" name="clarificationCode" id="clarificationCodeInput"
+                value="<?= htmlspecialchars($clarificationCode) ?>">
 
 
 
@@ -379,7 +380,7 @@ if (file_exists($tempFile)) {
 
 
             <script>
-                document.addEventListener("DOMContentLoaded", function() {
+                document.addEventListener("DOMContentLoaded", function () {
                     let okButton = document.getElementById("okButton");
                     let ccButton = document.getElementById("ccButton");
                     let submitForm = document.getElementById("submitForm");
@@ -424,7 +425,7 @@ if (file_exists($tempFile)) {
                     }
 
 
-                    saveButton.addEventListener("click", function() {
+                    saveButton.addEventListener("click", function () {
                         let value = specialPackagingInput.value.trim();
 
                         if (!value) {
@@ -438,7 +439,7 @@ if (file_exists($tempFile)) {
                         editButton.disabled = false;
                     });
 
-                    editButton.addEventListener("click", function() {
+                    editButton.addEventListener("click", function () {
                         specialPackagingRow.classList.remove("disabled-row");
                         specialPackagingInput.disabled = false;
                         saveButton.disabled = false;
@@ -460,7 +461,7 @@ if (file_exists($tempFile)) {
                         submitForm.appendChild(hiddenInput);
                     }
 
-                    okButton.addEventListener("click", function() {
+                    okButton.addEventListener("click", function () {
                         let select = document.getElementById("valueSelect");
                         let selectedCode = select.value;
 
@@ -484,7 +485,7 @@ if (file_exists($tempFile)) {
                         bootstrap.Modal.getInstance(document.getElementById("ccModal")).hide();
                     });
 
-                    submitForm.addEventListener("submit", function(event) {
+                    submitForm.addEventListener("submit", function (event) {
                         event.preventDefault();
                         let formData = new FormData(submitForm);
                         let storedSPI = localStorage.getItem("specialPackagingIndicator");
@@ -512,9 +513,9 @@ if (file_exists($tempFile)) {
 
                         setTimeout(() => {
                             fetch("submit_clarification.php", {
-                                    method: "POST",
-                                    body: formData
-                                })
+                                method: "POST",
+                                body: formData
+                            })
                                 .then(response => response.json())
                                 .then(result => {
                                     Swal.close();
@@ -543,7 +544,7 @@ if (file_exists($tempFile)) {
                                 .catch(error => console.error("Error:", error));
                         }, delay);
                     });
-                    document.querySelector(".btn-custom[accesskey='r']").addEventListener("click", function() {
+                    document.querySelector(".btn-custom[accesskey='r']").addEventListener("click", function () {
                         localStorage.removeItem("claimStatus");
                         sessionStorage.removeItem("clarificationCode");
                         ccButton.textContent = "Select Clarification Code";

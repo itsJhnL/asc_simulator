@@ -42,7 +42,23 @@ session_start();
         <header class="d-flex justify-content-between">
             <h5>Rx Entry - Batch Reject - Reject</h5>
             <div class="px-1">
-                <a href="../../tab/submit.php">Next RX</a>
+                <!-- GenerateRX and clearLocalStorage -->
+                <button type="button" class="btn btn-primary" onclick="generateRX()" id="clearLocalStorage">
+                    Next RX
+                </button>
+                <script>
+                    document.getElementById('clearLocalStorage').addEventListener('click', function () {
+                        // Clear Local Storage
+                        localStorage.clear();
+                        // Clear Session Storage
+                        sessionStorage.clear();
+                        console.log("Local Storage Cleared")
+                    })
+                    /* Link to other tab */
+                    function generateRX() {
+                        window.location.href = "../submit.php";
+                    };
+                </script>
             </div>
         </header>
         <!-- Header buttons // Edit, Save, Undo etc. -->
@@ -205,7 +221,8 @@ session_start();
                             <input class="input-field" type="text" value="MUHAMMAD, ALI" readonly>
 
                             <button class="input-field rounded-lg border " id="button-gradient" readonly>
-                                <img src="../../assets/images/play-button.png" style="height: 15px" alt="Patient Profile">
+                                <img src="../../assets/images/play-button.png" style="height: 15px"
+                                    alt="Patient Profile">
                             </button>
 
                         </div>
@@ -227,7 +244,8 @@ session_start();
                             <label>SPI</label>
                             <input class="input-field" type="text" value="45648943232" readonly>
                             <button class="input-field rounded-lg border " id="button-gradient" readonly>
-                                <img src="../../assets/images/play-button.png" style="height: 15px" alt="Patient Profile">
+                                <img src="../../assets/images/play-button.png" style="height: 15px"
+                                    alt="Patient Profile">
                             </button>
                         </div>
                     </div>

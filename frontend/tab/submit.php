@@ -60,7 +60,7 @@ if ($insertQuery->execute()) {
                 icon: 'success',
                 title: 'RX Number Generated!',
                 text: 'RX Number: $rx_number (State: $state)',
-                confirmButtonText: 'Go to Page'
+                confirmButtonText: 'Proceed'
             }).then(() => {
                 window.location.href = '$redirectPage';
             });

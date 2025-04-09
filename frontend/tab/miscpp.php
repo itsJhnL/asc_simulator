@@ -16,7 +16,7 @@
             <div class="col-2">
                 <label for="comment"> Comments</label>
             </div>
-            <textarea rows="5" style="resize: none" name="comment" id="comment">OTC not covered faci bill</textarea>
+            <textarea rows="5" style="resize: none" name="comment" id="comment"></textarea>
         </div>
 
         <!-- Billing Comments -->
@@ -24,7 +24,7 @@
             <div class="col-2">
                 <label for="billing"> Billing Comments</label>
             </div>
-            <textarea rows="5" style="resize: none" name="billing" id="billing">OTC not covered faci bill</textarea>
+            <textarea rows="5" style="resize: none" name="billing" id="billing"></textarea>
         </div>
 
     </div>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +21,7 @@
         }
 
         .container {
-            max-width: 450px;
+            max-width: 50rem;
             padding: 40px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(12px);
@@ -52,11 +53,12 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1 class="title" id="loading-text"></h1>
         <p>Click the button below to generate your RX Number</p>
-        <button class="btn btn-modern" onclick="generateRx()">Generate RX</button>
+        <button class="btn btn-modern" onclick="generateRx()">Generate</button>
     </div>
 
     <script>
@@ -75,10 +77,11 @@
             }
         }
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $(".container").hide().fadeIn(1000);
             typeText();
         });
     </script>
 </body>
+
 </html>
