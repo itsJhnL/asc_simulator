@@ -55,7 +55,7 @@
 
     #userTable tr:hover {
         background-color: #f0f8ff !important;
-        font-weight: bold;
+        /* font-weight: bold; */
         cursor: pointer;
     }
 
@@ -72,6 +72,18 @@
         .modal-xl {
             max-width: 95%;
         }
+    }
+
+    .table-row-data {
+        background: linear-gradient(to bottom, #6a8eb2, #2f4f7f);
+        color: white;
+        text-align: center;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 5px;
+        border: 1px solid #1e3b5a;
+        border-radius: 3px;
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3);
     }
 </style>
 
@@ -95,43 +107,15 @@
 
         <!-- Main Table Section -->
         <div class="table-container">
-            <h3 style="background: linear-gradient(to bottom, #6a8eb2, #2f4f7f);
-    color: white;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    padding: 5px;
-    border: 1px solid #1e3b5a;
-    border-radius: 3px;
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3);">Optional ECS Fields</h3>
+            <h3 class="table-row-data">Optional ECS Fields</h3>
             <table class="table table-bordered">
-                <thead style="background: linear-gradient(to bottom, #6a8eb2, #2f4f7f);
-    color: white;
-    text-align: center;
-    font-size: 14px;
-    font-weight: bold;
-    padding: 5px;
-    border: 1px solid #1e3b5a;
-    border-radius: 3px;
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3);">
+                <thead class="table-row-data">
                     <tr>
-                        <th>Segment</th>
-                        <th>Code</th>
-                        <th>Value</th>
+                        <th class="col-md-5">Segment</th>
+                        <th class="col-md-5">Code</th>
+                        <th class="col">Value</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Claim</td>
-                        <td>Product/Service ID Qualifier</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Claim</td>
-                        <td>Special Packaging Indicator</td>
-                        <td>4</td>
-                    </tr>
-                </tbody>
                 <tbody id="userTable">
                     <!-- User input will be inserted here -->
                 </tbody>
@@ -233,7 +217,7 @@
 
             <!-- Claim Response Modal-->
             <div class="modal fade" id="ClaimModal" tabindex="-1" aria-labelledby="ClaimModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header bg-light d-flex">
                             <div class="d-flex align-items-center">
@@ -396,8 +380,10 @@
                                 aria-label="Close">
                                 Close
                             </button>
-                            <button type="button" class="btn btn-primary" style="cursor: not-allowed;" disabled>Print</button>
-                            <button type="button" class="btn btn-outline-info" style="cursor: not-allowed;" disabled>Print Medicare Part D Coverage
+                            <button type="button" class="btn btn-info" style="cursor: not-allowed;"
+                                disabled>Print</button>
+                            <button type="button" class="btn btn-outline-info" style="cursor: not-allowed;"
+                                disabled>Print Medicare Part D Coverage
                                 Determination
                                 Request</button>
                         </div>
@@ -410,7 +396,7 @@
 </body>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         let users = [];
         let selectedId = null;
         const reverseButton = document.querySelector(".btn-custom[accesskey='r']");
@@ -450,7 +436,7 @@
             });
         }
 
-        document.getElementById("userTable").addEventListener("click", function(event) {
+        document.getElementById("userTable").addEventListener("click", function (event) {
             if (event.target.classList.contains("editable")) {
                 let cell = event.target;
                 let field = cell.getAttribute("data-field");
@@ -466,12 +452,18 @@
                 cell.appendChild(input);
                 input.focus();
 
-                input.addEventListener("blur", function() {
+                input.addEventListener("blur", function () {
                     users[id][field] = input.value;
                     updateTable();
                 });
 
-                input.addEventListener("keydown", function(e) {
+                // Auto-uppercase while typing
+                input.addEventListener("input", function () {
+                    this.value = this.value.toUpperCase();
+                });
+
+
+                input.addEventListener("keydown", function (e) {
                     if (e.key === "Enter") {
                         input.blur();
                     }
@@ -479,7 +471,7 @@
             }
         });
 
-        document.getElementById("saveDurButton").addEventListener("click", function() {
+        document.getElementById("saveDurButton").addEventListener("click", function () {
             let reason = document.getElementById("reason").value;
             let professional = document.getElementById("professional").value;
             let result = document.getElementById("result").value;
@@ -513,7 +505,7 @@
             bootstrap.Modal.getInstance(document.getElementById("addModal")).hide();
         });
 
-        document.getElementById("submitForm").addEventListener("submit", function(e) {
+        document.getElementById("submitForm").addEventListener("submit", function (e) {
             e.preventDefault();
 
             if (users.length === 0) {
@@ -533,12 +525,12 @@
             });
 
             fetch("functionDUR2.php", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(users),
-                })
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(users),
+            })
                 .then(response => response.json())
                 .then(data => {
                     Swal.close();
@@ -578,7 +570,7 @@
                 });
         });
 
-        reverseButton.addEventListener("click", function() {
+        reverseButton.addEventListener("click", function () {
             Swal.fire({
                 title: "Reversing Claim...",
                 text: "Restoring system to default...",
