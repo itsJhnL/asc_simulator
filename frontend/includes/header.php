@@ -110,11 +110,11 @@ session_start();
 
                     <!-- buttons -->
                     <div class="d-flex flex-column">
-                        <button class="rounded-lg text-dark border border-dark" id="button-gradient">Active
+                        <button class="btn-custom rounded-lg text-dark border border-dark" id="button-gradient">Active
                             Reorders</button>
-                        <button class="rounded-lg text-dark border border-dark" id="button-gradient">Add to
+                        <button class="btn-custom rounded-lg text-dark border border-dark" id="button-gradient">Add to
                             Profile</button>
-                        <button class="rounded-lg text-dark border border-dark" id="button-gradient">New Rx
+                        <button class="btn-custom rounded-lg text-dark border border-dark" id="button-gradient">New Rx
                             for Pat</button>
                     </div>
 
@@ -150,12 +150,12 @@ session_start();
 
                         <div>
                             <div class="col">
-                                <button class="input-field rounded-lg border " id="button-gradient" readonly>
+                                <button class="btn-custom input-field rounded-lg border " id="button-gradient" readonly>
                                     <img src="../assets/images/play-button.png" style="height: 15px"
                                         alt="Patient Profile">
                                 </button>
 
-                                <button class="input-field rounded-lg border " id="button-gradient" readonly>
+                                <button class="btn-custom input-field rounded-lg border " id="button-gradient" readonly>
                                     <img src="../assets/images/hospital-button.png" style="height: 15px"
                                         alt="Patient Profile">
                                 </button>
@@ -163,7 +163,7 @@ session_start();
                                 <label>ID</label>
                                 <input class="input-field" style="max-width: 7rem;" type="text" value="01/31/1958">
 
-                                <button class="input-field rounded-lg border text-black-50 border-white "
+                                <button class="btn-custom input-field rounded-lg border text-black-50 border-white "
                                     style="cursor: no-drop" id="button-gradient" readonly>Find
                                     ID</button>
                             </div>
@@ -174,7 +174,7 @@ session_start();
                                 <label>DOB</label>
                                 <input class="input-field" type="text" style="max-width: 7rem;" value="12/29/1964">
 
-                                <button class="input-field rounded-lg border " id="button-gradient" readonly>
+                                <button class="btn-custom input-field rounded-lg border " id="button-gradient" readonly>
                                     <img src="../assets/images/docs.png" style="height: 15px" alt="Patient Profile">
                                 </button>
                             </div>
@@ -220,7 +220,7 @@ session_start();
                             <label readonly>Prescriber</label>
                             <input class="input-field" type="text" value="MUHAMMAD, ALI" readonly>
 
-                            <button class="input-field rounded-lg border " id="button-gradient" readonly>
+                            <button class="btn-custom input-field rounded-lg border " id="button-gradient" readonly>
                                 <img src="../assets/images/play-button.png" style="height: 15px" alt="Patient Profile">
                             </button>
 
@@ -242,7 +242,7 @@ session_start();
                         <div class="mr-md-2">
                             <label>SPI</label>
                             <input class="input-field" type="text" value="45648943232" readonly>
-                            <button class="input-field rounded-lg border " id="button-gradient" readonly>
+                            <button class="btn-custom input-field rounded-lg border " id="button-gradient" readonly>
                                 <img src="../assets/images/play-button.png" style="height: 15px" alt="Patient Profile">
                             </button>
                         </div>

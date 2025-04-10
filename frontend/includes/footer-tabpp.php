@@ -81,7 +81,7 @@ echo '<div class="list-group">
         </li>
         
         <li class="nav-item">
-            <a class="nav-link" ' . ($page == 'secondarypp.php' ? 'active' : '') . '" href="secondarypp.php" accesskey="5">5. Secondary Claim</a>
+            <a class="nav-link" ' . ($page == '#' ? 'active' : '') . '" href="#" accesskey="5">5. Secondary Claim</a>
         </li>
 
         <li class="nav-item">

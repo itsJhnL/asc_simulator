@@ -23,7 +23,7 @@
 <div class="pb-2">
     <div class="d-flex mx-auto">
         <div class="px-1">
-            <button type="button" class="btn btn-custom" id="editButton">
+            <button type="button" class="btn btn-custom" id="editButton" accesskey="">
                 <img src="../assets/images/edit.png" class="height_image_buttons" alt="header button">
             </button>
         </div>

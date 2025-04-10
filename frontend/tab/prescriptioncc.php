@@ -433,10 +433,10 @@ try {
 
         // Handle keyboard shortcuts
         document.addEventListener("keydown", function (event) {
-            if (event.key === "e" || event.key === "E") {
+            if (event.altKey && event.key === "e" || event.altKey && event.key === "E") {
                 enableEdit();
             }
-            if (event.key === "s" || event.key === "S") {
+            if (event.altKey && event.key === "s" || event.altKey && event.key === "S") {
                 saveEdit();
             }
         });
