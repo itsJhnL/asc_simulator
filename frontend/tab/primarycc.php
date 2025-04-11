@@ -76,7 +76,7 @@ if (file_exists($tempFile)) {
 
         #userTable tr:hover {
             background-color: #f0f8ff !important;
-            font-weight: bold;
+            /* font-weight: bold; */
             cursor: pointer;
         }
 
@@ -150,11 +150,6 @@ if (file_exists($tempFile)) {
                 <tbody>
                     <tr>
                         <td>Claim</td>
-                        <td>Product/Service ID Qualifier</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Claim</td>
                         <td>Special Packaging Indicator</td>
                         <td> <input type="text" id="specialPackagingInput" name="specialPackagingIndicator" value="" />
 
@@ -201,7 +196,8 @@ if (file_exists($tempFile)) {
             <div class="d-flex align-items-center mt-6">
                 <button type="button" class="btn btn-custom px-3 mr-2" data-toggle="modal" data-target="#addModal"
                     accesskey="B">DUR Builder </button>
-                <button class="btn btn-custom px-3 mr-2" id="addButton" accesskey="a">Add</button>
+                <button class="btn btn-custom px-3 mr-2" data-toggle="modal" data-target="#fieldModal"
+                    accesskey="a">Add</button>
                 <!-- moved to header -->
                 <!-- <button class="btn btn-custom px-5" id="editButton" accesskey="e">Edit</button> -->
                 <button class="btn btn-custom px-3 mr-2" accesskey="r">Reverse</button>
@@ -228,36 +224,306 @@ if (file_exists($tempFile)) {
                 </div>
             </div>
 
-            <!-- Modal DUR -->
-            <!-- <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
+            <!--Add Fields modal -->
+            <div class="modal fade" id="fieldModal" tabindex="-1" aria-labelledby="fieldModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addModalLabel">DUR Builder</h5>
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title" id="fieldModalLabel">Add Field</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form id="DUR">
-                                <div class="mb-3">
-                                    <label for="reason" class="form-label">Reason For Service Code (439-E4)</label>
-                                    <input type="text" class="form-control" id="reason" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="professional" class="form-label">Professional Service Code
-                                        (440-E5)</label>
-                                    <input type="text" class="form-control" id="professional" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="result" class="form-label">Result Code (441-E6)</label>
-                                    <input type="text" class="form-control" id="result" required>
-                                </div>
+                            <input type="text" id="searchInput" placeholder="Search...">
 
-                                <button type="button" class="btn btn-primary" id="saveButton">Save</button>
-                            </form>
+                            <table class="table table-bordered" id="fieldTable">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th>Select</th>
+                                        <th>Field Code</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="table-secondary">
+                                        <td colspan="3"><strong>Segment: Prescriber</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>366-2M</td>
+                                        <td>Prescriber City Address</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>364-2J</td>
+                                        <td>Prescriber First Name</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>427-DR</td>
+                                        <td>Prescriber Last Name</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>498-PM</td>
+                                        <td>Prescriber Phone Number</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>367-2N</td>
+                                        <td>Prescriber State/Province Address</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>365-2K</td>
+                                        <td>Prescriber Street Address</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>368-2P</td>
+                                        <td>Prescriber Zip/Postal Code</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>421-DL</td>
+                                        <td>Primary Care Provider ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>468-2E</td>
+                                        <td>Primary Care Provider ID Qualifier</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>470-4E</td>
+                                        <td>Primary Care Provider Last Name</td>
+                                    </tr>
+
+                                    <tr class="table-secondary">
+                                        <td colspan="3"><strong>Segment: Claim</strong></td>
+                                    </tr>
+                                    <!-- Claim Fields -->
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>457-EP</td>
+                                        <td>Associated Prescription/Service Date</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>456-EN</td>
+                                        <td>Associated Prescription/Service Reference Number</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>996-G1</td>
+                                        <td>Compound Type</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>357-NV</td>
+                                        <td>Delay Reason Code</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>464-EX</td>
+                                        <td>Intermediary Authorization ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>463-EW</td>
+                                        <td>Intermediary Authorization Type ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>418-DI</td>
+                                        <td>Level of Service</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>391-MT</td>
+                                        <td>Patient Assignment Indicator</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>147-U7</td>
+                                        <td>Pharmacy Service Type</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>462-EV</td>
+                                        <td>Prior Authorization Number Submitted</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>461-EU</td>
+                                        <td>Prior Authorization Type Code</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>459-ER</td>
+                                        <td>Procedure Modifier Code</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>407-D7</td>
+                                        <td>Product/Service ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>436-E1</td>
+                                        <td>Product/Service ID Qualifier</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>460-ET</td>
+                                        <td>Quantity Prescribed</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>995-E2</td>
+                                        <td>Route of Administration</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>429-DT</td>
+                                        <td>Special Packaging Indicator</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>600-28</td>
+                                        <td>Unit of Measure</td>
+                                    </tr>
+                                    <tr class="table-secondary">
+                                        <td colspan="3"><strong>Segment: Pricing</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>423-DN</td>
+                                        <td>Basis Of Cost Determination</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>481-HA</td>
+                                        <td>Flat Sales Tax Amount Submitted</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>438-E3</td>
+                                        <td>Incentive Amount Submitted</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>480-H9</td>
+                                        <td>Other Amount Claimed Submitted</td>
+                                    </tr>
+
+                                    <tr class="table-secondary">
+                                        <td colspan="3"><strong>Segment: Coordination of Benefits/Other
+                                                Payments</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>339-6C</td>
+                                        <td>Other Payer ID Qualifier</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>472-6E</td>
+                                        <td>Other Payer Reject Code</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>471-5E</td>
+                                        <td>Other Payer Reject Count</td>
+                                    </tr>
+                                    <tr class="table-secondary">
+                                        <td colspan="3"><strong>Segment: DUR/PPS</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>476-H6</td>
+                                        <td>DUR Co-Agent ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>475-J9</td>
+                                        <td>DUR Co-Agent ID Qualifier</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>473-7E</td>
+                                        <td>DUR/PPS Code Counter</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>474-8E</td>
+                                        <td>DUR/PPS Level Of Effort</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>440-E5</td>
+                                        <td>Professional Service Code</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>439-E4</td>
+                                        <td>Reason For Service Code</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>441-E6</td>
+                                        <td>Result of Service Code</td>
+                                    </tr>
+                                    <tr class="table-secondary">
+                                        <td colspan="3"><strong>Segment: Coupon</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>486-ME</td>
+                                        <td>Coupon Number</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>485-KE</td>
+                                        <td>Coupon Type</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>487-NE</td>
+                                        <td>Coupon Value Amount</td>
+                                    </tr>
+                                    <tr class="table-secondary">
+                                        <td colspan="3"><strong>Segment: Pricing</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>423-DN</td>
+                                        <td>Basis Of Cost Determination</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>481-HA</td>
+                                        <td>Flat Sales Tax Amount Submitted</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>438-E3</td>
+                                        <td>Incentive Amount Submitted</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>480-H9</td>
+                                        <td>Other Amount Claimed Submitted</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="addFields">OK</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
 
             <!-- Clarification Code Modal -->
             <div class="modal" id="ccModal" tabindex="-1" aria-labelledby="ccModalLabel" aria-hidden="true">
@@ -265,7 +531,8 @@ if (file_exists($tempFile)) {
                     <div class="modal-content">
                         <div class="modal-header bg-light d-flex align-items-center">
                             <h5 class="modal-title" id="rxModalLabel">Rx Clarification Codes</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close">&#x2715;</button>
                         </div>
                         <div class="modal-body">
                             <form id="clarificationForm">
@@ -357,8 +624,33 @@ if (file_exists($tempFile)) {
                 value="<?= htmlspecialchars($clarificationCode) ?>">
 
 
+            <!-- add fields -->
+            <script>
+                document.getElementById("addFields").addEventListener("click", function () {
+                    let checkboxes = document.querySelectorAll("#fieldTable tbody input[type='checkbox']:checked");
+                    let userTable = document.getElementById("userTable");
 
+                    checkboxes.forEach(checkbox => {
+                        let row = checkbox.closest("tr");
+                        let code = row.children[1].textContent;
+                        let description = row.children[2].textContent;
 
+                        let newRow = document.createElement("tr");
+                        newRow.innerHTML = `
+                            <td>Prescriber</td>
+                            <td>${description}</td>
+                            <td>
+                            <input type="text" class='valueInput' id="specialPackagingInput" name="specialPackagingIndicator" value="" onkeyup="lettersOnly(this)" oninput="this.value = this.value.toUpperCase()"/>
+                            <button class="btn btn-danger btn-sm removeButton">Remove</button></td>
+                        `;
+
+                        userTable.appendChild(newRow);
+                    });
+
+                    let modal = bootstrap.Modal.getInstance(document.getElementById("fieldModal"));
+                    modal.hide();
+                });
+            </script>
             <!--description update code -->
             <script>
                 function updateDescription() {
@@ -375,9 +667,6 @@ if (file_exists($tempFile)) {
 
             <!--submit button code -->
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-
 
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
@@ -583,7 +872,7 @@ if (file_exists($tempFile)) {
 
             <!-- Claim Response Modal-->
             <div class="modal fade" id="ClaimModal" tabindex="-1" aria-labelledby="ClaimModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl" style="font-style: 14px;">
+                <div class="modal-dialog modal-lg" style="font-style: 14px;">
                     <div class="modal-content">
                         <div class="modal-header">
                             <img src="error.png" alt="Error" width="30" class="me-2">
