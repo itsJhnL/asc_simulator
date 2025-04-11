@@ -5,9 +5,9 @@ require_once "db_connection.php";
 // Debugging: Print received POST data
 error_log(print_r($_POST, true));
 
-$quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : 0;
-$day_supply = isset($_POST['day_supply']) ? intval($_POST['day_supply']) : 0;
-$labelQTY = isset($_POST['labelQTY']) ? intval($_POST['labelQTY']) : 0;
+$quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : 30;
+$day_supply = isset($_POST['day_supply']) ? intval($_POST['day_supply']) : 30;
+$labelQTY = isset($_POST['labelQTY']) ? intval($_POST['labelQTY']) : 30;
 
 if ($quantity === 0 || $day_supply === 0) {
     echo json_encode(["status" => "error", "message" => "Invalid input data"]);

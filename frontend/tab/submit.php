@@ -65,6 +65,7 @@ if ($insertQuery->execute()) {
                 window.location.href = '$redirectPage';
             });
         });
+
     </script>";
 } else {
     echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
